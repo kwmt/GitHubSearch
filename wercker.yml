@@ -17,4 +17,4 @@ build:
   after-steps:
     - raizyr/ultimate-slack-notify@1.0.6:
         webhook_url: $SLACK_URL
-        channel: pj-rxjavasample
+        channel: pj-githubviewer
