@@ -1,4 +1,4 @@
-package net.kwmt27.rxjavasample;
+package net.kwmt27.githubviewer;
 
 import android.app.Application;
 

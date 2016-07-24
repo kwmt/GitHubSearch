@@ -1,4 +1,4 @@
-package net.kwmt27.rxjavasample.view;
+package net.kwmt27.githubviewer.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import net.kwmt27.rxjavasample.R;
-import net.kwmt27.rxjavasample.presenter.IMainPresenter;
-import net.kwmt27.rxjavasample.presenter.MainPresenter;
+import net.kwmt27.githubviewer.R;
+import net.kwmt27.githubviewer.presenter.IMainPresenter;
+import net.kwmt27.githubviewer.presenter.MainPresenter;
 
 public class MainActivity extends AppCompatActivity implements MainPresenter.IMainView {
 

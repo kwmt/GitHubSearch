@@ -1,4 +1,4 @@
-package net.kwmt27.rxjavasample.presenter;
+package net.kwmt27.githubviewer.presenter;
 
 public interface IMainPresenter {
     void onGetClick();

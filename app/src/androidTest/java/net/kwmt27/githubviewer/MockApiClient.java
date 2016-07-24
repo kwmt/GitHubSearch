@@ -1,6 +1,6 @@
-package net.kwmt27.rxjavasample;
+package net.kwmt27.githubviewer;
 
-import net.kwmt27.rxjavasample.model.ApiClient;
+import net.kwmt27.githubviewer.model.ApiClient;
 
 import okhttp3.HttpUrl;
 

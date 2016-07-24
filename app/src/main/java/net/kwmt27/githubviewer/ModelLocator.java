@@ -1,7 +1,7 @@
-package net.kwmt27.rxjavasample;
+package net.kwmt27.githubviewer;
 
-import net.kwmt27.rxjavasample.model.ApiClient;
-import net.kwmt27.rxjavasample.model.GithubService;
+import net.kwmt27.githubviewer.model.ApiClient;
+import net.kwmt27.githubviewer.model.GithubServiceOkhttp;
 
 /**
  * モデル置き場
@@ -12,11 +12,11 @@ public class ModelLocator {
 
     private static ApiClient sApiClient;
 
-    private static final GithubService sGithubService;
+    private static final GithubServiceOkhttp sGithubService;
 
     static {
         sApiClient = new ApiClient();
-        sGithubService = new GithubService();
+        sGithubService = new GithubServiceOkhttp();
     }
 
     public ModelLocator() {
@@ -30,7 +30,7 @@ public class ModelLocator {
         sApiClient = apiClient;
     }
 
-    public static GithubService getGithubService() {
+    public static GithubServiceOkhttp getGithubService() {
         return sGithubService;
     }
 }

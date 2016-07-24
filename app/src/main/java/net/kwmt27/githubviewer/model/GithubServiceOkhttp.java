@@ -1,4 +1,4 @@
-package net.kwmt27.rxjavasample.model;
+package net.kwmt27.githubviewer.model;
 
 import android.util.Log;
 
@@ -6,13 +6,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 
-import net.kwmt27.rxjavasample.ModelLocator;
-import net.kwmt27.rxjavasample.entity.GithubResponse;
+import net.kwmt27.githubviewer.ModelLocator;
+import net.kwmt27.githubviewer.entity.GithubRepo;
+import net.kwmt27.githubviewer.entity.GithubResponse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import okhttp3.Response;
@@ -22,9 +24,11 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class GithubService {
+public class GithubServiceOkhttp {
 
-    private static final String TAG = GithubService.class.getSimpleName();
+    private static final String TAG = GithubServiceOkhttp.class.getSimpleName();
+
+
 
     private Gson gson = new GsonBuilder()
             .create();
@@ -40,6 +44,14 @@ public class GithubService {
                         return parseGithubResponse(response);
                     }
                 })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+
+
+    }
+    public Subscription fetchUserListRepos(final Subscriber<List<GithubRepo>> subscriber) {
+        return ModelLocator.getApiClient().api.listRepos("kwmt")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
