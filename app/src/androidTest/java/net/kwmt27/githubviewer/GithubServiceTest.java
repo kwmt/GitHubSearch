@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.kwmt27.githubviewer.entity.GithubResponse;
-import net.kwmt27.githubviewer.model.GithubServiceOkhttp;
+import net.kwmt27.githubviewer.model.GitHubViewerModel;
 import net.kwmt27.githubviewer.testUtil.FileUtil;
 
 import org.json.JSONException;
@@ -64,7 +64,7 @@ public class GithubServiceTest {
 
         TestSubscriber<GithubResponse> testSubscriber = new TestSubscriber<>();
 
-        GithubServiceOkhttp githubService = new GithubServiceOkhttp();
+        GitHubViewerModel githubService = new GitHubViewerModel();
         githubService.fetchGithub(testSubscriber);
 
         testSubscriber.awaitTerminalEvent();
@@ -88,7 +88,7 @@ public class GithubServiceTest {
         mMockServer.enqueue(new MockResponse().setBody(json));
 
         TestSubscriber<GithubResponse> testSubscriber = new TestSubscriber<>();
-        GithubServiceOkhttp githubService = new GithubServiceOkhttp();
+        GitHubViewerModel githubService = new GitHubViewerModel();
         githubService.fetchGithub(testSubscriber);
 
         testSubscriber.awaitTerminalEvent();

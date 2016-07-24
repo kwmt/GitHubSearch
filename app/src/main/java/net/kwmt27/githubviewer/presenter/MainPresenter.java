@@ -32,7 +32,7 @@ public class MainPresenter implements IMainPresenter {
             return;
         }
         Log.d(TAG, "実行");
-        mSubscription = ModelLocator.getGithubService().fetchUserListRepos(new Subscriber<List<GithubRepo>>() {
+        mSubscription = ModelLocator.getGithubService().fetchListReposByUser(new Subscriber<List<GithubRepo>>() {
             @Override
             public void onCompleted() {
 

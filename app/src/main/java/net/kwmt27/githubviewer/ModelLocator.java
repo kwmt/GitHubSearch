@@ -1,7 +1,7 @@
 package net.kwmt27.githubviewer;
 
 import net.kwmt27.githubviewer.model.ApiClient;
-import net.kwmt27.githubviewer.model.GithubServiceOkhttp;
+import net.kwmt27.githubviewer.model.GitHubViewerModel;
 
 /**
  * モデル置き場
@@ -12,11 +12,11 @@ public class ModelLocator {
 
     private static ApiClient sApiClient;
 
-    private static final GithubServiceOkhttp sGithubService;
+    private static final GitHubViewerModel sGithubService;
 
     static {
         sApiClient = new ApiClient();
-        sGithubService = new GithubServiceOkhttp();
+        sGithubService = new GitHubViewerModel();
     }
 
     public ModelLocator() {
@@ -30,7 +30,7 @@ public class ModelLocator {
         sApiClient = apiClient;
     }
 
-    public static GithubServiceOkhttp getGithubService() {
+    public static GitHubViewerModel getGithubService() {
         return sGithubService;
     }
 }
