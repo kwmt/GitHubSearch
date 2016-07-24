@@ -1,0 +1,20 @@
+box: kwmt/dockerfile-for-building-android-app
+
+build:
+  steps:
+    - script:
+        name: show base information
+        code: |
+          ./gradlew -v
+          echo $ANDROID_HOME
+          echo $ANDROID_SDK_VERSION
+          echo $ANDROID_BUILD_TOOLS
+          echo $ANDROID_UPDATE_FILTER      
+    - script:
+        name: run gradle assembleDebug
+        code: |
+          ./gradlew assembleDebug
+  after-steps:
+    - raizyr/ultimate-slack-notify@1.0.6:
+        webhook_url: $SLACK_URL
+        channel: pj-rxjavasample
