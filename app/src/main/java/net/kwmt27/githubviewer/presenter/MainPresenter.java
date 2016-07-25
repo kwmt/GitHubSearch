@@ -1,17 +1,14 @@
 package net.kwmt27.githubviewer.presenter;
 
-import android.util.Log;
+import android.os.Bundle;
 
 import net.kwmt27.githubviewer.ModelLocator;
-import net.kwmt27.githubviewer.entity.GithubRepo;
+import net.kwmt27.githubviewer.entity.GithubRepoEntity;
 
 import java.util.List;
 
-import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
-import rx.functions.Action1;
-import rx.functions.Func1;
 
 public class MainPresenter implements IMainPresenter {
 
@@ -24,15 +21,28 @@ public class MainPresenter implements IMainPresenter {
         mMainView = mainView;
     }
 
+
     @Override
-    public void onGetClick() {
-        if (mSubscription != null && !mSubscription.isUnsubscribed()) {
-            Log.d(TAG, "キャンセル");
-            mSubscription.unsubscribe();
-            return;
-        }
-        Log.d(TAG, "実行");
-        mSubscription = ModelLocator.getGithubService().fetchListReposByUser(new Subscriber<List<GithubRepo>>() {
+    public void onCreate(Bundle savedInstanceState) {
+        mMainView.setupComponents();
+         fetchGitHubRepoList();
+
+//        List<GithubRepoEntity> datasource
+//                = Arrays.asList(new GithubRepoEntity("data1"), new GithubRepoEntity("data2"));
+//        mMainView.updateGitHubRepoListView(datasource);
+    }
+
+    @Override
+    public void onStop() {
+        ModelLocator.getGithubService().unsubscribe();
+    }
+
+
+
+
+
+    private void fetchGitHubRepoList() {
+        ModelLocator.getGithubService().fetchListReposByUser(new Subscriber<List<GithubRepoEntity>>() {
             @Override
             public void onCompleted() {
 
@@ -44,60 +54,16 @@ public class MainPresenter implements IMainPresenter {
             }
 
             @Override
-            public void onNext(List<GithubRepo> githubRepos) {
-                Observable.from(githubRepos)
-                        .map(new Func1<GithubRepo, String>() {
-                            @Override
-                            public String call(GithubRepo githubRepo) {
-                                return githubRepo.getName();
-                            }
-                        })
-                        .subscribe(new Action1<String>() {
-                            @Override
-                            public void call(String s) {
-                                Log.d(TAG, s);
-                            }
-                        });
+            public void onNext(List<GithubRepoEntity> githubRepoEntities) {
+                mMainView.updateGitHubRepoListView(githubRepoEntities);
             }
         });
-
-
-
-//        mSubscription = ModelLocator.getGithubService().fetchGithub(new Subscriber<GithubResponse>() {
-//            @Override
-//            public void onCompleted() {
-//                Log.d(TAG, "onCompleted");
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                Log.d(TAG, "onError:" + e);
-//
-//                if (e instanceof JsonParseException) {
-//                    mMainView.updateTextView("JSONパースに失敗しました。");
-//                } else if (e instanceof IOException) {
-//                    mMainView.updateTextView("ネットワーク接続に失敗しました。");
-//                } else {
-//                    mMainView.updateTextView("error:" + e);
-//                }
-//            }
-//
-//            @Override
-//            public void onNext(GithubResponse githubResponse) {
-//                Log.d(TAG, "onNext:" + githubResponse.getCurrentUserUrl());
-//                mMainView.updateTextView(githubResponse.getCurrentUserUrl());
-//            }
-//        });
-
     }
 
-    @Override
-    public void onClearClick() {
-        mMainView.updateTextView("クリアされました");
-    }
 
     public interface IMainView {
-
-        void updateTextView(String str);
+        void setupComponents();
+        void updateGitHubRepoListView(List<GithubRepoEntity> githubRepoEntities);
     }
+
 }

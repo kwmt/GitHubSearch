@@ -1,8 +1,9 @@
 package net.kwmt27.githubviewer.model;
 
 import net.kwmt27.githubviewer.ModelLocator;
-import net.kwmt27.githubviewer.entity.GithubRepo;
+import net.kwmt27.githubviewer.entity.GithubRepoEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
@@ -15,21 +16,31 @@ import rx.schedulers.Schedulers;
 public class GitHubViewerModel {
 
     private static final String TAG = GitHubViewerModel.class.getSimpleName();
-    private List<GithubRepo> mGitHubRepoList;
+    private List<GithubRepoEntity> mGitHubRepoEntityList = new ArrayList<>();
+
+    private ReusableCompositeSubscription mCompositeSubscription = new ReusableCompositeSubscription();
+
+    public void unsubscribe() {
+        if(mCompositeSubscription != null) {
+            mCompositeSubscription.unsubscribe();
+        }
+    }
 
 
-    public Subscription fetchListReposByUser(final Subscriber<List<GithubRepo>> subscriber) {
-        return ModelLocator.getApiClient().api.listRepos("kwmt")
+    public Subscription fetchListReposByUser(final Subscriber<List<GithubRepoEntity>> subscriber) {
+        Subscription listReposSubscription = ModelLocator.getApiClient().api.listRepos("kwmt")
                 .subscribeOn(Schedulers.newThread())
-                .flatMap(new Func1<List<GithubRepo>, Observable<List<GithubRepo>>>() {
+                .flatMap(new Func1<List<GithubRepoEntity>, Observable<List<GithubRepoEntity>>>() {
                     @Override
-                    public Observable<List<GithubRepo>> call(List<GithubRepo> githubRepos) {
-                        mGitHubRepoList = githubRepos;
+                    public Observable<List<GithubRepoEntity>> call(List<GithubRepoEntity> githubRepos) {
+                        mGitHubRepoEntityList = githubRepos;
                         return Observable.just(githubRepos);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
+        mCompositeSubscription.add(listReposSubscription);
+        return listReposSubscription;
     }
 
 }

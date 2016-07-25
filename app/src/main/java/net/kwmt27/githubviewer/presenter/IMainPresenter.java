@@ -1,6 +1,12 @@
 package net.kwmt27.githubviewer.presenter;
 
+import android.os.Bundle;
+
 public interface IMainPresenter {
-    void onGetClick();
-    void onClearClick();
+
+    void onCreate(Bundle savedInstanceState);
+    void onStop();
+
+
+
 }
