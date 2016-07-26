@@ -36,6 +36,7 @@
             android:layout_below="@+id/name"
             android:layout_marginTop="8dp"
             android:ellipsize="end"
+            android:lines="2"
             android:text="des"
             android:textColor="@android:color/black"
             android:textSize="16sp"
@@ -68,6 +69,7 @@
             android:layout_margin="8dp"
             android:layout_toRightOf="@+id/favorite_image"
             android:gravity="center"
+            android:textColor="@android:color/black"
             android:text="0"
             />
 

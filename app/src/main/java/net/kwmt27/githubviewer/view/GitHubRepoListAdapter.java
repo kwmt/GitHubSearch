@@ -24,10 +24,14 @@ public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAd
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView nameTextView;
+        TextView descriptionTextView;
+        TextView favoriteCountTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             nameTextView = (TextView) itemView.findViewById(R.id.name);
+            descriptionTextView = (TextView) itemView.findViewById(R.id.description);
+            favoriteCountTextView = (TextView) itemView.findViewById(R.id.favorite_count);
         }
     }
 
@@ -63,6 +67,8 @@ public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAd
         GithubRepoEntity item = mGithubRepoEntityList.get(position);
 
         holder.nameTextView.setText(item.getName());
+        holder.descriptionTextView.setText(item.getDescription());
+        holder.favoriteCountTextView.setText(item.getStargazersCount());
     }
 
     @Override
