@@ -1,7 +1,6 @@
 package net.kwmt27.githubviewer.view;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -11,10 +10,9 @@ import net.kwmt27.githubviewer.presenter.IMainPresenter;
 import net.kwmt27.githubviewer.presenter.MainPresenter;
 import net.kwmt27.githubviewer.util.Logger;
 
-import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MainPresenter.IMainView {
+public class MainActivity extends BaseActivity implements MainPresenter.IMainView {
 
     private IMainPresenter mPresenter;
     private GitHubRepoListAdapter mGitHubRepoListAdapter;
@@ -37,6 +35,10 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.IMa
 
     @Override
     public void setupComponents() {
+        setUpActionBar();
+
+        setTitle("レポジトリ一覧");
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.github_repo_list);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -47,9 +49,6 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.IMa
                 Logger.d("name:" + entity.getName());
             }
         });
-        List<GithubRepoEntity> datasource
-                = Arrays.asList(new GithubRepoEntity("data1"), new GithubRepoEntity("data2"));
-        mGitHubRepoListAdapter.setGithubRepoEntityList(datasource);
         recyclerView.setAdapter(mGitHubRepoListAdapter);
 
     }
