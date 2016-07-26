@@ -40,6 +40,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.IMainVie
         setTitle("レポジトリ一覧");
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.github_repo_list);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), R.drawable.divider));
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
