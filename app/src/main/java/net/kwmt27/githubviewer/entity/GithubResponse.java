@@ -1,4 +1,4 @@
-package net.kwmt27.rxjavasample.entity;
+package net.kwmt27.githubviewer.entity;
 
 import com.google.gson.annotations.SerializedName;
 

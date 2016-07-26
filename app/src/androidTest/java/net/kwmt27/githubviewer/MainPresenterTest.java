@@ -1,10 +1,10 @@
-package net.kwmt27.rxjavasample;
+package net.kwmt27.githubviewer;
 
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
-import net.kwmt27.rxjavasample.presenter.MainPresenter;
-import net.kwmt27.rxjavasample.testUtil.FileUtil;
+import net.kwmt27.githubviewer.presenter.MainPresenter;
+import net.kwmt27.githubviewer.testUtil.FileUtil;
 
 import org.junit.After;
 import org.junit.Before;

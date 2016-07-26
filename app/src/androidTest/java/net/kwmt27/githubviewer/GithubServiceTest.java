@@ -1,4 +1,4 @@
-package net.kwmt27.rxjavasample;
+package net.kwmt27.githubviewer;
 
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -6,9 +6,9 @@ import android.test.suitebuilder.annotation.LargeTest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import net.kwmt27.rxjavasample.entity.GithubResponse;
-import net.kwmt27.rxjavasample.model.GithubService;
-import net.kwmt27.rxjavasample.testUtil.FileUtil;
+import net.kwmt27.githubviewer.entity.GithubResponse;
+import net.kwmt27.githubviewer.model.GitHubViewerModel;
+import net.kwmt27.githubviewer.testUtil.FileUtil;
 
 import org.json.JSONException;
 import org.junit.After;
@@ -64,7 +64,7 @@ public class GithubServiceTest {
 
         TestSubscriber<GithubResponse> testSubscriber = new TestSubscriber<>();
 
-        GithubService githubService = new GithubService();
+        GitHubViewerModel githubService = new GitHubViewerModel();
         githubService.fetchGithub(testSubscriber);
 
         testSubscriber.awaitTerminalEvent();
@@ -88,7 +88,7 @@ public class GithubServiceTest {
         mMockServer.enqueue(new MockResponse().setBody(json));
 
         TestSubscriber<GithubResponse> testSubscriber = new TestSubscriber<>();
-        GithubService githubService = new GithubService();
+        GitHubViewerModel githubService = new GitHubViewerModel();
         githubService.fetchGithub(testSubscriber);
 
         testSubscriber.awaitTerminalEvent();

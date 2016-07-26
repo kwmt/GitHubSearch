@@ -5,8 +5,8 @@ android {
     buildToolsVersion "24.0.1"
 
     defaultConfig {
-        applicationId "net.kwmt27.rxjavasample"
-        minSdkVersion 16
+        applicationId "net.kwmt27.githubviewer"
+        minSdkVersion 21
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -14,29 +14,66 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+
+        // 参考:Build Vriants によって別バージョンの Android アプリを同じプロジェクトからビルドする (Gradle 使用) - ひだまりソケットは壊れない
+        // http://vividcode.hatenablog.com/entry/android-app/build-variants
+        debug {
+            // develop用のパッケージのパッケージ名に接尾辞を付けて、
+            // develop用インストール時に本番リリース用のパッケージを上書きしないようにする
+            applicationIdSuffix ".develop"
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            // zipalignするために必要(この設定が無いと unaligned付きのapkが出きてしまう)
+            // リリースビルドについての参考: http://developer.android.com/intl/ja/tools/publishing/app-signing.html#release-mode
+            // zipalignについての参考: http://qiita.com/kazuqqfp/items/8eae69e309c6ed75d661
+            //signingConfig signingConfigs.release
         }
     }
+
+    productFlavors {
+        develop {
+            manifestPlaceholders = [appName:"[開発]GitHubViewer"]
+            buildConfigField "String", "BASE_API_URL", "\"https://api.github.com\""
+            buildConfigField "String", "BASE_WEBVIEW_URL", "\"\""
+        }
+        production {
+            manifestPlaceholders = [appName:"@string/app_name"]
+            buildConfigField "String", "BASE_API_URL", "\"https://api.github.com\""
+            buildConfigField "String", "BASE_WEBVIEW_URL", "\"\""
+        }
+
+    }
+
 }
 
+final SUPPORT_LIB_VERSION = '24.1.1'
 final OKHTTP_VERSION = '3.4.1'
+final RETROFIT_VERSION = '2.1.0'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
+    compile "com.android.support:recyclerview-v7:${SUPPORT_LIB_VERSION}"
 
     compile 'com.google.code.gson:gson:2.4'
     compile "com.squareup.okhttp3:okhttp:${OKHTTP_VERSION}"
     compile 'io.reactivex:rxjava:1.1.7'
     compile 'io.reactivex:rxandroid:1.2.0'
+    compile "com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}"
+    compile "com.squareup.retrofit2:converter-gson:${RETROFIT_VERSION}"
+    compile "com.squareup.retrofit2:adapter-rxjava:${RETROFIT_VERSION}"
+
+    compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0'
 
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
     androidTestCompile "com.squareup.okhttp3:mockwebserver:${OKHTTP_VERSION}"
     // http://stackoverflow.com/a/36835268
-    androidTestCompile 'com.android.support:support-annotations:24.0.0'
+    androidTestCompile "com.android.support:support-annotations:${SUPPORT_LIB_VERSION}"
 
 }

@@ -1,6 +1,6 @@
-package net.kwmt27.rxjavasample.testUtil;
+package net.kwmt27.githubviewer.testUtil;
 
-import net.kwmt27.rxjavasample.App;
+import net.kwmt27.githubviewer.App;
 
 import java.io.IOException;
 import java.io.InputStream;
