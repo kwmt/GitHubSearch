@@ -8,7 +8,6 @@ import net.kwmt27.githubviewer.R;
 import net.kwmt27.githubviewer.entity.GithubRepoEntity;
 import net.kwmt27.githubviewer.presenter.IMainPresenter;
 import net.kwmt27.githubviewer.presenter.MainPresenter;
-import net.kwmt27.githubviewer.util.Logger;
 
 import java.util.List;
 
@@ -47,7 +46,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.IMainVie
         mGitHubRepoListAdapter = new GitHubRepoListAdapter(getApplicationContext(), new OnItemClickListener<GitHubRepoListAdapter, GithubRepoEntity>() {
             @Override
             public void onItemClick(GitHubRepoListAdapter adapter, int position, GithubRepoEntity entity) {
-                Logger.d("name:" + entity.getName());
+                DetailActivity.startActivity(MainActivity.this, entity.getName());
             }
         });
         recyclerView.setAdapter(mGitHubRepoListAdapter);

@@ -9,23 +9,20 @@ import java.util.List;
 
 import rx.Subscriber;
 
-public class MainPresenter implements IMainPresenter {
+public class DetailPresenter implements IDetailPresenter {
 
-    private IMainView mMainView;
+    private IDetailView mDetailView;
 
-    public MainPresenter(IMainView mainView) {
-        mMainView = mainView;
+    public DetailPresenter(IDetailView detailView) {
+        mDetailView = detailView;
     }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        mMainView.setupComponents();
-         fetchGitHubRepoList();
+        mDetailView.setupComponents();
+        fetchGitHubRepoList();
 
-//        List<GithubRepoEntity> datasource
-//                = Arrays.asList(new GithubRepoEntity("data1"), new GithubRepoEntity("data2"));
-//        mMainView.updateDetailView(datasource);
     }
 
     @Override
@@ -51,15 +48,15 @@ public class MainPresenter implements IMainPresenter {
 
             @Override
             public void onNext(List<GithubRepoEntity> githubRepoEntities) {
-                mMainView.updateGitHubRepoListView(githubRepoEntities);
+                mDetailView.updateDetailView(githubRepoEntities);
             }
         });
     }
 
 
-    public interface IMainView {
+    public interface IDetailView {
         void setupComponents();
-        void updateGitHubRepoListView(List<GithubRepoEntity> githubRepoEntities);
+        void updateDetailView(List<GithubRepoEntity> githubRepoEntities);
     }
 
 }
