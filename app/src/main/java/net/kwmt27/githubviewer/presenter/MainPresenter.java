@@ -8,14 +8,10 @@ import net.kwmt27.githubviewer.entity.GithubRepoEntity;
 import java.util.List;
 
 import rx.Subscriber;
-import rx.Subscription;
 
 public class MainPresenter implements IMainPresenter {
 
-    private static final String TAG = MainPresenter.class.getSimpleName();
     private IMainView mMainView;
-
-    private Subscription mSubscription;
 
     public MainPresenter(IMainView mainView) {
         mMainView = mainView;

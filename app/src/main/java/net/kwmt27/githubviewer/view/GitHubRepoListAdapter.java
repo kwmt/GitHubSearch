@@ -57,7 +57,6 @@ public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Logger.d("onBindViewHolder is called.");
         if (getItemCount() <= 0) {
             return;
         }
