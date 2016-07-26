@@ -21,7 +21,8 @@ public class DetailPresenter implements IDetailPresenter {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         mDetailView.setupComponents();
-        fetchGitHubRepoList();
+        // TODO: fetch github detail
+        // fetchGitHubRepoList();
 
     }
 
