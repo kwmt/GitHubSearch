@@ -21,6 +21,9 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:hint="@string/search_hint"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:singleLine="true"
             android:textColorHint="@color/grey6000"
             >
 

@@ -74,7 +74,25 @@ public class GitHubViewerModel {
     }
 
     public Subscription searchCode(String keyword, final Subscriber<SearchResultEntity> subscriber) {
-        Subscription subscription = ModelLocator.getApiClient().api.searchCode("kwmt")
+        // FIXME: least one repo or user
+        keyword += "+user:kwmt";
+
+        Subscription subscription = ModelLocator.getApiClient().api.searchCode(keyword)
+                .subscribeOn(Schedulers.newThread())
+                .flatMap(new Func1<SearchResultEntity, Observable<SearchResultEntity>>() {
+                    @Override
+                    public Observable<SearchResultEntity> call(SearchResultEntity searchResultEntity) {
+                        mSearchResultEntity = searchResultEntity;
+                        return Observable.just(searchResultEntity);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        mCompositeSubscription.add(subscription);
+        return subscription;
+    }
+    public Subscription searchRepositories(String keyword, final Subscriber<SearchResultEntity> subscriber) {
+        Subscription subscription = ModelLocator.getApiClient().api.searchRepositories(keyword)
                 .subscribeOn(Schedulers.newThread())
                 .flatMap(new Func1<SearchResultEntity, Observable<SearchResultEntity>>() {
                     @Override

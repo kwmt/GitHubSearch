@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import net.kwmt27.githubviewer.R;
-import net.kwmt27.githubviewer.entity.GithubRepoEntity;
+import net.kwmt27.githubviewer.entity.SearchResultEntity;
 import net.kwmt27.githubviewer.presenter.ISearchPresenter;
 import net.kwmt27.githubviewer.presenter.SearchPresenter;
 
@@ -55,7 +55,10 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
     }
 
     @Override
-    public void updateDetailView(GithubRepoEntity githubRepoEntity) {
-
+    public void updateSearchResultView(SearchResultEntity searchResultEntity) {
+        // TODO
+        // search Repositories
+        // search code
     }
+
 }

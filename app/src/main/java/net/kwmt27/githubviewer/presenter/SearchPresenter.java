@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import net.kwmt27.githubviewer.ModelLocator;
 import net.kwmt27.githubviewer.R;
 import net.kwmt27.githubviewer.entity.SearchResultEntity;
+import net.kwmt27.githubviewer.util.Logger;
 import net.kwmt27.githubviewer.view.SearchActivity;
 import net.kwmt27.githubviewer.view.SearchResultListFragment;
 
@@ -50,24 +51,24 @@ public class SearchPresenter implements ISearchPresenter {
 
     @Override
     public void onEditorActionSearch(String keyword) {
-
+        searchCode(keyword);
     }
 
     private void searchCode(String keyword) {
-        ModelLocator.getGithubService().searchCode(keyword, new Subscriber<SearchResultEntity>() {
+        ModelLocator.getGithubService().searchRepositories(keyword, new Subscriber<SearchResultEntity>() {
                     @Override
                     public void onCompleted() {
-
+                        Logger.d("onCompleted is called.");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Logger.e("onError is called. " + e);
                     }
 
                     @Override
                     public void onNext(SearchResultEntity searchResultEntity) {
-                        mSearchView.updateSearchResultView(SearchResultEntity);
+                        mSearchView.updateSearchResultView(searchResultEntity);
                     }
                 });
     }
