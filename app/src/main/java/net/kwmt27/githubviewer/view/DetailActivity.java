@@ -12,11 +12,11 @@ import net.kwmt27.githubviewer.presenter.IDetailPresenter;
 public class DetailActivity extends BaseActivity implements DetailPresenter.IDetailView {
 
 
-    public static void startActivity(AppCompatActivity activity, String title, String owner, String repo) {
+    public static void startActivity(AppCompatActivity activity, String title, GithubRepoEntity repo) {
         Intent intent = new Intent(activity.getApplicationContext(), DetailActivity.class);
         intent.putExtra(TITLE_KEY, title);
-        intent.putExtra(IDetailPresenter.OWENER_KEY, owner);
-        intent.putExtra(IDetailPresenter.REPO_KEY, repo);
+        intent.putExtra(IDetailPresenter.OWENER_KEY,  repo.getOwner().getLogin());
+        intent.putExtra(IDetailPresenter.REPO_KEY, repo.getName());
         activity.startActivity(intent);
     }
 
