@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import net.kwmt27.githubviewer.ModelLocator;
 import net.kwmt27.githubviewer.entity.GithubRepoEntity;
+import net.kwmt27.githubviewer.entity.SearchResultEntity;
 import net.kwmt27.githubviewer.util.Logger;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class GitHubViewerModel {
     private static final String TAG = GitHubViewerModel.class.getSimpleName();
     private List<GithubRepoEntity> mGitHubRepoEntityList = new ArrayList<>();
     private GithubRepoEntity mGitHubRepo;
+    private SearchResultEntity mSearchResultEntity;
 
     private ReusableCompositeSubscription mCompositeSubscription = new ReusableCompositeSubscription();
 
@@ -70,5 +72,22 @@ public class GitHubViewerModel {
         mCompositeSubscription.add(subscription);
         return subscription;
     }
+
+    public Subscription searchCode(String keyword, final Subscriber<SearchResultEntity> subscriber) {
+        Subscription subscription = ModelLocator.getApiClient().api.searchCode("kwmt")
+                .subscribeOn(Schedulers.newThread())
+                .flatMap(new Func1<SearchResultEntity, Observable<SearchResultEntity>>() {
+                    @Override
+                    public Observable<SearchResultEntity> call(SearchResultEntity searchResultEntity) {
+                        mSearchResultEntity = searchResultEntity;
+                        return Observable.just(searchResultEntity);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        mCompositeSubscription.add(subscription);
+        return subscription;
+    }
+
 
 }
