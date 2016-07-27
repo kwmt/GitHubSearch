@@ -12,6 +12,10 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
+        <!--Activity Transitions を使うには、window content transitions を有効にする必要があります。-->
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowEnterTransition">@android:transition/fade</item>
+        <item name="android:windowExitTransition">@android:transition/fade</item>
 
         <!-- メインテキスト色 ToolBarのタイトルやドロワーメニュー、EditTextなど -->
         <item name="android:textColorPrimary">#888888</item>

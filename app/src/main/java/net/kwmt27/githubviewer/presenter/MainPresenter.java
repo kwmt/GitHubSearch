@@ -1,9 +1,13 @@
 package net.kwmt27.githubviewer.presenter;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import net.kwmt27.githubviewer.ModelLocator;
+import net.kwmt27.githubviewer.R;
 import net.kwmt27.githubviewer.entity.GithubRepoEntity;
+import net.kwmt27.githubviewer.view.MainActivity;
+import net.kwmt27.githubviewer.view.SearchActivity;
 
 import java.util.List;
 
@@ -54,6 +58,16 @@ public class MainPresenter implements IMainPresenter {
                 mMainView.updateGitHubRepoListView(githubRepoEntities);
             }
         });
+    }
+
+    @Override
+    public void onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_search:
+                SearchActivity.startActivity((MainActivity)mMainView);
+                break;
+        }
     }
 
 
