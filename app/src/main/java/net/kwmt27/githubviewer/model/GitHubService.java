@@ -11,4 +11,6 @@ import rx.Observable;
 public interface GitHubService {
     @GET("users/{user}/repos")
     Observable<List<GithubRepoEntity>> listRepos(@Path("user") String user);
+    @GET("repos/{owner}/{repo}")
+    Observable<GithubRepoEntity> fetchRepo(@Path("owner") String user, @Path("repo") String repo);
 }

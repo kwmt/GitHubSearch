@@ -9,14 +9,14 @@ import net.kwmt27.githubviewer.entity.GithubRepoEntity;
 import net.kwmt27.githubviewer.presenter.DetailPresenter;
 import net.kwmt27.githubviewer.presenter.IDetailPresenter;
 
-import java.util.List;
-
 public class DetailActivity extends BaseActivity implements DetailPresenter.IDetailView {
 
 
-    public static void startActivity(AppCompatActivity activity, String title) {
+    public static void startActivity(AppCompatActivity activity, String title, String owner, String repo) {
         Intent intent = new Intent(activity.getApplicationContext(), DetailActivity.class);
         intent.putExtra(TITLE_KEY, title);
+        intent.putExtra(IDetailPresenter.OWENER_KEY, owner);
+        intent.putExtra(IDetailPresenter.REPO_KEY, repo);
         activity.startActivity(intent);
     }
 
@@ -43,7 +43,7 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
     }
 
     @Override
-    public void updateDetailView(List<GithubRepoEntity> githubRepoEntities) {
+    public void updateDetailView(GithubRepoEntity githubRepoEntity) {
 
     }
 }

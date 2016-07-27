@@ -1,7 +1,10 @@
 package net.kwmt27.githubviewer.model;
 
+import android.text.TextUtils;
+
 import net.kwmt27.githubviewer.ModelLocator;
 import net.kwmt27.githubviewer.entity.GithubRepoEntity;
+import net.kwmt27.githubviewer.util.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +20,7 @@ public class GitHubViewerModel {
 
     private static final String TAG = GitHubViewerModel.class.getSimpleName();
     private List<GithubRepoEntity> mGitHubRepoEntityList = new ArrayList<>();
+    private GithubRepoEntity mGitHubRepo;
 
     private ReusableCompositeSubscription mCompositeSubscription = new ReusableCompositeSubscription();
 
@@ -41,6 +45,30 @@ public class GitHubViewerModel {
                 .subscribe(subscriber);
         mCompositeSubscription.add(listReposSubscription);
         return listReposSubscription;
+    }
+
+    public Subscription fetchRepo(String owner, String repo, final Subscriber<GithubRepoEntity> subscriber) {
+        if(TextUtils.isEmpty(owner)) {
+            Logger.e("owner is not specified.");
+            return null;
+        }
+        if(TextUtils.isEmpty(repo)) {
+            Logger.e("repo is not specified.");
+            return null;
+        }
+        Subscription subscription = ModelLocator.getApiClient().api.fetchRepo(owner, repo)
+                .subscribeOn(Schedulers.newThread())
+                .flatMap(new Func1<GithubRepoEntity, Observable<GithubRepoEntity>>() {
+                    @Override
+                    public Observable<GithubRepoEntity> call(GithubRepoEntity githubRepos) {
+                        mGitHubRepo = githubRepos;
+                        return Observable.just(githubRepos);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        mCompositeSubscription.add(subscription);
+        return subscription;
     }
 
 }
