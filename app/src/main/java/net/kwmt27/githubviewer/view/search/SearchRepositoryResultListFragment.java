@@ -19,7 +19,7 @@ import net.kwmt27.githubviewer.view.OnItemClickListener;
 
 
 /**
- * 検索結果一覧
+ * レポジトリ検索結果一覧
  */
 public class SearchRepositoryResultListFragment extends Fragment implements SearchRepositoryResultListPresenter.ISearchResultListView {
 

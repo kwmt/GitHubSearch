@@ -44,12 +44,6 @@ public class SearchPresenter implements ISearchPresenter {
             }
             transaction.commit();
         }
-
-
-//        String owner = intent.getStringExtra(OWENER_KEY);
-//        String repo = intent.getStringExtra(REPO_KEY);
-//        fetchGitHubRepo(owner, repo);
-
     }
 
     @Override

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * コード検索結果
+ * レポジトリ検索結果
  */
 public class SearchRepositoryResultEntity {
     @SerializedName("total_count")
