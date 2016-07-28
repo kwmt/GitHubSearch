@@ -1,4 +1,6 @@
-package net.kwmt27.githubviewer.presenter;
+package net.kwmt27.githubviewer.presenter.search;
+
+import net.kwmt27.githubviewer.presenter.IBaseActivityPresenter;
 
 public interface ISearchPresenter extends IBaseActivityPresenter {
     /**

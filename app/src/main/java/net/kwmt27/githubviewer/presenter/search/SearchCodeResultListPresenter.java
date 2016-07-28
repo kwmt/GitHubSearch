@@ -1,4 +1,4 @@
-package net.kwmt27.githubviewer.presenter;
+package net.kwmt27.githubviewer.presenter.search;
 
 import android.os.Bundle;
 import android.view.View;

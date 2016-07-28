@@ -1,4 +1,4 @@
-package net.kwmt27.githubviewer.view;
+package net.kwmt27.githubviewer.view.search;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,33 +10,35 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.kwmt27.githubviewer.R;
-import net.kwmt27.githubviewer.entity.GithubRepoEntity;
-import net.kwmt27.githubviewer.entity.SearchRepositoryResultEntity;
-import net.kwmt27.githubviewer.presenter.ISearchResultListPresenter;
-import net.kwmt27.githubviewer.presenter.SearchRepositoryResultListPresenter;
+import net.kwmt27.githubviewer.entity.ItemEntity;
+import net.kwmt27.githubviewer.entity.SearchCodeResultEntity;
+import net.kwmt27.githubviewer.presenter.search.ISearchResultListPresenter;
+import net.kwmt27.githubviewer.presenter.search.SearchCodeResultListPresenter;
+import net.kwmt27.githubviewer.view.DividerItemDecoration;
+import net.kwmt27.githubviewer.view.OnItemClickListener;
 
 
 /**
  * 検索結果一覧
  */
-public class SearchRepositoryResultListFragment extends Fragment implements SearchRepositoryResultListPresenter.ISearchResultListView {
+public class SearchCodeResultListFragment extends Fragment implements SearchCodeResultListPresenter.ISearchResultListView {
 
 
-    public static final String TAG = SearchRepositoryResultListFragment.class.getSimpleName();
+    public static final String TAG = "SearchCodeResultListFragment";
     private ISearchResultListPresenter mPresenter;
-    private SearchRepositoryResultListAdapter mSearchRepositoryResultListAdapter;
+    private SearchCodeResultListAdapter mSearchCodeResultListAdapter;
 
-    public static SearchRepositoryResultListFragment newInstance() {
-        return new SearchRepositoryResultListFragment();
+    public static SearchCodeResultListFragment newInstance() {
+        return new SearchCodeResultListFragment();
     }
 
-    public SearchRepositoryResultListFragment() {
+    public SearchCodeResultListFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter = new SearchRepositoryResultListPresenter(this);
+        mPresenter = new SearchCodeResultListPresenter(this);
     }
 
     @Override
@@ -67,22 +69,20 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        mSearchRepositoryResultListAdapter = new SearchRepositoryResultListAdapter(getActivity().getApplicationContext(), new OnItemClickListener<SearchRepositoryResultListAdapter, GithubRepoEntity>() {
+        mSearchCodeResultListAdapter = new SearchCodeResultListAdapter(getActivity().getApplicationContext(), new OnItemClickListener<SearchCodeResultListAdapter, ItemEntity>() {
             @Override
-            public void onItemClick(SearchRepositoryResultListAdapter adapter, int position, GithubRepoEntity repo) {
+            public void onItemClick(SearchCodeResultListAdapter adapter, int position, ItemEntity repo) {
 
             }
         });
-        recyclerView.setAdapter(mSearchRepositoryResultListAdapter);
+        recyclerView.setAdapter(mSearchCodeResultListAdapter);
 
     }
 
-
-
     @Override
-    public void updateSearchResultListView(SearchRepositoryResultEntity searchRepositoryResultEntity) {
-        mSearchRepositoryResultListAdapter.setSearchResultList(searchRepositoryResultEntity.getGithubRepoEntityList());
-        mSearchRepositoryResultListAdapter.notifyDataSetChanged();
+    public void updateSearchResultListView(SearchCodeResultEntity searchCodeResultEntity) {
+        mSearchCodeResultListAdapter.setSearchResultList(searchCodeResultEntity.getItemEntityList());
+        mSearchCodeResultListAdapter.notifyDataSetChanged();
     }
 
 }

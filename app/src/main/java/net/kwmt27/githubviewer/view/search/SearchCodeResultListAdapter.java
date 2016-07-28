@@ -1,4 +1,4 @@
-package net.kwmt27.githubviewer.view;
+package net.kwmt27.githubviewer.view.search;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import net.kwmt27.githubviewer.R;
 import net.kwmt27.githubviewer.entity.ItemEntity;
 import net.kwmt27.githubviewer.util.Logger;
+import net.kwmt27.githubviewer.view.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

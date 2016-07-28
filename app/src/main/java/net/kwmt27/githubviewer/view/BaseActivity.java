@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import net.kwmt27.githubviewer.R;
+import net.kwmt27.githubviewer.view.search.SearchActivity;
 
 /**
  * 戻るボタンがある共通Activity

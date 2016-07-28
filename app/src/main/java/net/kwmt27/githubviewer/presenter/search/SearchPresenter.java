@@ -1,4 +1,4 @@
-package net.kwmt27.githubviewer.presenter;
+package net.kwmt27.githubviewer.presenter.search;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +10,9 @@ import net.kwmt27.githubviewer.R;
 import net.kwmt27.githubviewer.entity.SearchCodeResultEntity;
 import net.kwmt27.githubviewer.entity.SearchRepositoryResultEntity;
 import net.kwmt27.githubviewer.util.Logger;
-import net.kwmt27.githubviewer.view.SearchActivity;
-import net.kwmt27.githubviewer.view.SearchCodeResultListFragment;
-import net.kwmt27.githubviewer.view.SearchRepositoryResultListFragment;
+import net.kwmt27.githubviewer.view.search.SearchActivity;
+import net.kwmt27.githubviewer.view.search.SearchCodeResultListFragment;
+import net.kwmt27.githubviewer.view.search.SearchRepositoryResultListFragment;
 
 import rx.Subscriber;
 

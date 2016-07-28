@@ -1,10 +1,9 @@
-package net.kwmt27.githubviewer.presenter;
+package net.kwmt27.githubviewer.presenter.search;
 
 import android.os.Bundle;
 import android.view.View;
 
 import net.kwmt27.githubviewer.ModelLocator;
-import net.kwmt27.githubviewer.entity.SearchCodeResultEntity;
 import net.kwmt27.githubviewer.entity.SearchRepositoryResultEntity;
 import net.kwmt27.githubviewer.util.Logger;
 

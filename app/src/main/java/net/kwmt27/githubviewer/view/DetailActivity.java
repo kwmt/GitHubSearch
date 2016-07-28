@@ -11,6 +11,7 @@ import net.kwmt27.githubviewer.R;
 import net.kwmt27.githubviewer.entity.GithubRepoEntity;
 import net.kwmt27.githubviewer.presenter.DetailPresenter;
 import net.kwmt27.githubviewer.presenter.IDetailPresenter;
+import net.kwmt27.githubviewer.view.search.SearchActivity;
 
 public class DetailActivity extends BaseActivity implements DetailPresenter.IDetailView {
 

@@ -1,4 +1,4 @@
-package net.kwmt27.githubviewer.view;
+package net.kwmt27.githubviewer.view.search;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -12,8 +12,9 @@ import android.widget.TextView;
 import net.kwmt27.githubviewer.R;
 import net.kwmt27.githubviewer.entity.SearchCodeResultEntity;
 import net.kwmt27.githubviewer.entity.SearchRepositoryResultEntity;
-import net.kwmt27.githubviewer.presenter.ISearchPresenter;
-import net.kwmt27.githubviewer.presenter.SearchPresenter;
+import net.kwmt27.githubviewer.presenter.search.ISearchPresenter;
+import net.kwmt27.githubviewer.presenter.search.SearchPresenter;
+import net.kwmt27.githubviewer.view.BaseActivity;
 
 public class SearchActivity extends BaseActivity implements SearchPresenter.ISearchView {
 
