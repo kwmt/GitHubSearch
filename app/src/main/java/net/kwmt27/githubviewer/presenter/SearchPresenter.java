@@ -32,7 +32,7 @@ public class SearchPresenter implements ISearchPresenter {
         if (savedInstanceState == null) {
             FragmentManager manager = ((SearchActivity)mSearchView).getSupportFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
-            transaction.add(R.id.container, SearchRepositoryResultListFragment.newInstance(), SearchRepositoryResultListFragment.TAG);
+            transaction.replace(R.id.container, SearchRepositoryResultListFragment.newInstance(), SearchRepositoryResultListFragment.TAG);
             transaction.commit();
         }
 
