@@ -4,19 +4,20 @@ import android.os.Bundle;
 import android.view.View;
 
 import net.kwmt27.githubviewer.ModelLocator;
-import net.kwmt27.githubviewer.entity.GithubRepoEntity;
+import net.kwmt27.githubviewer.entity.SearchCodeResultEntity;
+import net.kwmt27.githubviewer.entity.SearchRepositoryResultEntity;
+import net.kwmt27.githubviewer.util.Logger;
 
 import rx.Subscriber;
 
-public class SearchResultListPresenter implements ISearchResultListPresenter {
+public class SearchRepositoryResultListPresenter implements ISearchResultListPresenter {
 
 
     private ISearchResultListView mSearchResultListView;
 
-    public SearchResultListPresenter(ISearchResultListView searchResultListView) {
+    public SearchRepositoryResultListPresenter(ISearchResultListView searchResultListView) {
         mSearchResultListView = searchResultListView;
     }
-
 
 
     @Override
@@ -25,40 +26,39 @@ public class SearchResultListPresenter implements ISearchResultListPresenter {
     }
 
 
-
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mSearchResultListView.setupComponents(view, savedInstanceState);
 //        Intent intent = mSearchResultListView.getIntent();
 //        String owner = intent.getStringExtra(OWENER_KEY);
 //        String repo = intent.getStringExtra(REPO_KEY);
-//        fetchGitHubRepo(owner, repo);
+//        searchResult(owner, repo);
 
     }
 
-    private void fetchGitHubRepo(String user, String repo) {
-        ModelLocator.getGithubService().fetchRepo(user, repo, new Subscriber<GithubRepoEntity>() {
+    private void searchResult(String user, String repo) {
+        ModelLocator.getGithubService().searchRepositories(user, new Subscriber<SearchRepositoryResultEntity>() {
             @Override
             public void onCompleted() {
-
+                Logger.e("onCompleted");
             }
 
             @Override
             public void onError(Throwable e) {
-
+                Logger.e("onError:" + e);
             }
 
             @Override
-            public void onNext(GithubRepoEntity githubRepoEntity) {
-                mSearchResultListView.updateDetailView(githubRepoEntity);
+            public void onNext(SearchRepositoryResultEntity searchRepositoryResultEntity) {
+                mSearchResultListView.updateSearchResultListView(searchRepositoryResultEntity);
             }
         });
     }
+
     public interface ISearchResultListView {
         void setupComponents(View view, Bundle savedInstanceState);
 
-        void updateDetailView(GithubRepoEntity githubRepoEntity);
+        void updateSearchResultListView(SearchRepositoryResultEntity searchRepositoryResultEntity);
 
     }
 

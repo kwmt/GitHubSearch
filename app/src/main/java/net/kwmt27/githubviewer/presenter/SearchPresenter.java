@@ -7,10 +7,10 @@ import android.support.v4.app.FragmentTransaction;
 
 import net.kwmt27.githubviewer.ModelLocator;
 import net.kwmt27.githubviewer.R;
-import net.kwmt27.githubviewer.entity.SearchResultEntity;
+import net.kwmt27.githubviewer.entity.SearchRepositoryResultEntity;
 import net.kwmt27.githubviewer.util.Logger;
 import net.kwmt27.githubviewer.view.SearchActivity;
-import net.kwmt27.githubviewer.view.SearchResultListFragment;
+import net.kwmt27.githubviewer.view.SearchRepositoryResultListFragment;
 
 import rx.Subscriber;
 
@@ -32,7 +32,7 @@ public class SearchPresenter implements ISearchPresenter {
         if (savedInstanceState == null) {
             FragmentManager manager = ((SearchActivity)mSearchView).getSupportFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
-            transaction.add(R.id.container, new SearchResultListFragment());
+            transaction.add(R.id.container, SearchRepositoryResultListFragment.newInstance(), SearchRepositoryResultListFragment.TAG);
             transaction.commit();
         }
 
@@ -55,7 +55,7 @@ public class SearchPresenter implements ISearchPresenter {
     }
 
     private void searchCode(String keyword) {
-        ModelLocator.getGithubService().searchRepositories(keyword, new Subscriber<SearchResultEntity>() {
+        ModelLocator.getGithubService().searchRepositories(keyword, new Subscriber<SearchRepositoryResultEntity>() {
                     @Override
                     public void onCompleted() {
                         Logger.d("onCompleted is called.");
@@ -67,8 +67,8 @@ public class SearchPresenter implements ISearchPresenter {
                     }
 
                     @Override
-                    public void onNext(SearchResultEntity searchResultEntity) {
-                        mSearchView.updateSearchResultView(searchResultEntity);
+                    public void onNext(SearchRepositoryResultEntity searchRepositoryResultEntity) {
+                        mSearchView.updateSearchResultView(searchRepositoryResultEntity);
                     }
                 });
     }
@@ -77,7 +77,7 @@ public class SearchPresenter implements ISearchPresenter {
     public interface ISearchView {
         void setupComponents();
 
-        void updateSearchResultView(SearchResultEntity searchResultEntity);
+        void updateSearchResultView(SearchRepositoryResultEntity searchRepositoryResultEntity);
 
         Intent getIntent();
     }

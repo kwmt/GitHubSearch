@@ -4,7 +4,8 @@ import android.text.TextUtils;
 
 import net.kwmt27.githubviewer.ModelLocator;
 import net.kwmt27.githubviewer.entity.GithubRepoEntity;
-import net.kwmt27.githubviewer.entity.SearchResultEntity;
+import net.kwmt27.githubviewer.entity.SearchCodeResultEntity;
+import net.kwmt27.githubviewer.entity.SearchRepositoryResultEntity;
 import net.kwmt27.githubviewer.util.Logger;
 
 import java.util.ArrayList;
@@ -22,7 +23,8 @@ public class GitHubViewerModel {
     private static final String TAG = GitHubViewerModel.class.getSimpleName();
     private List<GithubRepoEntity> mGitHubRepoEntityList = new ArrayList<>();
     private GithubRepoEntity mGitHubRepo;
-    private SearchResultEntity mSearchResultEntity;
+    private SearchCodeResultEntity mSearchCodeResultEntity;
+    private SearchRepositoryResultEntity mSearchRepositoryResultEntity;
 
     private ReusableCompositeSubscription mCompositeSubscription = new ReusableCompositeSubscription();
 
@@ -73,16 +75,16 @@ public class GitHubViewerModel {
         return subscription;
     }
 
-    public Subscription searchCode(String keyword, final Subscriber<SearchResultEntity> subscriber) {
+    public Subscription searchCode(String keyword, final Subscriber<SearchCodeResultEntity> subscriber) {
         // FIXME: least one repo or user
         keyword += "+user:kwmt";
 
         Subscription subscription = ModelLocator.getApiClient().api.searchCode(keyword)
                 .subscribeOn(Schedulers.newThread())
-                .flatMap(new Func1<SearchResultEntity, Observable<SearchResultEntity>>() {
+                .flatMap(new Func1<SearchCodeResultEntity, Observable<SearchCodeResultEntity>>() {
                     @Override
-                    public Observable<SearchResultEntity> call(SearchResultEntity searchResultEntity) {
-                        mSearchResultEntity = searchResultEntity;
+                    public Observable<SearchCodeResultEntity> call(SearchCodeResultEntity searchResultEntity) {
+                        mSearchCodeResultEntity = searchResultEntity;
                         return Observable.just(searchResultEntity);
                     }
                 })
@@ -91,13 +93,13 @@ public class GitHubViewerModel {
         mCompositeSubscription.add(subscription);
         return subscription;
     }
-    public Subscription searchRepositories(String keyword, final Subscriber<SearchResultEntity> subscriber) {
+    public Subscription searchRepositories(String keyword, final Subscriber<SearchRepositoryResultEntity> subscriber) {
         Subscription subscription = ModelLocator.getApiClient().api.searchRepositories(keyword)
                 .subscribeOn(Schedulers.newThread())
-                .flatMap(new Func1<SearchResultEntity, Observable<SearchResultEntity>>() {
+                .flatMap(new Func1<SearchRepositoryResultEntity, Observable<SearchRepositoryResultEntity>>() {
                     @Override
-                    public Observable<SearchResultEntity> call(SearchResultEntity searchResultEntity) {
-                        mSearchResultEntity = searchResultEntity;
+                    public Observable<SearchRepositoryResultEntity> call(SearchRepositoryResultEntity searchResultEntity) {
+                        mSearchRepositoryResultEntity = searchResultEntity;
                         return Observable.just(searchResultEntity);
                     }
                 })

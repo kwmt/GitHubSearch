@@ -15,5 +15,19 @@ public class ItemEntity {
     @SerializedName("text_matches")
     private List<TextMatchEntity> mTextMatchEntity = new ArrayList<>();
 
+    public String getName() {
+        return mName;
+    }
 
+    public String getPath() {
+        return mPath;
+    }
+
+    public GithubRepoEntity getRepository() {
+        return mRepository;
+    }
+
+    public List<TextMatchEntity> getTextMatchEntity() {
+        return mTextMatchEntity;
+    }
 }

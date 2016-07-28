@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 検索結果
+ * コード検索結果
  */
-public class SearchResultEntity {
+public class SearchCodeResultEntity {
     @SerializedName("total_count")
     private int mTotalCount;
     @SerializedName("incomplete_results")

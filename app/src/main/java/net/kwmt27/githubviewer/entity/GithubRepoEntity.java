@@ -9,6 +9,8 @@ public class GithubRepoEntity implements Serializable{
     private int mId;
     @SerializedName("name")
     private String mName;
+    @SerializedName("full_name")
+    private String mFullName;
     @SerializedName("owner")
     private OwnerEntity mOwner;
     @SerializedName("html_url")
@@ -28,6 +30,10 @@ public class GithubRepoEntity implements Serializable{
 
     public String getName() {
         return mName;
+    }
+
+    public String getFullName() {
+        return mFullName;
     }
 
     public OwnerEntity getOwner() {

@@ -1,7 +1,8 @@
 package net.kwmt27.githubviewer.model;
 
 import net.kwmt27.githubviewer.entity.GithubRepoEntity;
-import net.kwmt27.githubviewer.entity.SearchResultEntity;
+import net.kwmt27.githubviewer.entity.SearchCodeResultEntity;
+import net.kwmt27.githubviewer.entity.SearchRepositoryResultEntity;
 
 import java.util.List;
 
@@ -20,9 +21,9 @@ public interface GitHubService {
 
     @Headers("Accept: application/vnd.github.v3.text-match+json")
     @GET("search/code")
-    Observable<SearchResultEntity> searchCode(@Query(value = "q", encoded = true) String keyword);
+    Observable<SearchCodeResultEntity> searchCode(@Query(value = "q", encoded = true) String keyword);
 
     @Headers("Accept: application/vnd.github.v3.text-match+json")
     @GET("search/repositories")
-    Observable<SearchResultEntity> searchRepositories(@Query(value = "q", encoded = true) String keyword);
+    Observable<SearchRepositoryResultEntity> searchRepositories(@Query(value = "q", encoded = true) String keyword);
 }

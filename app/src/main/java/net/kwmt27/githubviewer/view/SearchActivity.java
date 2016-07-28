@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import net.kwmt27.githubviewer.R;
-import net.kwmt27.githubviewer.entity.SearchResultEntity;
+import net.kwmt27.githubviewer.entity.SearchRepositoryResultEntity;
 import net.kwmt27.githubviewer.presenter.ISearchPresenter;
 import net.kwmt27.githubviewer.presenter.SearchPresenter;
 
@@ -55,10 +55,9 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
     }
 
     @Override
-    public void updateSearchResultView(SearchResultEntity searchResultEntity) {
-        // TODO
-        // search Repositories
-        // search code
+    public void updateSearchResultView(SearchRepositoryResultEntity searchRepositoryResultEntity) {
+        SearchRepositoryResultListFragment fragment = (SearchRepositoryResultListFragment) getSupportFragmentManager().findFragmentByTag(SearchRepositoryResultListFragment.TAG);
+        fragment.updateSearchResultListView(searchRepositoryResultEntity);
     }
 
 }
