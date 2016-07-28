@@ -5,9 +5,6 @@ import android.view.View;
 
 import net.kwmt27.githubviewer.ModelLocator;
 import net.kwmt27.githubviewer.entity.SearchCodeResultEntity;
-import net.kwmt27.githubviewer.util.Logger;
-
-import rx.Subscriber;
 
 public class SearchCodeResultListPresenter implements ISearchResultListPresenter {
 
@@ -35,24 +32,24 @@ public class SearchCodeResultListPresenter implements ISearchResultListPresenter
 
     }
 
-    private void searchResult(String user, String repo) {
-        ModelLocator.getGithubService().searchCode(user, new Subscriber<SearchCodeResultEntity>() {
-            @Override
-            public void onCompleted() {
-                Logger.e("onCompleted");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Logger.e("onError:" + e);
-            }
-
-            @Override
-            public void onNext(SearchCodeResultEntity searchCodeResultEntity) {
-                mSearchResultListView.updateSearchResultListView(searchCodeResultEntity);
-            }
-        });
-    }
+//    private void searchResult(String user, String repo) {
+//        ModelLocator.getGithubService().searchCode(user, new Subscriber<SearchCodeResultEntity>() {
+//            @Override
+//            public void onCompleted() {
+//                Logger.e("onCompleted");
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                Logger.e("onError:" + e);
+//            }
+//
+//            @Override
+//            public void onNext(SearchCodeResultEntity searchCodeResultEntity) {
+//                mSearchResultListView.updateSearchResultListView(searchCodeResultEntity);
+//            }
+//        });
+//    }
 
     public interface ISearchResultListView {
         void setupComponents(View view, Bundle savedInstanceState);

@@ -13,7 +13,7 @@ public class ItemEntity {
     @SerializedName("repository")
     private GithubRepoEntity mRepository;
     @SerializedName("text_matches")
-    private List<TextMatchEntity> mTextMatchEntity = new ArrayList<>();
+    private List<TextMatchEntity> mTextMatchEntityList = new ArrayList<>();
 
     public String getName() {
         return mName;
@@ -27,7 +27,7 @@ public class ItemEntity {
         return mRepository;
     }
 
-    public List<TextMatchEntity> getTextMatchEntity() {
-        return mTextMatchEntity;
+    public List<TextMatchEntity> getTextMatchEntityList() {
+        return mTextMatchEntityList;
     }
 }

@@ -25,7 +25,7 @@ public class MainPresenter implements IMainPresenter {
 
 //        List<GithubRepoEntity> datasource
 //                = Arrays.asList(new GithubRepoEntity("data1"), new GithubRepoEntity("data2"));
-//        mMainView.updateSearchResultView(datasource);
+//        mMainView.updateSearchRepositoryResultView(datasource);
     }
 
     @Override

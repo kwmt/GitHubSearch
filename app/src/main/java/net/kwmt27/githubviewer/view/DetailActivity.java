@@ -3,7 +3,10 @@ package net.kwmt27.githubviewer.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import net.kwmt27.githubviewer.ModelLocator;
 import net.kwmt27.githubviewer.R;
 import net.kwmt27.githubviewer.entity.GithubRepoEntity;
 import net.kwmt27.githubviewer.presenter.DetailPresenter;
@@ -38,12 +41,33 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        if(ModelLocator.getGithubService().getGitHubRepo() == null){
+            MenuItem searchMenu = menu.findItem(R.id.action_search);
+            if(searchMenu == null) { return true; }
+            searchMenu.setEnabled(ModelLocator.getGithubService().getGitHubRepo() != null);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_search:
+                SearchActivity.startActivity(this, true);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void setupComponents() {
         setUpActionBar();
     }
 
     @Override
     public void updateDetailView(GithubRepoEntity githubRepoEntity) {
-
+        invalidateOptionsMenu();
     }
 }

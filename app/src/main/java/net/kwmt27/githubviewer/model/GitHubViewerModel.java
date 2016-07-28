@@ -75,9 +75,9 @@ public class GitHubViewerModel {
         return subscription;
     }
 
-    public Subscription searchCode(String keyword, final Subscriber<SearchCodeResultEntity> subscriber) {
+    public Subscription searchCode(String keyword,  String repo, final Subscriber<SearchCodeResultEntity> subscriber) {
         // FIXME: least one repo or user
-        keyword += "+user:kwmt";
+        keyword += "+repo:" + repo;
 
         Subscription subscription = ModelLocator.getApiClient().api.searchCode(keyword)
                 .subscribeOn(Schedulers.newThread())
@@ -110,4 +110,7 @@ public class GitHubViewerModel {
     }
 
 
+    public GithubRepoEntity getGitHubRepo() {
+        return mGitHubRepo;
+    }
 }

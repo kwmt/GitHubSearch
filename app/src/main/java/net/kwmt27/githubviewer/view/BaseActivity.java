@@ -53,8 +53,8 @@ public class BaseActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_search:
-                SearchActivity.startActivity(this);
-                break;
+                SearchActivity.startActivity(this, false);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

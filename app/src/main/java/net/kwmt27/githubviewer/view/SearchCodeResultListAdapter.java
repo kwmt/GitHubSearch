@@ -66,8 +66,8 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
         }
         ItemEntity item = mSearchResultList.get(position);
 
-        holder.nameTextView.setText(item.getRepository().getFullName());
-        holder.descriptionTextView.setText(item.getRepository().getDescription());
+        holder.nameTextView.setText(item.getName());
+        holder.descriptionTextView.setText(item.getTextMatchEntityList().get(0).getFragmentText());
         holder.favoriteCountTextView.setText(item.getRepository().getStargazersCount());
     }
 
