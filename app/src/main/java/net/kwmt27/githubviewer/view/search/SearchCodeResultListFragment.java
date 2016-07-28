@@ -24,7 +24,7 @@ import net.kwmt27.githubviewer.view.OnItemClickListener;
 public class SearchCodeResultListFragment extends Fragment implements SearchCodeResultListPresenter.ISearchResultListView {
 
 
-    public static final String TAG = "SearchCodeResultListFragment";
+    public static final String TAG = SearchCodeResultListFragment.class.getSimpleName();
     private ISearchResultListPresenter mPresenter;
     private SearchCodeResultListAdapter mSearchCodeResultListAdapter;
 

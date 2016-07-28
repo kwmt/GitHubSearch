@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import net.kwmt27.githubviewer.ModelLocator;
 import net.kwmt27.githubviewer.R;
@@ -68,7 +69,13 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
     }
 
     @Override
-    public void updateDetailView(GithubRepoEntity githubRepoEntity) {
+    public void updateDetailView(GithubRepoEntity entity) {
         invalidateOptionsMenu();
+
+        ((TextView)findViewById(R.id.language)).setText(entity.getLanguage());
+        ((TextView)findViewById(R.id.favorite_count)).setText(entity.getStargazersCount());
+        ((TextView)findViewById(R.id.full_name)).setText(entity.getFullName());
+        ((TextView)findViewById(R.id.description)).setText(entity.getDescription());
+
     }
 }

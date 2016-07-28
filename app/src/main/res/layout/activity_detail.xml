@@ -16,7 +16,128 @@
         android:layout_width="match_parent"
         android:layout_height="4dp"
         android:layout_below="@+id/toolbar"
-        android:background="@drawable/below_shadow" />
+        android:background="@drawable/below_shadow"
+        />
 
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            >
+
+            <RelativeLayout
+                android:id="@+id/basic_info_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:id="@+id/language"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="java"
+                    android:textSize="12sp"
+
+                    />
+
+                <ImageView
+                    android:id="@+id/favorite_image"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@id/language"
+                    android:src="@drawable/ic_star_rate_black_18dp"
+                    />
+
+                <TextView
+                    android:id="@+id/favorite_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@id/favorite_image"
+                    android:text="0"
+                    />
+
+                <ImageView
+                    android:id="@+id/fork_image"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@id/favorite_count"
+                    android:src="@drawable/ic_search_black_24dp"
+                    />
+
+                <TextView
+                    android:id="@+id/fork_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@id/fork_image"
+                    android:text="0"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/basic_info_layout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/basic_info_layout"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+
+                >
+
+                <TextView
+                    android:id="@+id/full_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="name"
+                    android:textSize="16sp"
+                    />
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/full_name"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="description"
+                    android:textSize="12sp"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/contents"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/basic_info_layout2"
+                >
+
+
+                <!--
+                TODO ファイルリスト v2.0でもいいかも
+                https://developer.github.com/v3/repos/contents/
+                例: https://api.github.com/repos/kwmt/CharacterDisplayAnimationSample/contents/-->
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 </RelativeLayout>

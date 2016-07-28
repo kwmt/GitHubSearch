@@ -53,10 +53,10 @@
         <!--お気に入りイメージ-->
         <ImageView
             android:id="@+id/favorite_image"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_centerVertical="true"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/ic_star_rate_black_18dp"
             />
 
         <!--お気に入り数-->

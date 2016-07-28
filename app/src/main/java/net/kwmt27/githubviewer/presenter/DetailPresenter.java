@@ -43,7 +43,6 @@ public class DetailPresenter implements IDetailPresenter {
 
             @Override
             public void onError(Throwable e) {
-
             }
 
             @Override
