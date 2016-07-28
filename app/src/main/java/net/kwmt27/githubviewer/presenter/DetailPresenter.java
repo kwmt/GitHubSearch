@@ -1,15 +1,15 @@
 package net.kwmt27.githubviewer.presenter;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import net.kwmt27.githubviewer.ModelLocator;
 import net.kwmt27.githubviewer.entity.GithubRepoEntity;
 
-import java.util.List;
-
 import rx.Subscriber;
 
 public class DetailPresenter implements IDetailPresenter {
+
 
     private IDetailView mDetailView;
 
@@ -21,8 +21,10 @@ public class DetailPresenter implements IDetailPresenter {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         mDetailView.setupComponents();
-        // TODO: fetch github detail
-        // fetchGitHubRepoList();
+        Intent intent = mDetailView.getIntent();
+        String owner = intent.getStringExtra(OWENER_KEY);
+        String repo = intent.getStringExtra(REPO_KEY);
+        fetchGitHubRepo(owner, repo);
 
     }
 
@@ -32,11 +34,8 @@ public class DetailPresenter implements IDetailPresenter {
     }
 
 
-
-
-
-    private void fetchGitHubRepoList() {
-        ModelLocator.getGithubService().fetchListReposByUser(new Subscriber<List<GithubRepoEntity>>() {
+    private void fetchGitHubRepo(String user, String repo) {
+        ModelLocator.getGithubService().fetchRepo(user, repo, new Subscriber<GithubRepoEntity>() {
             @Override
             public void onCompleted() {
 
@@ -48,8 +47,8 @@ public class DetailPresenter implements IDetailPresenter {
             }
 
             @Override
-            public void onNext(List<GithubRepoEntity> githubRepoEntities) {
-                mDetailView.updateDetailView(githubRepoEntities);
+            public void onNext(GithubRepoEntity githubRepoEntity) {
+                mDetailView.updateDetailView(githubRepoEntity);
             }
         });
     }
@@ -57,7 +56,10 @@ public class DetailPresenter implements IDetailPresenter {
 
     public interface IDetailView {
         void setupComponents();
-        void updateDetailView(List<GithubRepoEntity> githubRepoEntities);
+
+        void updateDetailView(GithubRepoEntity githubRepoEntity);
+
+        Intent getIntent();
     }
 
 }

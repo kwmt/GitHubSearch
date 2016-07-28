@@ -1,4 +1,4 @@
-package net.kwmt27.githubviewer.view;
+package net.kwmt27.githubviewer.view.search;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,17 +10,18 @@ import android.widget.TextView;
 import net.kwmt27.githubviewer.R;
 import net.kwmt27.githubviewer.entity.GithubRepoEntity;
 import net.kwmt27.githubviewer.util.Logger;
+import net.kwmt27.githubviewer.view.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAdapter.ViewHolder> {
+public class SearchRepositoryResultListAdapter extends RecyclerView.Adapter<SearchRepositoryResultListAdapter.ViewHolder> {
 
     private final LayoutInflater mLayoutInflater;
-    private OnItemClickListener<GitHubRepoListAdapter, GithubRepoEntity> mListener;
+    private OnItemClickListener<SearchRepositoryResultListAdapter, GithubRepoEntity> mListener;
 
-    private List<GithubRepoEntity> mGithubRepoEntityList = new ArrayList<>();
+    private List<GithubRepoEntity> mSearchResultList = new ArrayList<>();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView nameTextView;
@@ -35,23 +36,23 @@ public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAd
         }
     }
 
-    public GitHubRepoListAdapter(Context context, OnItemClickListener<GitHubRepoListAdapter, GithubRepoEntity> listener) {
+    public SearchRepositoryResultListAdapter(Context context, OnItemClickListener<SearchRepositoryResultListAdapter, GithubRepoEntity> listener) {
         mLayoutInflater = LayoutInflater.from(context);
         mListener = listener;
     }
 
     @Override
-    public GitHubRepoListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SearchRepositoryResultListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mLayoutInflater.inflate(R.layout.recyclerview_github_repo_list_item, parent, false);
-        final GitHubRepoListAdapter.ViewHolder viewHolder = new GitHubRepoListAdapter.ViewHolder(view);
+        final SearchRepositoryResultListAdapter.ViewHolder viewHolder = new SearchRepositoryResultListAdapter.ViewHolder(view);
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mListener != null) {
                     int position = viewHolder.getAdapterPosition();
                     Logger.d("click position:" + position);
-                    GithubRepoEntity entity = mGithubRepoEntityList.get(position);
-                    mListener.onItemClick(GitHubRepoListAdapter.this, position, entity);
+                    GithubRepoEntity entity = mSearchResultList.get(position);
+                    mListener.onItemClick(SearchRepositoryResultListAdapter.this, position, entity);
                 }
 
             }
@@ -64,20 +65,20 @@ public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAd
         if (getItemCount() <= 0) {
             return;
         }
-        GithubRepoEntity item = mGithubRepoEntityList.get(position);
+        GithubRepoEntity item = mSearchResultList.get(position);
 
-        holder.nameTextView.setText(item.getName());
+        holder.nameTextView.setText(item.getFullName());
         holder.descriptionTextView.setText(item.getDescription());
         holder.favoriteCountTextView.setText(item.getStargazersCount());
     }
 
     @Override
     public int getItemCount() {
-        return mGithubRepoEntityList.size();
+        return mSearchResultList.size();
     }
 
 
-    public void setGithubRepoEntityList(List<GithubRepoEntity> githubRepoEntityList) {
-        mGithubRepoEntityList = githubRepoEntityList;
+    public void setSearchResultList(List<GithubRepoEntity> searchResultList) {
+        mSearchResultList = searchResultList;
     }
 }

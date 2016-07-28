@@ -1,6 +1,4 @@
 package net.kwmt27.githubviewer.presenter;
 
-public interface IMainPresenter extends IBasePresenter {
-
-
+public interface IMainPresenter extends IBaseActivityPresenter {
 }

@@ -1,7 +1,12 @@
 package net.kwmt27.githubviewer.model;
 
+import android.text.TextUtils;
+
 import net.kwmt27.githubviewer.ModelLocator;
 import net.kwmt27.githubviewer.entity.GithubRepoEntity;
+import net.kwmt27.githubviewer.entity.SearchCodeResultEntity;
+import net.kwmt27.githubviewer.entity.SearchRepositoryResultEntity;
+import net.kwmt27.githubviewer.util.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +22,9 @@ public class GitHubViewerModel {
 
     private static final String TAG = GitHubViewerModel.class.getSimpleName();
     private List<GithubRepoEntity> mGitHubRepoEntityList = new ArrayList<>();
+    private GithubRepoEntity mGitHubRepo;
+    private SearchCodeResultEntity mSearchCodeResultEntity;
+    private SearchRepositoryResultEntity mSearchRepositoryResultEntity;
 
     private ReusableCompositeSubscription mCompositeSubscription = new ReusableCompositeSubscription();
 
@@ -43,4 +51,66 @@ public class GitHubViewerModel {
         return listReposSubscription;
     }
 
+    public Subscription fetchRepo(String owner, String repo, final Subscriber<GithubRepoEntity> subscriber) {
+        if(TextUtils.isEmpty(owner)) {
+            Logger.e("owner is not specified.");
+            return null;
+        }
+        if(TextUtils.isEmpty(repo)) {
+            Logger.e("repo is not specified.");
+            return null;
+        }
+        Subscription subscription = ModelLocator.getApiClient().api.fetchRepo(owner, repo)
+                .subscribeOn(Schedulers.newThread())
+                .flatMap(new Func1<GithubRepoEntity, Observable<GithubRepoEntity>>() {
+                    @Override
+                    public Observable<GithubRepoEntity> call(GithubRepoEntity githubRepos) {
+                        mGitHubRepo = githubRepos;
+                        return Observable.just(githubRepos);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        mCompositeSubscription.add(subscription);
+        return subscription;
+    }
+
+    public Subscription searchCode(String keyword,  String repo, final Subscriber<SearchCodeResultEntity> subscriber) {
+        // FIXME: least one repo or user
+        keyword += "+repo:" + repo;
+
+        Subscription subscription = ModelLocator.getApiClient().api.searchCode(keyword)
+                .subscribeOn(Schedulers.newThread())
+                .flatMap(new Func1<SearchCodeResultEntity, Observable<SearchCodeResultEntity>>() {
+                    @Override
+                    public Observable<SearchCodeResultEntity> call(SearchCodeResultEntity searchResultEntity) {
+                        mSearchCodeResultEntity = searchResultEntity;
+                        return Observable.just(searchResultEntity);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        mCompositeSubscription.add(subscription);
+        return subscription;
+    }
+    public Subscription searchRepositories(String keyword, final Subscriber<SearchRepositoryResultEntity> subscriber) {
+        Subscription subscription = ModelLocator.getApiClient().api.searchRepositories(keyword)
+                .subscribeOn(Schedulers.newThread())
+                .flatMap(new Func1<SearchRepositoryResultEntity, Observable<SearchRepositoryResultEntity>>() {
+                    @Override
+                    public Observable<SearchRepositoryResultEntity> call(SearchRepositoryResultEntity searchResultEntity) {
+                        mSearchRepositoryResultEntity = searchResultEntity;
+                        return Observable.just(searchResultEntity);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        mCompositeSubscription.add(subscription);
+        return subscription;
+    }
+
+
+    public GithubRepoEntity getGitHubRepo() {
+        return mGitHubRepo;
+    }
 }

@@ -32,6 +32,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.IMainVie
         super.onStop();
     }
 
+
     @Override
     public void setupComponents() {
         setUpActionBar();
@@ -45,8 +46,8 @@ public class MainActivity extends BaseActivity implements MainPresenter.IMainVie
         recyclerView.setLayoutManager(layoutManager);
         mGitHubRepoListAdapter = new GitHubRepoListAdapter(getApplicationContext(), new OnItemClickListener<GitHubRepoListAdapter, GithubRepoEntity>() {
             @Override
-            public void onItemClick(GitHubRepoListAdapter adapter, int position, GithubRepoEntity entity) {
-                DetailActivity.startActivity(MainActivity.this, entity.getName());
+            public void onItemClick(GitHubRepoListAdapter adapter, int position, GithubRepoEntity repo) {
+                DetailActivity.startActivity(MainActivity.this, repo.getName(), repo);
             }
         });
         recyclerView.setAdapter(mGitHubRepoListAdapter);
