@@ -75,9 +75,10 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
         return false;
     }
 
+
     @Override
     public void setupComponents() {
-        //noop
+        // noop
     }
 
     @Override
@@ -161,12 +162,4 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
         webView.loadUrl(entity.getHtmlUrl());
     }
 
-    @Override
-    public void updateDetailView(GithubRepoEntity entity) {
-        invalidateOptionsMenu();
-    }
-
-    @Override
-    public void updateDetailView(String url) {
-    }
 }
