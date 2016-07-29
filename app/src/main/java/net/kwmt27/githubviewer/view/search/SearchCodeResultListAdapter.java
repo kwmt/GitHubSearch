@@ -12,6 +12,7 @@ import net.kwmt27.githubviewer.R;
 import net.kwmt27.githubviewer.entity.ItemEntity;
 import net.kwmt27.githubviewer.entity.TextMatchEntity;
 import net.kwmt27.githubviewer.util.Logger;
+import net.kwmt27.githubviewer.view.DividerItemDecoration;
 import net.kwmt27.githubviewer.view.OnItemClickListener;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
             descriptionTextView = (TextView) itemView.findViewById(R.id.text_match);
             favoriteCountTextView = (TextView) itemView.findViewById(R.id.favorite_count);
             textMatchRecyclerView = (RecyclerView) itemView.findViewById(R.id.text_match_list);
+            textMatchRecyclerView.addItemDecoration(new DividerItemDecoration(itemView.getContext(), R.drawable.divider));
             RecyclerView.LayoutManager layout = new LinearLayoutManager(itemView.getContext());
             layout.setAutoMeasureEnabled(true);
             textMatchRecyclerView.setLayoutManager(layout);
