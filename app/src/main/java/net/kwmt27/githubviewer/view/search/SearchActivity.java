@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import net.kwmt27.githubviewer.R;
+import net.kwmt27.githubviewer.entity.GithubRepoEntity;
 import net.kwmt27.githubviewer.entity.SearchCodeResultEntity;
 import net.kwmt27.githubviewer.entity.SearchRepositoryResultEntity;
 import net.kwmt27.githubviewer.presenter.search.ISearchPresenter;
@@ -20,11 +21,17 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
 
 
     public static void startActivity(AppCompatActivity activity, boolean canSearchCode) {
+        SearchActivity.startActivity(activity, canSearchCode, null);
+    }
+
+    public static void startActivity(AppCompatActivity activity, boolean canSearchCode, GithubRepoEntity entity) {
 
         Intent intent = new Intent(activity, SearchActivity.class);
         intent.putExtra(ISearchPresenter.CAN_SEARCH_CODE, canSearchCode);
-        activity.startActivity(intent,
-                ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
+        if (entity != null) {
+            intent.putExtra(ISearchPresenter.REPO_ENTITY_KEY, entity);
+        }
+        activity.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
     }
 
     private ISearchPresenter mPresenter;
@@ -42,7 +49,7 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
     public void setupComponents() {
         setUpActionBar();
 
-        EditText editText = (EditText)findViewById(R.id.search_edit);
+        EditText editText = (EditText) findViewById(R.id.search_edit);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

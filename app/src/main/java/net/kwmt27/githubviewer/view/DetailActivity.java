@@ -19,7 +19,6 @@ import net.kwmt27.githubviewer.entity.GithubRepoEntity;
 import net.kwmt27.githubviewer.presenter.DetailPresenter;
 import net.kwmt27.githubviewer.presenter.IDetailPresenter;
 import net.kwmt27.githubviewer.util.Logger;
-import net.kwmt27.githubviewer.view.search.SearchActivity;
 
 public class DetailActivity extends BaseActivity implements DetailPresenter.IDetailView {
 
@@ -29,7 +28,7 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
     public static void startActivity(AppCompatActivity activity, String title, GithubRepoEntity repo) {
         Intent intent = new Intent(activity.getApplicationContext(), DetailActivity.class);
         intent.putExtra(TITLE_KEY, title);
-        intent.putExtra(IDetailPresenter.REPO_ENTITY_KEY,  repo);
+        intent.putExtra(IDetailPresenter.REPO_ENTITY_KEY, repo);
         activity.startActivity(intent);
     }
 
@@ -56,7 +55,7 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
             case android.R.id.home:
                 return goBackIfNeeded() || super.onOptionsItemSelected(item);
             case R.id.action_search:
-                SearchActivity.startActivity(this, true);
+                mPresenter.onActionSearchSelected();
                 return true;
         }
         return super.onOptionsItemSelected(item);

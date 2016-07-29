@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import net.kwmt27.githubviewer.ModelLocator;
 import net.kwmt27.githubviewer.R;
+import net.kwmt27.githubviewer.entity.GithubRepoEntity;
 import net.kwmt27.githubviewer.entity.SearchCodeResultEntity;
 import net.kwmt27.githubviewer.entity.SearchRepositoryResultEntity;
 import net.kwmt27.githubviewer.util.Logger;
@@ -66,7 +67,7 @@ public class SearchPresenter implements ISearchPresenter {
     }
 
     private void searchCode(String keyword) {
-        String repo = ModelLocator.getGithubService().getGitHubRepo().getFullName();
+        String repo = getGitHubRepoEntityFromIntent().getFullName();
         ModelLocator.getGithubService().searchCode(keyword, repo, new Subscriber<SearchCodeResultEntity>() {
             @Override
             public void onCompleted() {
@@ -104,6 +105,11 @@ public class SearchPresenter implements ISearchPresenter {
         });
     }
 
+
+    private GithubRepoEntity getGitHubRepoEntityFromIntent() {
+        Intent intent = mSearchView.getIntent();
+        return (GithubRepoEntity) intent.getSerializableExtra(REPO_ENTITY_KEY);
+    }
 
     public interface ISearchView {
         void setupComponents();
