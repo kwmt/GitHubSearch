@@ -2,7 +2,9 @@ package net.kwmt27.githubviewer.entity;
 
 import com.google.gson.annotations.SerializedName;
 
-public class OwnerEntity {
+import java.io.Serializable;
+
+public class OwnerEntity implements Serializable {
     @SerializedName("id")
     private int mId;
     @SerializedName("login")
