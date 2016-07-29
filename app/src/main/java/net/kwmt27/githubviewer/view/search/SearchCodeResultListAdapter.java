@@ -29,15 +29,13 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView nameTextView;
-        TextView descriptionTextView;
-        TextView favoriteCountTextView;
+        TextView pathTextView;
         RecyclerView textMatchRecyclerView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             nameTextView = (TextView) itemView.findViewById(R.id.name);
-            descriptionTextView = (TextView) itemView.findViewById(R.id.text_match);
-            favoriteCountTextView = (TextView) itemView.findViewById(R.id.favorite_count);
+            pathTextView = (TextView) itemView.findViewById(R.id.path);
             textMatchRecyclerView = (RecyclerView) itemView.findViewById(R.id.text_match_list);
             textMatchRecyclerView.addItemDecoration(new DividerItemDecoration(itemView.getContext(), R.drawable.divider));
             RecyclerView.LayoutManager layout = new LinearLayoutManager(itemView.getContext());
@@ -81,8 +79,7 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
         ItemEntity item = mSearchResultList.get(position);
 
         holder.nameTextView.setText(item.getName());
-        holder.descriptionTextView.setText(item.getTextMatchEntityList().get(0).getFragmentText());
-        holder.favoriteCountTextView.setText(item.getRepository().getStargazersCount());
+        holder.pathTextView.setText(item.getPath());
 
         ChildSearchCodeResultListAdapter childAdapter = new ChildSearchCodeResultListAdapter(mContext, new OnItemClickListener<ChildSearchCodeResultListAdapter, TextMatchEntity>() {
             @Override

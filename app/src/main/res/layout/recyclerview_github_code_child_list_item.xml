@@ -9,22 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
-
-        <RelativeLayout
-            android:id="@+id/name_layout"
-            android:layout_width="match_parent"
+        <!--text match-->
+        <TextView
+            android:id="@+id/text_match"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            >
-
-            <!--description-->
-            <TextView
-                android:id="@+id/text_match"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                />
-        </RelativeLayout>
+            android:textColor="@android:color/black"
+            />
     </HorizontalScrollView>
 
 
