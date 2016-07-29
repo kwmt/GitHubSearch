@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import net.kwmt27.githubviewer.ModelLocator;
 import net.kwmt27.githubviewer.R;
 import net.kwmt27.githubviewer.entity.GithubRepoEntity;
 import net.kwmt27.githubviewer.entity.SearchCodeResultEntity;
@@ -66,16 +69,23 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
     }
 
     @Override
-    public void updateSearchRepositoryResultView(SearchRepositoryResultEntity searchRepositoryResultEntity) {
+    public void updateSearchRepositoryResultView(SearchRepositoryResultEntity entity) {
+        showNotFoundPageIfNeeded(entity.foundResult());
         SearchRepositoryResultListFragment fragment = (SearchRepositoryResultListFragment) getSupportFragmentManager().findFragmentByTag(SearchRepositoryResultListFragment.TAG);
-        fragment.updateSearchResultListView(searchRepositoryResultEntity);
+        fragment.updateSearchResultListView(entity);
     }
 
     @Override
     public void updateSearchCodeResultView(SearchCodeResultEntity entity) {
+        showNotFoundPageIfNeeded(entity.foundResult());
         SearchCodeResultListFragment fragment = (SearchCodeResultListFragment) getSupportFragmentManager().findFragmentByTag(SearchCodeResultListFragment.TAG);
         fragment.updateSearchResultListView(entity);
-
     }
 
+    private void showNotFoundPageIfNeeded(boolean show) {
+        RelativeLayout notFoundLayout = (RelativeLayout) findViewById(R.id.not_found_layout);
+        ((TextView)notFoundLayout.findViewById(R.id.keyword)).setText(ModelLocator.getGithubService().getKeyword());
+        int visibility = show ? View.GONE : View.VISIBLE;
+        notFoundLayout.setVisibility(visibility);
+    }
 }

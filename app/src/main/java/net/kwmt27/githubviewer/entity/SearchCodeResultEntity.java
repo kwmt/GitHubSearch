@@ -30,4 +30,9 @@ public class SearchCodeResultEntity {
         }
         return mItemEntityList;
     }
+
+    /** 結果がみつかったどうか */
+    public boolean foundResult() {
+        return getItemEntityList().size() > 0;
+    }
 }

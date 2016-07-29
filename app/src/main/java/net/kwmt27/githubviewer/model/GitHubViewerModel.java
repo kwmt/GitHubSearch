@@ -25,6 +25,7 @@ public class GitHubViewerModel {
     private GithubRepoEntity mGitHubRepo;
     private SearchCodeResultEntity mSearchCodeResultEntity;
     private SearchRepositoryResultEntity mSearchRepositoryResultEntity;
+    private String mKeyword;
 
     private ReusableCompositeSubscription mCompositeSubscription = new ReusableCompositeSubscription();
 
@@ -76,6 +77,7 @@ public class GitHubViewerModel {
     }
 
     public Subscription searchCode(String keyword,  String repo, final Subscriber<SearchCodeResultEntity> subscriber) {
+        mKeyword = keyword;
         // FIXME: least one repo or user
         keyword += "+repo:" + repo;
 
@@ -94,6 +96,7 @@ public class GitHubViewerModel {
         return subscription;
     }
     public Subscription searchRepositories(String keyword, final Subscriber<SearchRepositoryResultEntity> subscriber) {
+        mKeyword = keyword;
         Subscription subscription = ModelLocator.getApiClient().api.searchRepositories(keyword)
                 .subscribeOn(Schedulers.newThread())
                 .flatMap(new Func1<SearchRepositoryResultEntity, Observable<SearchRepositoryResultEntity>>() {
@@ -112,5 +115,10 @@ public class GitHubViewerModel {
 
     public GithubRepoEntity getGitHubRepo() {
         return mGitHubRepo;
+    }
+
+    public String getKeyword() {
+        if(mKeyword == null) { return ""; }
+        return mKeyword;
     }
 }

@@ -99,8 +99,8 @@ public class SearchPresenter implements ISearchPresenter {
             }
 
             @Override
-            public void onNext(SearchRepositoryResultEntity searchRepositoryResultEntity) {
-                mSearchView.updateSearchRepositoryResultView(searchRepositoryResultEntity);
+            public void onNext(SearchRepositoryResultEntity entity) {
+                mSearchView.updateSearchRepositoryResultView(entity);
             }
         });
     }
