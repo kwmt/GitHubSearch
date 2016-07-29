@@ -1,5 +1,6 @@
 package net.kwmt27.githubviewer.view;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -7,6 +8,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -84,7 +88,7 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
     @Override
     public void setupComponents(GithubRepoEntity entity) {
         setUpActionBar();
-        WebView webView = (WebView)findViewById(R.id.webview);
+        final WebView webView = (WebView)findViewById(R.id.webview);
         webView.setWebViewClient(new WebViewClient() {
 
             @Override
@@ -102,13 +106,22 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
 
 //                mHomeLoading.setVisibility(View.GONE);
 //                mIsLoading = false;
-//                if (mIsFailure) {
-//                    mWebView.setVisibility(View.GONE);
-//                    mOfflinePage.setVisibility(View.VISIBLE);
-//                    return;
-//                }
-//                mOfflinePage.setVisibility(View.GONE);
-//                mWebView.setVisibility(View.VISIBLE);
+                if (mIsFailure) {
+                    switchErrorPage(true);
+                    return;
+                }
+                switchErrorPage(false);
+            }
+
+            private void switchErrorPage(boolean showError) {
+                int errorVisibility = View.GONE;
+                int webViewVisibility = View.VISIBLE;
+                if(showError) {
+                    errorVisibility = View.VISIBLE;
+                    webViewVisibility = View.GONE;
+                }
+                findViewById(R.id.error_layout).setVisibility(errorVisibility);
+                webView.setVisibility(webViewVisibility);
             }
 
 
@@ -139,22 +152,22 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
 
 
             // http://stackoverflow.com/a/33419123/2520998
-//            @TargetApi(android.os.Build.VERSION_CODES.M)
-//            @Override
-//            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-//                // Redirect to deprecated method, so you can use it in all SDK versions
-//                onReceivedError(view, error.getErrorCode(), error.getDescription().toString(), request.getUrl().toString());
-//
-//            }
+            @TargetApi(android.os.Build.VERSION_CODES.M)
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                // Redirect to deprecated method, so you can use it in all SDK versions
+                onReceivedError(view, error.getErrorCode(), error.getDescription().toString(), request.getUrl().toString());
 
-//            @SuppressWarnings("deprecation")
-//            @Override
-//            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-//                super.onReceivedError(view, errorCode, description, failingUrl);
-//                if(errorCode < 0) {
-//                    mIsFailure = true;
-//                }
-//            }
+            }
+
+            @SuppressWarnings("deprecation")
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                super.onReceivedError(view, errorCode, description, failingUrl);
+                if(errorCode < 0) {
+                    mIsFailure = true;
+                }
+            }
 
         });
 
