@@ -34,6 +34,6 @@ public class SearchRepositoryResultEntity {
 
     /** 結果がみつかったどうか */
     public boolean foundResult() {
-        return getGithubRepoEntityList().size() > 0;
+        return getTotalCount() > 0;
     }
 }

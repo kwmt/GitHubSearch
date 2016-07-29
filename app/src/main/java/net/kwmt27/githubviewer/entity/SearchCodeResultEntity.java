@@ -33,6 +33,6 @@ public class SearchCodeResultEntity {
 
     /** 結果がみつかったどうか */
     public boolean foundResult() {
-        return getItemEntityList().size() > 0;
+        return getTotalCount() > 0;
     }
 }
