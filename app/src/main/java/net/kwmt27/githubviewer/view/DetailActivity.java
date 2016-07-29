@@ -25,7 +25,7 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
     public static void startActivity(AppCompatActivity activity, String title, GithubRepoEntity repo) {
         Intent intent = new Intent(activity.getApplicationContext(), DetailActivity.class);
         intent.putExtra(TITLE_KEY, title);
-        intent.putExtra(IDetailPresenter.REPO_ENTITY_KET,  repo);
+        intent.putExtra(IDetailPresenter.REPO_ENTITY_KEY,  repo);
         activity.startActivity(intent);
     }
 

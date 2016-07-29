@@ -19,7 +19,7 @@ public class DetailPresenter implements IDetailPresenter {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Intent intent = mDetailView.getIntent();
-        GithubRepoEntity entity = (GithubRepoEntity) intent.getSerializableExtra(REPO_ENTITY_KET);
+        GithubRepoEntity entity = (GithubRepoEntity) intent.getSerializableExtra(REPO_ENTITY_KEY);
         mDetailView.setupComponents(entity);
     }
 
