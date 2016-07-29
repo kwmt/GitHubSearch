@@ -20,12 +20,10 @@ public class DetailPresenter implements IDetailPresenter {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        mDetailView.setupComponents();
         Intent intent = mDetailView.getIntent();
-        String owner = intent.getStringExtra(OWENER_KEY);
-        String repo = intent.getStringExtra(REPO_KEY);
-        fetchGitHubRepo(owner, repo);
-
+        GithubRepoEntity entity = (GithubRepoEntity) intent.getSerializableExtra(REPO_ENTITY_KET);
+        mDetailView.setupComponents(entity);
+        //fetchGitHubRepo(owner, repo);
     }
 
     @Override
@@ -56,7 +54,11 @@ public class DetailPresenter implements IDetailPresenter {
     public interface IDetailView {
         void setupComponents();
 
+        void setupComponents(GithubRepoEntity githubRepoEntity);
+
         void updateDetailView(GithubRepoEntity githubRepoEntity);
+
+        void updateDetailView(String url);
 
         Intent getIntent();
     }

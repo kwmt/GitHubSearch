@@ -6,4 +6,5 @@ public interface IDetailPresenter extends IBaseActivityPresenter {
     String REPO_KEY = "repo_key";
 
 
+    String REPO_ENTITY_KET = "repo_entitiy_key";
 }
