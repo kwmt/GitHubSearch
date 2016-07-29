@@ -95,17 +95,19 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
                 Logger.d("onPageStarted is called. url:" + url);
-//                mLastLoadUrl = url;
-//                mIsLoading = true;
+                showProgress(true);
+            }
+
+            private void showProgress(boolean show) {
+                int visibility = show ? View.VISIBLE : View.GONE;
+                findViewById(R.id.progress_layout).setVisibility(visibility);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 Logger.d("onPageFinished is called. mIsFailure:" + mIsFailure + ", url:" + url);
-
-//                mHomeLoading.setVisibility(View.GONE);
-//                mIsLoading = false;
+                showProgress(false);
                 if (mIsFailure) {
                     switchErrorPage(true);
                     return;
@@ -129,12 +131,6 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 Logger.d("shouldOverrideUrlLoading url:"+url);
                 url = url.trim();
-//                if (url.startsWith("tel:")) {
-//                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(url));
-//                    startActivity(intent);
-//                    return true;
-//                }
-
                 // String#matchesは、完全にマッチするかの判定
                 // http://d.hatena.ne.jp/kakkun61/20100104/1262605869
                 // http://docs.oracle.com/javase/jp/7/api/java/lang/String.html#matches(java.lang.String)
