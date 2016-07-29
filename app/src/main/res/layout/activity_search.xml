@@ -33,6 +33,15 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <!--影-->
+    <View
+        android:id="@+id/shadow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/shadow_height"
+        android:layout_below="@+id/toolbar"
+        android:background="@drawable/below_shadow" />
+
+
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
