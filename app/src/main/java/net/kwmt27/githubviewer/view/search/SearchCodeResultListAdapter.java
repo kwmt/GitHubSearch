@@ -35,7 +35,7 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
         public ViewHolder(View itemView) {
             super(itemView);
             nameTextView = (TextView) itemView.findViewById(R.id.name);
-            descriptionTextView = (TextView) itemView.findViewById(R.id.description);
+            descriptionTextView = (TextView) itemView.findViewById(R.id.text_match);
             favoriteCountTextView = (TextView) itemView.findViewById(R.id.favorite_count);
             textMatchRecyclerView = (RecyclerView) itemView.findViewById(R.id.text_match_list);
             RecyclerView.LayoutManager layout = new LinearLayoutManager(itemView.getContext());
@@ -113,15 +113,11 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
         private List<TextMatchEntity> mSearchResultList = new ArrayList<>();
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
-            TextView nameTextView;
-            TextView descriptionTextView;
-            TextView favoriteCountTextView;
+            TextView textMatchTextView;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                nameTextView = (TextView) itemView.findViewById(R.id.name);
-                descriptionTextView = (TextView) itemView.findViewById(R.id.description);
-                favoriteCountTextView = (TextView) itemView.findViewById(R.id.favorite_count);
+                textMatchTextView = (TextView) itemView.findViewById(R.id.text_match);
             }
         }
 
@@ -132,7 +128,7 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
 
         @Override
         public ChildSearchCodeResultListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = mLayoutInflater.inflate(R.layout.recyclerview_github_repo_list_item, parent, false);
+            View view = mLayoutInflater.inflate(R.layout.recyclerview_github_code_child_list_item, parent, false);
             final ChildSearchCodeResultListAdapter.ViewHolder viewHolder = new ChildSearchCodeResultListAdapter.ViewHolder(view);
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -156,7 +152,7 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
             }
             TextMatchEntity item = mSearchResultList.get(position);
 
-            holder.descriptionTextView.setText(item.getFragmentText());
+            holder.textMatchTextView.setText(item.getFragmentText());
         }
 
         @Override
