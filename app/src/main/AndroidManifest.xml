@@ -21,7 +21,10 @@
         </activity>
         <activity android:name=".view.DetailActivity">
         </activity>
-        <activity android:name=".view.search.SearchActivity">
+        <activity
+            android:name=".view.search.SearchActivity"
+            android:theme="@style/Theme.GithubViewer.Search"
+            >
         </activity>
     </application>
 

@@ -23,4 +23,7 @@
 
     </style>
 
+    <style name="Theme.GithubViewer.Search" parent="Theme.GithubViewer.Base">
+        <item name="colorPrimaryDark">@color/grey6000</item>
+    </style>
 </resources>
