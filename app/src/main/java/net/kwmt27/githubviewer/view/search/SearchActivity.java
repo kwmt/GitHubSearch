@@ -4,7 +4,11 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -22,6 +26,9 @@ import net.kwmt27.githubviewer.view.BaseActivity;
 
 public class SearchActivity extends BaseActivity implements SearchPresenter.ISearchView {
 
+
+    private MenuItem mActionClearMenu;
+    private EditText mSearchEditText;
 
     public static void startActivity(AppCompatActivity activity, boolean canSearchCode) {
         SearchActivity.startActivity(activity, canSearchCode, null);
@@ -49,11 +56,30 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+        mActionClearMenu = menu.findItem(R.id.action_clear);
+        mActionClearMenu.setVisible(false);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_clear:
+                mSearchEditText.getText().clear();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
     public void setupComponents() {
         setUpActionBar();
 
-        EditText editText = (EditText) findViewById(R.id.search_edit);
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mSearchEditText = (EditText) findViewById(R.id.search_edit);
+        mSearchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 // http://developer.android.com/reference/android/widget/TextView.OnEditorActionListener.html#onEditorAction(android.widget.TextView, int, android.view.KeyEvent)
@@ -65,6 +91,23 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
                 return handled;
             }
         });
+        mSearchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //noop
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //noop
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mActionClearMenu.setVisible(s.length() > 0);
+            }
+        });
+
 
     }
 
