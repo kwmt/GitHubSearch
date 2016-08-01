@@ -22,6 +22,7 @@ import net.kwmt27.githubviewer.entity.SearchCodeResultEntity;
 import net.kwmt27.githubviewer.entity.SearchRepositoryResultEntity;
 import net.kwmt27.githubviewer.presenter.search.ISearchPresenter;
 import net.kwmt27.githubviewer.presenter.search.SearchPresenter;
+import net.kwmt27.githubviewer.util.KeyboardUtil;
 import net.kwmt27.githubviewer.view.BaseActivity;
 
 public class SearchActivity extends BaseActivity implements SearchPresenter.ISearchView {
@@ -86,6 +87,7 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     //KeyboardUtil.hideKeyboard(SearchActivity.this);
+                    KeyboardUtil.hideKeyboard(SearchActivity.this);
                     mPresenter.onEditorActionSearch(v.getText().toString());
                 }
                 return handled;
