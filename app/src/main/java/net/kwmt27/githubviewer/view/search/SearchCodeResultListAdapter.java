@@ -3,6 +3,8 @@ package net.kwmt27.githubviewer.view.search;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,9 @@ import android.widget.TextView;
 
 import net.kwmt27.githubviewer.R;
 import net.kwmt27.githubviewer.entity.ItemEntity;
+import net.kwmt27.githubviewer.entity.MatchEntity;
 import net.kwmt27.githubviewer.entity.TextMatchEntity;
+import net.kwmt27.githubviewer.util.RoundedBackgroundSpan;
 import net.kwmt27.githubviewer.view.DividerItemDecoration;
 import net.kwmt27.githubviewer.view.OnItemClickListener;
 
@@ -99,6 +103,7 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
     public static class ChildSearchCodeResultListAdapter extends RecyclerView.Adapter<ChildSearchCodeResultListAdapter.ViewHolder> {
 
         private final LayoutInflater mLayoutInflater;
+        private final Context mContext;
         private OnItemClickListener<ChildSearchCodeResultListAdapter, TextMatchEntity> mListener;
 
         private List<TextMatchEntity> mSearchResultList = new ArrayList<>();
@@ -113,6 +118,7 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
         }
 
         public ChildSearchCodeResultListAdapter(Context context, OnItemClickListener<ChildSearchCodeResultListAdapter, TextMatchEntity> listener) {
+            mContext = context.getApplicationContext();
             mLayoutInflater = LayoutInflater.from(context);
             mListener = listener;
         }
@@ -132,7 +138,12 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
             }
             TextMatchEntity item = mSearchResultList.get(position);
 
-            holder.textMatchTextView.setText(item.getFragmentText());
+            Spannable spannable = new SpannableString(item.getFragmentText());
+            for(MatchEntity entity : item.getMatches()) {
+                spannable.setSpan(new RoundedBackgroundSpan(mContext), entity.getIndices()[0], entity.getIndices()[1],
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            holder.textMatchTextView.setText(spannable);
         }
 
         @Override
