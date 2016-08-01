@@ -11,7 +11,6 @@ import android.widget.TextView;
 import net.kwmt27.githubviewer.R;
 import net.kwmt27.githubviewer.entity.ItemEntity;
 import net.kwmt27.githubviewer.entity.TextMatchEntity;
-import net.kwmt27.githubviewer.util.Logger;
 import net.kwmt27.githubviewer.view.DividerItemDecoration;
 import net.kwmt27.githubviewer.view.OnItemClickListener;
 
@@ -62,14 +61,23 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         if (getItemCount() <= 0) {
             return;
         }
-        ItemEntity item = mSearchResultList.get(position);
+        final ItemEntity item = mSearchResultList.get(position);
 
         holder.nameTextView.setText(item.getName());
         holder.pathTextView.setText(item.getPath());
+        holder.pathTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mListener != null){
+                    mListener.onItemClick(SearchCodeResultListAdapter.this, position, item);
+                }
+            }
+        });
+
 
         holder.mChildAdapter.setSearchResultList(item.getTextMatchEntityList());
         holder.textMatchRecyclerView.setAdapter(holder.mChildAdapter);

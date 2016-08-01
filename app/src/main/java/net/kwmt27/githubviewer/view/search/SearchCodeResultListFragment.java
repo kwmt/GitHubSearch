@@ -14,6 +14,8 @@ import net.kwmt27.githubviewer.entity.ItemEntity;
 import net.kwmt27.githubviewer.entity.SearchCodeResultEntity;
 import net.kwmt27.githubviewer.presenter.search.ISearchResultListPresenter;
 import net.kwmt27.githubviewer.presenter.search.SearchCodeResultListPresenter;
+import net.kwmt27.githubviewer.util.Logger;
+import net.kwmt27.githubviewer.view.DetailActivity;
 import net.kwmt27.githubviewer.view.DividerItemDecoration;
 import net.kwmt27.githubviewer.view.OnItemClickListener;
 
@@ -71,8 +73,9 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
         recyclerView.setLayoutManager(layoutManager);
         mSearchCodeResultListAdapter = new SearchCodeResultListAdapter(getActivity().getApplicationContext(), new OnItemClickListener<SearchCodeResultListAdapter, ItemEntity>() {
             @Override
-            public void onItemClick(SearchCodeResultListAdapter adapter, int position, ItemEntity repo) {
-
+            public void onItemClick(SearchCodeResultListAdapter adapter, int position, ItemEntity item) {
+                Logger.d("onItemClick");
+                DetailActivity.startActivity(getActivity(), item.getName(), item.getHtmlUrl(), item.getRepository());
             }
         });
         recyclerView.setAdapter(mSearchCodeResultListAdapter);

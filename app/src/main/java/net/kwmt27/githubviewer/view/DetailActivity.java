@@ -1,11 +1,11 @@
 package net.kwmt27.githubviewer.view;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,9 +25,10 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
 
     private boolean mIsFailure;
 
-    public static void startActivity(AppCompatActivity activity, String title, GithubRepoEntity repo) {
+    public static void startActivity(Activity activity, String title, String url,  GithubRepoEntity repo) {
         Intent intent = new Intent(activity.getApplicationContext(), DetailActivity.class);
         intent.putExtra(TITLE_KEY, title);
+        intent.putExtra(IDetailPresenter.URL_KEY, url);
         intent.putExtra(IDetailPresenter.REPO_ENTITY_KEY, repo);
         activity.startActivity(intent);
     }
@@ -85,7 +86,7 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
     }
 
     @Override
-    public void setupComponents(GithubRepoEntity entity) {
+    public void setupComponents(String url) {
         setUpActionBar();
         final WebView webView = (WebView)findViewById(R.id.webview);
         webView.setWebViewClient(new WebViewClient() {
@@ -167,7 +168,7 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
         });
 
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl(entity.getHtmlUrl());
+        webView.loadUrl(url);
     }
 
 }

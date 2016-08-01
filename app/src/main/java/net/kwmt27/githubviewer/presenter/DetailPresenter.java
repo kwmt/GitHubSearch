@@ -20,7 +20,8 @@ public class DetailPresenter implements IDetailPresenter {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        mDetailView.setupComponents(getGitHubRepoEntityFromIntent());
+        Intent intent = mDetailView.getIntent();
+        mDetailView.setupComponents(intent.getStringExtra(URL_KEY));
     }
 
     @Override
@@ -42,7 +43,7 @@ public class DetailPresenter implements IDetailPresenter {
     public interface IDetailView {
         void setupComponents();
 
-        void setupComponents(GithubRepoEntity githubRepoEntity);
+        void setupComponents(String url);
 
         Intent getIntent();
     }
