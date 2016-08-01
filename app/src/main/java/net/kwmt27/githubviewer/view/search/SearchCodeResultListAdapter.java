@@ -28,6 +28,7 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
     private List<ItemEntity> mSearchResultList = new ArrayList<>();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        ChildSearchCodeResultListAdapter mChildAdapter;
         TextView nameTextView;
         TextView pathTextView;
         RecyclerView textMatchRecyclerView;
@@ -42,6 +43,7 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
             layout.setAutoMeasureEnabled(true);
             textMatchRecyclerView.setLayoutManager(layout);
             textMatchRecyclerView.setHasFixedSize(false);
+            mChildAdapter = new ChildSearchCodeResultListAdapter(itemView.getContext(), null);
 
         }
     }
@@ -56,18 +58,6 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
     public SearchCodeResultListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mLayoutInflater.inflate(R.layout.recyclerview_github_code_list_item, parent, false);
         final SearchCodeResultListAdapter.ViewHolder viewHolder = new SearchCodeResultListAdapter.ViewHolder(view);
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mListener != null) {
-                    int position = viewHolder.getAdapterPosition();
-                    Logger.d("click position:" + position);
-                    ItemEntity entity = mSearchResultList.get(position);
-                    mListener.onItemClick(SearchCodeResultListAdapter.this, position, entity);
-                }
-
-            }
-        });
         return viewHolder;
     }
 
@@ -81,14 +71,8 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
         holder.nameTextView.setText(item.getName());
         holder.pathTextView.setText(item.getPath());
 
-        ChildSearchCodeResultListAdapter childAdapter = new ChildSearchCodeResultListAdapter(mContext, new OnItemClickListener<ChildSearchCodeResultListAdapter, TextMatchEntity>() {
-            @Override
-            public void onItemClick(ChildSearchCodeResultListAdapter adapter, int position, TextMatchEntity entity) {
-                Logger.d("onItemClick is called. position:" + position + " :"  + entity.getFragmentText());
-            }
-        });
-        childAdapter.setSearchResultList(item.getTextMatchEntityList());
-        holder.textMatchRecyclerView.setAdapter(childAdapter);
+        holder.mChildAdapter.setSearchResultList(item.getTextMatchEntityList());
+        holder.textMatchRecyclerView.setAdapter(holder.mChildAdapter);
     }
 
     @Override
@@ -128,19 +112,8 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
         @Override
         public ChildSearchCodeResultListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = mLayoutInflater.inflate(R.layout.recyclerview_github_code_child_list_item, parent, false);
-            final ChildSearchCodeResultListAdapter.ViewHolder viewHolder = new ChildSearchCodeResultListAdapter.ViewHolder(view);
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mListener != null) {
-                        int position = viewHolder.getAdapterPosition();
-                        Logger.d("click position:" + position);
-                        TextMatchEntity entity = mSearchResultList.get(position);
-                        mListener.onItemClick(ChildSearchCodeResultListAdapter.this, position, entity);
-                    }
+            ChildSearchCodeResultListAdapter.ViewHolder viewHolder = new ChildSearchCodeResultListAdapter.ViewHolder(view);
 
-                }
-            });
             return viewHolder;
         }
 
