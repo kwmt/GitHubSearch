@@ -31,7 +31,7 @@ public class SearchRepositoryResultListAdapter extends RecyclerView.Adapter<Sear
         public ViewHolder(View itemView) {
             super(itemView);
             nameTextView = (TextView) itemView.findViewById(R.id.name);
-            descriptionTextView = (TextView) itemView.findViewById(R.id.description);
+            descriptionTextView = (TextView) itemView.findViewById(R.id.text_match);
             favoriteCountTextView = (TextView) itemView.findViewById(R.id.favorite_count);
         }
     }

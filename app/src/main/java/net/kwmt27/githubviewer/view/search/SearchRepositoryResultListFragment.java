@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import net.kwmt27.githubviewer.R;
 import net.kwmt27.githubviewer.entity.GithubRepoEntity;
@@ -27,6 +28,7 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
     public static final String TAG = SearchRepositoryResultListFragment.class.getSimpleName();
     private ISearchResultListPresenter mPresenter;
     private SearchRepositoryResultListAdapter mSearchRepositoryResultListAdapter;
+    private RelativeLayout mNotFoundLayout;
 
     public static SearchRepositoryResultListFragment newInstance() {
         return new SearchRepositoryResultListFragment();
@@ -82,8 +84,8 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
 
 
     @Override
-    public void updateSearchResultListView(SearchRepositoryResultEntity searchRepositoryResultEntity) {
-        mSearchRepositoryResultListAdapter.setSearchResultList(searchRepositoryResultEntity.getGithubRepoEntityList());
+    public void updateSearchResultListView(SearchRepositoryResultEntity entity) {
+        mSearchRepositoryResultListAdapter.setSearchResultList(entity.getGithubRepoEntityList());
         mSearchRepositoryResultListAdapter.notifyDataSetChanged();
     }
 

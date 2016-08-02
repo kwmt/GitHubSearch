@@ -47,7 +47,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.IMainVie
         mGitHubRepoListAdapter = new GitHubRepoListAdapter(getApplicationContext(), new OnItemClickListener<GitHubRepoListAdapter, GithubRepoEntity>() {
             @Override
             public void onItemClick(GitHubRepoListAdapter adapter, int position, GithubRepoEntity repo) {
-                DetailActivity.startActivity(MainActivity.this, repo.getName(), repo);
+                DetailActivity.startActivity(MainActivity.this, repo.getName(), repo.getHtmlUrl(), repo);
             }
         });
         recyclerView.setAdapter(mGitHubRepoListAdapter);

@@ -2,14 +2,17 @@ package net.kwmt27.githubviewer.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemEntity {
+public class ItemEntity implements Serializable {
     @SerializedName("name")
     private String mName;
     @SerializedName("path")
     private String mPath;
+    @SerializedName("html_url")
+    private String mHtmlUrl;
     @SerializedName("repository")
     private GithubRepoEntity mRepository;
     @SerializedName("text_matches")
@@ -21,6 +24,10 @@ public class ItemEntity {
 
     public String getPath() {
         return mPath;
+    }
+
+    public String getHtmlUrl() {
+        return mHtmlUrl;
     }
 
     public GithubRepoEntity getRepository() {

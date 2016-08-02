@@ -26,7 +26,7 @@
     <View
         android:id="@+id/shadow"
         android:layout_width="match_parent"
-        android:layout_height="4dp"
+        android:layout_height="@dimen/shadow_height"
         android:layout_below="@+id/toolbar"
         android:background="@drawable/below_shadow" />
 

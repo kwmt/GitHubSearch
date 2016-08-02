@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import net.kwmt27.githubviewer.ModelLocator;
 import net.kwmt27.githubviewer.entity.GithubRepoEntity;
+import net.kwmt27.githubviewer.view.DetailActivity;
+import net.kwmt27.githubviewer.view.search.SearchActivity;
 
 public class DetailPresenter implements IDetailPresenter {
 
@@ -19,8 +21,7 @@ public class DetailPresenter implements IDetailPresenter {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Intent intent = mDetailView.getIntent();
-        GithubRepoEntity entity = (GithubRepoEntity) intent.getSerializableExtra(REPO_ENTITY_KEY);
-        mDetailView.setupComponents(entity);
+        mDetailView.setupComponents(intent.getStringExtra(URL_KEY));
     }
 
     @Override
@@ -28,10 +29,21 @@ public class DetailPresenter implements IDetailPresenter {
         ModelLocator.getGithubService().unsubscribe();
     }
 
+    @Override
+    public void onActionSearchSelected() {
+        SearchActivity.startActivity((DetailActivity)mDetailView, true, getGitHubRepoEntityFromIntent());
+
+    }
+
+    private GithubRepoEntity getGitHubRepoEntityFromIntent() {
+        Intent intent = mDetailView.getIntent();
+        return (GithubRepoEntity) intent.getSerializableExtra(REPO_ENTITY_KEY);
+    }
+
     public interface IDetailView {
         void setupComponents();
 
-        void setupComponents(GithubRepoEntity githubRepoEntity);
+        void setupComponents(String url);
 
         Intent getIntent();
     }
