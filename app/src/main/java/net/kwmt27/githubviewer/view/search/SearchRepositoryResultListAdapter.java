@@ -43,7 +43,7 @@ public class SearchRepositoryResultListAdapter extends RecyclerView.Adapter<Sear
 
     @Override
     public SearchRepositoryResultListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.recyclerview_github_repo_list_item, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.recyclerview_search_repo_result_list_item, parent, false);
         final SearchRepositoryResultListAdapter.ViewHolder viewHolder = new SearchRepositoryResultListAdapter.ViewHolder(view);
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

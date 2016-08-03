@@ -59,7 +59,7 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
 
     @Override
     public SearchCodeResultListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.recyclerview_github_code_list_item, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.recyclerview_search_code_result_list_item, parent, false);
         final SearchCodeResultListAdapter.ViewHolder viewHolder = new SearchCodeResultListAdapter.ViewHolder(view);
         return viewHolder;
     }
@@ -125,7 +125,7 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
 
         @Override
         public ChildSearchCodeResultListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = mLayoutInflater.inflate(R.layout.recyclerview_github_code_child_list_item, parent, false);
+            View view = mLayoutInflater.inflate(R.layout.recyclerview_search_code_child_result_list_item, parent, false);
             ChildSearchCodeResultListAdapter.ViewHolder viewHolder = new ChildSearchCodeResultListAdapter.ViewHolder(view);
 
             return viewHolder;
