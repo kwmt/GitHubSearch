@@ -26,12 +26,14 @@ public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAd
         TextView nameTextView;
         TextView descriptionTextView;
         TextView favoriteCountTextView;
+        TextView languageTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             nameTextView = (TextView) itemView.findViewById(R.id.name);
             descriptionTextView = (TextView) itemView.findViewById(R.id.text_match);
             favoriteCountTextView = (TextView) itemView.findViewById(R.id.favorite_count);
+            languageTextView = (TextView) itemView.findViewById(R.id.language_text);
         }
     }
 
@@ -69,6 +71,7 @@ public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAd
         holder.nameTextView.setText(item.getName());
         holder.descriptionTextView.setText(item.getDescription());
         holder.favoriteCountTextView.setText(item.getStargazersCount());
+        holder.languageTextView.setText(item.getLanguage());
     }
 
     @Override

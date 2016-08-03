@@ -19,11 +19,20 @@
 
         <!-- メインテキスト色 ToolBarのタイトルやドロワーメニュー、EditTextなど -->
         <item name="android:textColorPrimary">#888888</item>
+        <item name="android:textColor">@android:color/black</item>
 
 
     </style>
+
+    <style name="Theme.GithubViewer" parent="Theme.GithubViewer.Base"/>
 
     <style name="Theme.GithubViewer.Search" parent="Theme.GithubViewer.Base">
         <item name="colorPrimaryDark">@color/diviver</item>
     </style>
+
+    <style name="Theme.GithubViewer.Text14">
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textSize">@dimen/text_size14</item>
+    </style>
+
 </resources>
