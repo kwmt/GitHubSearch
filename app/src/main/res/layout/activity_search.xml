@@ -24,7 +24,7 @@
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:singleLine="true"
-            android:textColorHint="@color/grey6000"
+            android:textColorHint="@color/gray6000"
             >
 
             <requestFocus/>

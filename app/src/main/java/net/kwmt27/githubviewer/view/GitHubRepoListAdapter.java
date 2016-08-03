@@ -26,12 +26,16 @@ public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAd
         TextView nameTextView;
         TextView descriptionTextView;
         TextView favoriteCountTextView;
+        TextView languageTextView;
+        TextView pushedAtTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             nameTextView = (TextView) itemView.findViewById(R.id.name);
-            descriptionTextView = (TextView) itemView.findViewById(R.id.text_match);
+            descriptionTextView = (TextView) itemView.findViewById(R.id.description);
             favoriteCountTextView = (TextView) itemView.findViewById(R.id.favorite_count);
+            languageTextView = (TextView) itemView.findViewById(R.id.language_text);
+            pushedAtTextView = (TextView) itemView.findViewById(R.id.pushed_at);
         }
     }
 
@@ -42,7 +46,7 @@ public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAd
 
     @Override
     public GitHubRepoListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.recyclerview_github_repo_list_item, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.recyclerview_repo_list_item, parent, false);
         final GitHubRepoListAdapter.ViewHolder viewHolder = new GitHubRepoListAdapter.ViewHolder(view);
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +73,8 @@ public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAd
         holder.nameTextView.setText(item.getName());
         holder.descriptionTextView.setText(item.getDescription());
         holder.favoriteCountTextView.setText(item.getStargazersCount());
+        holder.languageTextView.setText(item.getLanguage());
+        holder.pushedAtTextView.setText(item.getFormattedPushedAt());
     }
 
     @Override

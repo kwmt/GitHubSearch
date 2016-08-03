@@ -27,12 +27,16 @@ public class SearchRepositoryResultListAdapter extends RecyclerView.Adapter<Sear
         TextView nameTextView;
         TextView descriptionTextView;
         TextView favoriteCountTextView;
+        TextView languageTextView;
+        TextView pushedAtTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             nameTextView = (TextView) itemView.findViewById(R.id.name);
-            descriptionTextView = (TextView) itemView.findViewById(R.id.text_match);
+            descriptionTextView = (TextView) itemView.findViewById(R.id.description);
             favoriteCountTextView = (TextView) itemView.findViewById(R.id.favorite_count);
+            languageTextView = (TextView) itemView.findViewById(R.id.language_text);
+            pushedAtTextView = (TextView) itemView.findViewById(R.id.pushed_at);
         }
     }
 
@@ -43,7 +47,7 @@ public class SearchRepositoryResultListAdapter extends RecyclerView.Adapter<Sear
 
     @Override
     public SearchRepositoryResultListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.recyclerview_github_repo_list_item, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.recyclerview_search_repo_result_list_item, parent, false);
         final SearchRepositoryResultListAdapter.ViewHolder viewHolder = new SearchRepositoryResultListAdapter.ViewHolder(view);
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +74,8 @@ public class SearchRepositoryResultListAdapter extends RecyclerView.Adapter<Sear
         holder.nameTextView.setText(item.getFullName());
         holder.descriptionTextView.setText(item.getDescription());
         holder.favoriteCountTextView.setText(item.getStargazersCount());
+        holder.languageTextView.setText(item.getLanguage());
+        holder.pushedAtTextView.setText(item.getFormattedPushedAt());
     }
 
     @Override

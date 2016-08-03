@@ -1,8 +1,11 @@
 package net.kwmt27.githubviewer.entity;
 
+import android.text.format.DateFormat;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class GithubRepoEntity implements Serializable{
     @SerializedName("id")
@@ -21,6 +24,8 @@ public class GithubRepoEntity implements Serializable{
     private String mDescription;
     @SerializedName("language")
     private String mLanguage;
+    @SerializedName("pushed_at")
+    private Date mPushedAt;
     @SerializedName("stargazers_count")
     private int mStargazersCount;
 
@@ -54,6 +59,14 @@ public class GithubRepoEntity implements Serializable{
 
     public String getLanguage() {
         return mLanguage;
+    }
+
+    public Date getPushedAt() {
+        return mPushedAt;
+    }
+
+    public String getFormattedPushedAt() {
+        return DateFormat.format("yyyy/MM/dd", mPushedAt).toString();
     }
 
     public String getStargazersCount() {

@@ -15,6 +15,7 @@ import net.kwmt27.githubviewer.entity.GithubRepoEntity;
 import net.kwmt27.githubviewer.entity.SearchRepositoryResultEntity;
 import net.kwmt27.githubviewer.presenter.search.ISearchResultListPresenter;
 import net.kwmt27.githubviewer.presenter.search.SearchRepositoryResultListPresenter;
+import net.kwmt27.githubviewer.view.DetailActivity;
 import net.kwmt27.githubviewer.view.DividerItemDecoration;
 import net.kwmt27.githubviewer.view.OnItemClickListener;
 
@@ -74,7 +75,7 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
         mSearchRepositoryResultListAdapter = new SearchRepositoryResultListAdapter(getActivity().getApplicationContext(), new OnItemClickListener<SearchRepositoryResultListAdapter, GithubRepoEntity>() {
             @Override
             public void onItemClick(SearchRepositoryResultListAdapter adapter, int position, GithubRepoEntity repo) {
-
+                DetailActivity.startActivity(getActivity(), repo.getName(), repo.getHtmlUrl(), repo);
             }
         });
         recyclerView.setAdapter(mSearchRepositoryResultListAdapter);
