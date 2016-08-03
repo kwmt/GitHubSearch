@@ -1,4 +1,4 @@
-package net.kwmt27.githubviewer.model;
+package net.kwmt27.githubviewer.model.rx;
 
 import android.support.annotation.NonNull;
 

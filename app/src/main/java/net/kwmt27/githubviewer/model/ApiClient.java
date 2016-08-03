@@ -1,6 +1,8 @@
 package net.kwmt27.githubviewer.model;
 
 import net.kwmt27.githubviewer.BuildConfig;
+import net.kwmt27.githubviewer.model.rx.GsonFactory;
+import net.kwmt27.githubviewer.model.rx.RxErrorHandlingCallAdapterFactory;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -11,7 +13,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
@@ -36,7 +37,7 @@ public class ApiClient {
                 .baseUrl(BuildConfig.BASE_API_URL)
                 .client(mClient)
                 .addConverterFactory(GsonConverterFactory.create(GsonFactory.create()))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create())
                 .build();
 
         api = retrofit.create(GitHubService.class);

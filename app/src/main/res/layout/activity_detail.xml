@@ -10,6 +10,28 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         />
+
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        />
+
+    <include
+        layout="@layout/include_error_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        />
+
+    <include
+        layout="@layout/include_progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        />
+
     <!--影-->
     <View
         android:id="@+id/shadow"
@@ -19,55 +41,5 @@
         android:background="@drawable/below_shadow"
         />
 
-    <WebView
-        android:id="@+id/webview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        />
 
-    <RelativeLayout
-        android:id="@+id/error_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:background="#E5E5E5"
-        android:visibility="gone"
-        >
-
-        <TextView
-            android:id="@+id/error_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/error_image"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="16dp"
-            android:text="Error"
-            android:textSize="36sp"
-            />
-
-        <ImageView
-            android:id="@+id/error_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@mipmap/ic_launcher"
-            />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/progress_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        >
-
-        <ProgressBar
-            style="@style/Widget.AppCompat.ProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            />
-
-    </RelativeLayout>
 </RelativeLayout>

@@ -3,4 +3,5 @@
     <string name="search">検索</string>
     <string name="search_hint">Search GitHub</string>
     <string name="clear">クリア</string>
+    <string name="offline_message">オフラインです。</string>
 </resources>

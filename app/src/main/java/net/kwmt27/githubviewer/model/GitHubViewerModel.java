@@ -6,6 +6,7 @@ import net.kwmt27.githubviewer.ModelLocator;
 import net.kwmt27.githubviewer.entity.GithubRepoEntity;
 import net.kwmt27.githubviewer.entity.SearchCodeResultEntity;
 import net.kwmt27.githubviewer.entity.SearchRepositoryResultEntity;
+import net.kwmt27.githubviewer.model.rx.ReusableCompositeSubscription;
 import net.kwmt27.githubviewer.util.Logger;
 
 import java.util.ArrayList;
