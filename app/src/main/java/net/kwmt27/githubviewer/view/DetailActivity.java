@@ -13,6 +13,7 @@ import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 
 import net.kwmt27.githubviewer.R;
 import net.kwmt27.githubviewer.entity.GithubRepoEntity;
@@ -122,7 +123,17 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
                     errorVisibility = View.VISIBLE;
                     webViewVisibility = View.GONE;
                 }
-                findViewById(R.id.error_layout).setVisibility(errorVisibility);
+                final View errorLayout = findViewById(R.id.error_layout);
+                errorLayout.setVisibility(errorVisibility);
+                Button reloadButton = (Button)errorLayout.findViewById(R.id.reload_button);
+                reloadButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mIsFailure = false;
+                        errorLayout.setVisibility(View.GONE);
+                        webView.reload();
+                    }
+                });
                 webView.setVisibility(webViewVisibility);
             }
 
