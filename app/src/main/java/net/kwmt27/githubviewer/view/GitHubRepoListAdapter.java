@@ -31,7 +31,7 @@ public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAd
         public ViewHolder(View itemView) {
             super(itemView);
             nameTextView = (TextView) itemView.findViewById(R.id.name);
-            descriptionTextView = (TextView) itemView.findViewById(R.id.text_match);
+            descriptionTextView = (TextView) itemView.findViewById(R.id.description);
             favoriteCountTextView = (TextView) itemView.findViewById(R.id.favorite_count);
             languageTextView = (TextView) itemView.findViewById(R.id.language_text);
         }
