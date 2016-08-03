@@ -39,5 +39,9 @@
         <item name="android:textColor">@color/text_color</item>
         <item name="android:textSize">@dimen/text_size12</item>
     </style>
+    <style name="Theme.GithubViewer.TextGray12">
+        <item name="android:textColor">@color/grayA000</item>
+        <item name="android:textSize">@dimen/text_size12</item>
+    </style>
 
 </resources>

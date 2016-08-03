@@ -87,8 +87,7 @@
         android:ellipsize="end"
         android:lines="2"
         android:text="des"
-        android:textColor="@android:color/black"
-        android:textSize="12sp"
+        android:theme="@style/Theme.GithubViewer.TextGray12"
         />
 
 </RelativeLayout>
