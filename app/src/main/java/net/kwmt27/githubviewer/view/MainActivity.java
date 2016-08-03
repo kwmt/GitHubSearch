@@ -3,6 +3,8 @@ package net.kwmt27.githubviewer.view;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 
 import net.kwmt27.githubviewer.R;
 import net.kwmt27.githubviewer.entity.GithubRepoEntity;
@@ -59,5 +61,31 @@ public class MainActivity extends BaseActivity implements MainPresenter.IMainVie
     public void updateGitHubRepoListView(List<GithubRepoEntity> githubRepoEntities) {
         mGitHubRepoListAdapter.setGithubRepoEntityList(githubRepoEntities);
         mGitHubRepoListAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showProgress() {
+        findViewById(R.id.progress_layout).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        findViewById(R.id.progress_layout).setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showError() {
+        final View errorLayout = findViewById(R.id.error_layout);
+        errorLayout.setVisibility(View.VISIBLE);
+
+        Button button = (Button)errorLayout.findViewById(R.id.reload_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                errorLayout.setVisibility(View.GONE);
+                mPresenter.onClickReloadButton();
+            }
+        });
+
     }
 }

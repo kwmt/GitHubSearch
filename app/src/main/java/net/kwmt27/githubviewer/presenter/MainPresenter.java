@@ -4,10 +4,10 @@ import android.os.Bundle;
 
 import net.kwmt27.githubviewer.ModelLocator;
 import net.kwmt27.githubviewer.entity.GithubRepoEntity;
+import net.kwmt27.githubviewer.model.rx.ApiSubscriber;
+import net.kwmt27.githubviewer.view.MainActivity;
 
 import java.util.List;
-
-import rx.Subscriber;
 
 public class MainPresenter implements IMainPresenter {
 
@@ -38,15 +38,18 @@ public class MainPresenter implements IMainPresenter {
 
 
     private void fetchGitHubRepoList() {
-        ModelLocator.getGithubService().fetchListReposByUser(new Subscriber<List<GithubRepoEntity>>() {
+        mMainView.showProgress();
+        ModelLocator.getGithubService().fetchListReposByUser(new ApiSubscriber<List<GithubRepoEntity>>((MainActivity)mMainView) {
             @Override
             public void onCompleted() {
-
+                mMainView.hideProgress();
             }
 
             @Override
-            public void onError(Throwable e) {
-
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+                mMainView.hideProgress();
+                mMainView.showError();
             }
 
             @Override
@@ -56,9 +59,20 @@ public class MainPresenter implements IMainPresenter {
         });
     }
 
+    @Override
+    public void onClickReloadButton() {
+        fetchGitHubRepoList();
+    }
+
     public interface IMainView {
         void setupComponents();
         void updateGitHubRepoListView(List<GithubRepoEntity> githubRepoEntities);
+
+        void showProgress();
+
+        void hideProgress();
+
+        void showError();
     }
 
 }
