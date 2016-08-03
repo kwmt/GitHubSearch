@@ -35,4 +35,9 @@
         <item name="android:textSize">@dimen/text_size14</item>
     </style>
 
+    <style name="Theme.GithubViewer.Text12">
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textSize">@dimen/text_size12</item>
+    </style>
+
 </resources>

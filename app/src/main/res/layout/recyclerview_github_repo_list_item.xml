@@ -14,72 +14,81 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="8dp"
-        android:layout_toLeftOf="@+id/icons_layout"
         >
-        <!--レポジトリ名-->
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:lines="1"
-            android:text="name"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            />
 
-        <!--description-->
-        <TextView
-            android:id="@+id/text_match"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/name"
-            android:layout_marginTop="8dp"
-            android:ellipsize="end"
-            android:lines="2"
-            android:text="des"
-            android:textColor="@android:color/black"
-            android:textSize="12sp"
-            />
+            >
+            <!--レポジトリ名-->
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/icons_layout"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="name"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                />
+
+            <RelativeLayout
+                android:id="@+id/icons_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:theme="@style/Theme.GithubViewer.Text12"
+                >
+
+                <TextView
+                    android:id="@+id/language_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    />
+
+                <!--お気に入りイメージ-->
+                <ImageView
+                    android:id="@+id/favorite_image"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_toRightOf="@+id/language_text"
+                    android:src="@drawable/ic_star_rate_black_18dp"
+                    />
+
+                <!--お気に入り数-->
+                <TextView
+                    android:id="@+id/favorite_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_toRightOf="@+id/favorite_image"
+                    />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/icons_layout"
+    <!--description-->
+    <TextView
+        android:id="@+id/text_match"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        >
+        android:layout_below="@+id/name_layout"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:lines="2"
+        android:text="des"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        />
 
-        <TextView
-            android:id="@+id/language_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:theme="@style/Theme.GithubViewer.Text14"
-            />
-
-        <!--お気に入りイメージ-->
-        <ImageView
-            android:id="@+id/favorite_image"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="4dp"
-            android:layout_toRightOf="@+id/language_text"
-            android:src="@drawable/ic_star_rate_black_18dp"
-            />
-
-        <!--お気に入り数-->
-        <TextView
-            android:id="@+id/favorite_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="4dp"
-            android:layout_toRightOf="@+id/favorite_image"
-            android:textColor="@android:color/black"
-            />
-
-    </RelativeLayout>
 </RelativeLayout>
