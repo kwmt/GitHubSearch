@@ -10,12 +10,11 @@ import net.kwmt27.githubviewer.R;
 import net.kwmt27.githubviewer.entity.GithubRepoEntity;
 import net.kwmt27.githubviewer.entity.SearchCodeResultEntity;
 import net.kwmt27.githubviewer.entity.SearchRepositoryResultEntity;
+import net.kwmt27.githubviewer.model.rx.ApiSubscriber;
 import net.kwmt27.githubviewer.util.Logger;
 import net.kwmt27.githubviewer.view.search.SearchActivity;
 import net.kwmt27.githubviewer.view.search.SearchCodeResultListFragment;
 import net.kwmt27.githubviewer.view.search.SearchRepositoryResultListFragment;
-
-import rx.Subscriber;
 
 public class SearchPresenter implements ISearchPresenter {
 
@@ -68,7 +67,7 @@ public class SearchPresenter implements ISearchPresenter {
 
     private void searchCode(String keyword) {
         String repo = getGitHubRepoEntityFromIntent().getFullName();
-        ModelLocator.getGithubService().searchCode(keyword, repo, new Subscriber<SearchCodeResultEntity>() {
+        ModelLocator.getGithubService().searchCode(keyword, repo, new ApiSubscriber<SearchCodeResultEntity>((SearchActivity)mSearchView) {
             @Override
             public void onCompleted() {
                 Logger.d("onCompleted is called.");
@@ -76,6 +75,7 @@ public class SearchPresenter implements ISearchPresenter {
 
             @Override
             public void onError(Throwable e) {
+                super.onError(e);
                 Logger.e("onError is called. " + e);
             }
 
@@ -87,7 +87,7 @@ public class SearchPresenter implements ISearchPresenter {
     }
 
     private void searchRepository(String keyword) {
-        ModelLocator.getGithubService().searchRepositories(keyword, new Subscriber<SearchRepositoryResultEntity>() {
+        ModelLocator.getGithubService().searchRepositories(keyword, new ApiSubscriber<SearchRepositoryResultEntity>((SearchActivity)mSearchView) {
             @Override
             public void onCompleted() {
                 Logger.d("onCompleted is called.");
@@ -95,6 +95,7 @@ public class SearchPresenter implements ISearchPresenter {
 
             @Override
             public void onError(Throwable e) {
+                super.onError(e);
                 Logger.e("onError is called. " + e);
             }
 
