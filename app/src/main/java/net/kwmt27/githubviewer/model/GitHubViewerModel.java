@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.Headers;
 import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
@@ -140,44 +139,25 @@ public class GitHubViewerModel {
     }
 
     public int getLastPage() {
-        if(mHeadaersMap == null) {
-            return 0;
-        }
-        if(!mHeadaersMap.containsKey("link")) {
-            return 1;
-        }
-        List<String> values = mHeadaersMap.get("link");
-        if (values.size() > 0) {
-            String linkValue = values.get(0);
-            String[] splitLinkValue  = linkValue.split(",");
-            for(String v : splitLinkValue) {
-                if(v.contains("last")){
-                    v = v.trim();
-                    int startIndex = v.indexOf("<");
-                    int endIndex = v.indexOf(">");
-                    String url = v.substring(startIndex, endIndex);
-                    Uri uri = Uri.parse(url);
-                    String pageString = uri.getQueryParameter("page");
-                    return Integer.valueOf(pageString);
-                }
-            }
-        }
-        // ここまでこないはず
-        return 0;
+        return extractLink("last");
     }
     public int getNextPage() {
-        if(mHeadaersMap == null) {
+        return extractLink("next");
+    }
+
+    private int extractLink(String rel) {
+        if (mHeadaersMap == null) {
             return 0;
         }
-        if(!mHeadaersMap.containsKey("link")) {
+        if (!mHeadaersMap.containsKey("link")) {
             return 1;
         }
         List<String> values = mHeadaersMap.get("link");
         if (values.size() > 0) {
             String linkValue = values.get(0);
-            String[] splitLinkValue  = linkValue.split(",");
-            for(String v : splitLinkValue) {
-                if(v.contains("next")){
+            String[] splitLinkValue = linkValue.split(",");
+            for (String v : splitLinkValue) {
+                if (v.contains(rel)) {
                     v = v.trim();
                     int startIndex = v.indexOf("<");
                     int endIndex = v.indexOf(">");
