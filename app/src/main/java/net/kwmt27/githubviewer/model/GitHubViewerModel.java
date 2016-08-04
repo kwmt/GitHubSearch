@@ -42,15 +42,25 @@ public class GitHubViewerModel {
         }
     }
 
+    public void clear() {
+        mGitHubRepoEntityList = null;
+    }
 
-    public Subscription fetchListReposByUser(final Subscriber<List<GithubRepoEntity>> subscriber) {
-        Subscription listReposSubscription = ModelLocator.getApiClient().api.listRepos("kwmt")
+
+    public Subscription fetchListReposByUser(Integer page, final Subscriber<List<GithubRepoEntity>> subscriber) {
+        Subscription listReposSubscription = ModelLocator.getApiClient().api.listRepos("kwmt", page)
                 .subscribeOn(Schedulers.newThread())
                 .flatMap(new Func1<Response<List<GithubRepoEntity>>, Observable<List<GithubRepoEntity>>>() {
                     @Override
                     public Observable<List<GithubRepoEntity>> call(Response<List<GithubRepoEntity>> listResponse) {
                         mHeadaersMap = listResponse.headers().toMultimap();
-                        mGitHubRepoEntityList = listResponse.body();
+                        if(mGitHubRepoEntityList != null && mGitHubRepoEntityList.size()> 0){
+                            List<GithubRepoEntity> newList = new ArrayList<>(mGitHubRepoEntityList);
+                            newList.addAll(listResponse.body());
+                            mGitHubRepoEntityList = newList;
+                        } else {
+                            mGitHubRepoEntityList = listResponse.body();
+                        }
                         return Observable.just(mGitHubRepoEntityList);
                     }
                 })
@@ -143,6 +153,32 @@ public class GitHubViewerModel {
             String[] splitLinkValue  = linkValue.split(",");
             for(String v : splitLinkValue) {
                 if(v.contains("last")){
+                    v = v.trim();
+                    int startIndex = v.indexOf("<");
+                    int endIndex = v.indexOf(">");
+                    String url = v.substring(startIndex, endIndex);
+                    Uri uri = Uri.parse(url);
+                    String pageString = uri.getQueryParameter("page");
+                    return Integer.valueOf(pageString);
+                }
+            }
+        }
+        // ここまでこないはず
+        return 0;
+    }
+    public int getNextPage() {
+        if(mHeadaersMap == null) {
+            return 0;
+        }
+        if(!mHeadaersMap.containsKey("link")) {
+            return 1;
+        }
+        List<String> values = mHeadaersMap.get("link");
+        if (values.size() > 0) {
+            String linkValue = values.get(0);
+            String[] splitLinkValue  = linkValue.split(",");
+            for(String v : splitLinkValue) {
+                if(v.contains("next")){
                     v = v.trim();
                     int startIndex = v.indexOf("<");
                     int endIndex = v.indexOf(">");

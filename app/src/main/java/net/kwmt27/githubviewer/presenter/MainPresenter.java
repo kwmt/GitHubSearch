@@ -21,25 +21,32 @@ public class MainPresenter implements IMainPresenter {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         mMainView.setupComponents();
-         fetchGitHubRepoList();
-
-//        List<GithubRepoEntity> datasource
-//                = Arrays.asList(new GithubRepoEntity("data1"), new GithubRepoEntity("data2"));
-//        mMainView.updateSearchRepositoryResultView(datasource);
+        fetchGitHubRepoList(null);
     }
 
     @Override
     public void onStop() {
         ModelLocator.getGithubService().unsubscribe();
+        ModelLocator.getGithubService().clear();
     }
 
 
+    @Override
+    public void onClickReloadButton() {
+        fetchGitHubRepoList(null);
+    }
 
+    @Override
+    public void onScrollToBottom() {
+        int page = ModelLocator.getGithubService().getNextPage();
+        if(page > 0) {
+            fetchGitHubRepoList(page);
+        }
+    }
 
-
-    private void fetchGitHubRepoList() {
+    private void fetchGitHubRepoList(Integer page) {
         mMainView.showProgress();
-        ModelLocator.getGithubService().fetchListReposByUser(new ApiSubscriber<List<GithubRepoEntity>>((MainActivity)mMainView) {
+        ModelLocator.getGithubService().fetchListReposByUser(page, new ApiSubscriber<List<GithubRepoEntity>>((MainActivity)mMainView) {
             @Override
             public void onCompleted() {
                 mMainView.hideProgress();
@@ -57,11 +64,6 @@ public class MainPresenter implements IMainPresenter {
                 mMainView.updateGitHubRepoListView(githubRepoEntities);
             }
         });
-    }
-
-    @Override
-    public void onClickReloadButton() {
-        fetchGitHubRepoList();
     }
 
     public interface IMainView {
