@@ -47,9 +47,6 @@ public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAd
 
     @Override
     public int getItemViewType(int position) {
-        if (mGithubRepoEntityList == null) {
-            return super.getItemViewType(position);
-        }
         ItemType itemType = mGithubRepoEntityList.get(position).getItemType();
         if (itemType == null) {
             return ItemType.Normal.getTypeId();
@@ -154,19 +151,14 @@ public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAd
     }
 
     private int addItemType(ItemType type) {
-        if (mGithubRepoEntityList != null) {
-            mGithubRepoEntityList.add(new GithubRepoEntity(type));
-            return mGithubRepoEntityList.size() - 1;
-        }
-        return -1;
+        mGithubRepoEntityList.add(new GithubRepoEntity(type));
+        return mGithubRepoEntityList.size() - 1;
     }
 
     private int findPositionByItemType(ItemType type) {
-        if (mGithubRepoEntityList != null) {
-            for (int i = 0; i < mGithubRepoEntityList.size(); i++) {
-                if (mGithubRepoEntityList.get(i).getItemType() == type) {
-                    return i;
-                }
+        for (int i = 0; i < mGithubRepoEntityList.size(); i++) {
+            if (mGithubRepoEntityList.get(i).getItemType() == type) {
+                return i;
             }
         }
         return -1;
