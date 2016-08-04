@@ -171,4 +171,8 @@ public class GitHubViewerModel {
         // ここまでこないはず
         return 0;
     }
+
+    public boolean hasNextPage() {
+        return  getNextPage() > 0;
+    }
 }

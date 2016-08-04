@@ -38,9 +38,8 @@ public class MainPresenter implements IMainPresenter {
 
     @Override
     public void onScrollToBottom() {
-        int page = ModelLocator.getGithubService().getNextPage();
-        if(page > 0) {
-            fetchGitHubRepoList(page);
+        if(ModelLocator.getGithubService().hasNextPage()) {
+            fetchGitHubRepoList(ModelLocator.getGithubService().getNextPage());
         }
     }
 
