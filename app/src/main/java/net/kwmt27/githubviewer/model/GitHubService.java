@@ -6,6 +6,7 @@ import net.kwmt27.githubviewer.entity.SearchRepositoryResultEntity;
 
 import java.util.List;
 
+import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.Path;
@@ -14,7 +15,7 @@ import rx.Observable;
 
 public interface GitHubService {
     @GET("users/{user}/repos")
-    Observable<List<GithubRepoEntity>> listRepos(@Path("user") String user);
+    Observable<Response<List<GithubRepoEntity>>> listRepos(@Path("user") String user, @Query(value = "page") Integer page);
 
     @GET("repos/{owner}/{repo}")
     Observable<GithubRepoEntity> fetchRepo(@Path("owner") String user, @Path("repo") String repo);

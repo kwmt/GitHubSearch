@@ -21,25 +21,31 @@ public class MainPresenter implements IMainPresenter {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         mMainView.setupComponents();
-         fetchGitHubRepoList();
-
-//        List<GithubRepoEntity> datasource
-//                = Arrays.asList(new GithubRepoEntity("data1"), new GithubRepoEntity("data2"));
-//        mMainView.updateSearchRepositoryResultView(datasource);
+        fetchRepositoryList(null);
     }
 
     @Override
     public void onStop() {
         ModelLocator.getGithubService().unsubscribe();
+        ModelLocator.getGithubService().clear();
     }
 
 
+    @Override
+    public void onClickReloadButton() {
+        fetchRepositoryList(null);
+    }
 
+    @Override
+    public void onScrollToBottom() {
+        if(ModelLocator.getGithubService().hasNextPage()) {
+            fetchRepositoryListOnScroll(ModelLocator.getGithubService().getNextPage());
+        }
+    }
 
-
-    private void fetchGitHubRepoList() {
+    private void fetchRepositoryList(Integer page) {
         mMainView.showProgress();
-        ModelLocator.getGithubService().fetchListReposByUser(new ApiSubscriber<List<GithubRepoEntity>>((MainActivity)mMainView) {
+        ModelLocator.getGithubService().fetchListReposByUser(page, new ApiSubscriber<List<GithubRepoEntity>>((MainActivity)mMainView) {
             @Override
             public void onCompleted() {
                 mMainView.hideProgress();
@@ -59,9 +65,27 @@ public class MainPresenter implements IMainPresenter {
         });
     }
 
-    @Override
-    public void onClickReloadButton() {
-        fetchGitHubRepoList();
+    private void fetchRepositoryListOnScroll(Integer page) {
+        mMainView.showProgressOnScroll();
+        ModelLocator.getGithubService().fetchListReposByUser(page, new ApiSubscriber<List<GithubRepoEntity>>((MainActivity)mMainView) {
+            @Override
+            public void onCompleted() {
+                mMainView.hideProgressOnScroll();
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+                mMainView.hideProgressOnScroll();
+                mMainView.showErrorOnScroll();
+            }
+
+            @Override
+            public void onNext(List<GithubRepoEntity> githubRepoEntities) {
+                mMainView.updateGitHubRepoListView(githubRepoEntities);
+            }
+        });
+
     }
 
     public interface IMainView {
@@ -73,6 +97,13 @@ public class MainPresenter implements IMainPresenter {
         void hideProgress();
 
         void showError();
+
+        void showProgressOnScroll();
+
+        void hideProgressOnScroll();
+
+        void showErrorOnScroll();
+
     }
 
 }

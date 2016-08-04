@@ -6,17 +6,30 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
+import com.jakewharton.rxbinding.support.v7.widget.RecyclerViewScrollEvent;
+import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
+
 import net.kwmt27.githubviewer.R;
 import net.kwmt27.githubviewer.entity.GithubRepoEntity;
 import net.kwmt27.githubviewer.presenter.IMainPresenter;
 import net.kwmt27.githubviewer.presenter.MainPresenter;
+import net.kwmt27.githubviewer.util.Logger;
+import net.kwmt27.githubviewer.util.ToastUtil;
 
 import java.util.List;
+
+import rx.Subscription;
+import rx.functions.Action1;
 
 public class MainActivity extends BaseActivity implements MainPresenter.IMainView {
 
     private IMainPresenter mPresenter;
     private GitHubRepoListAdapter mGitHubRepoListAdapter;
+    private Subscription mSubscription;
+    private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLayoutManager;
+    private boolean mIsCalled = false;
+    private boolean mAddedAd = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +43,13 @@ public class MainActivity extends BaseActivity implements MainPresenter.IMainVie
 
     @Override
     protected void onStop() {
+        Logger.d("onStop is called.");
+        mSubscription.unsubscribe();
         mPresenter.onStop();
         super.onStop();
     }
+
+
 
 
     @Override
@@ -41,26 +58,57 @@ public class MainActivity extends BaseActivity implements MainPresenter.IMainVie
 
         setTitle("レポジトリ一覧");
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.github_repo_list);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), R.drawable.divider));
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
+        mRecyclerView = (RecyclerView) findViewById(R.id.github_repo_list);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), R.drawable.divider));
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mGitHubRepoListAdapter = new GitHubRepoListAdapter(getApplicationContext(), new OnItemClickListener<GitHubRepoListAdapter, GithubRepoEntity>() {
             @Override
             public void onItemClick(GitHubRepoListAdapter adapter, int position, GithubRepoEntity repo) {
                 DetailActivity.startActivity(MainActivity.this, repo.getName(), repo.getHtmlUrl(), repo);
             }
         });
-        recyclerView.setAdapter(mGitHubRepoListAdapter);
+        mRecyclerView.setAdapter(mGitHubRepoListAdapter);
 
+        rxRecyclerViewScrollSubscribe();
+
+    }
+
+    private void rxRecyclerViewScrollSubscribe() {
+        mSubscription = RxRecyclerView.scrollEvents(mRecyclerView).subscribe(
+                new Action1<RecyclerViewScrollEvent>() {
+                    @Override
+                    public void call(RecyclerViewScrollEvent event) {
+                        int totalItemCount = mLayoutManager.getItemCount();
+                        int lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
+                        if (totalItemCount - 1 <= lastVisibleItemPosition) {
+                            if(mIsCalled){
+                                return;
+                            }
+                            mIsCalled = true;
+                            Logger.d("onLastVisible");
+                            mSubscription.unsubscribe();
+                            mPresenter.onScrollToBottom();
+                        }
+                    }
+                }
+        );
     }
 
 
     @Override
     public void updateGitHubRepoListView(List<GithubRepoEntity> githubRepoEntities) {
+        mIsCalled = false;
+        rxRecyclerViewScrollSubscribe();
         mGitHubRepoListAdapter.setGithubRepoEntityList(githubRepoEntities);
         mGitHubRepoListAdapter.notifyDataSetChanged();
+
+        if(!mAddedAd) {
+            mGitHubRepoListAdapter.addAdItemTypeThenNotify();
+            mAddedAd = true;
+        }
+
     }
 
     @Override
@@ -87,5 +135,21 @@ public class MainActivity extends BaseActivity implements MainPresenter.IMainVie
             }
         });
 
+    }
+
+    @Override
+    public void showProgressOnScroll() {
+        mGitHubRepoListAdapter.addProgressItemTypeThenNotify();
+    }
+
+    @Override
+    public void hideProgressOnScroll() {
+        mGitHubRepoListAdapter.removeProgressItemTypeThenNotify();
+
+    }
+
+    @Override
+    public void showErrorOnScroll() {
+        ToastUtil.show(getApplicationContext(), "データ取得に失敗しました。");
     }
 }

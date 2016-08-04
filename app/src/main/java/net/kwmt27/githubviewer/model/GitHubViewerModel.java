@@ -1,5 +1,6 @@
 package net.kwmt27.githubviewer.model;
 
+import android.net.Uri;
 import android.text.TextUtils;
 
 import net.kwmt27.githubviewer.ModelLocator;
@@ -11,7 +12,9 @@ import net.kwmt27.githubviewer.util.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -29,6 +32,7 @@ public class GitHubViewerModel {
     private String mKeyword;
 
     private ReusableCompositeSubscription mCompositeSubscription = new ReusableCompositeSubscription();
+    private Map<String, List<String>> mHeadaersMap;
 
     public void unsubscribe() {
         if(mCompositeSubscription != null) {
@@ -36,15 +40,26 @@ public class GitHubViewerModel {
         }
     }
 
+    public void clear() {
+        mGitHubRepoEntityList = null;
+    }
 
-    public Subscription fetchListReposByUser(final Subscriber<List<GithubRepoEntity>> subscriber) {
-        Subscription listReposSubscription = ModelLocator.getApiClient().api.listRepos("kwmt")
+
+    public Subscription fetchListReposByUser(Integer page, final Subscriber<List<GithubRepoEntity>> subscriber) {
+        Subscription listReposSubscription = ModelLocator.getApiClient().api.listRepos("kwmt", page)
                 .subscribeOn(Schedulers.newThread())
-                .flatMap(new Func1<List<GithubRepoEntity>, Observable<List<GithubRepoEntity>>>() {
+                .flatMap(new Func1<Response<List<GithubRepoEntity>>, Observable<List<GithubRepoEntity>>>() {
                     @Override
-                    public Observable<List<GithubRepoEntity>> call(List<GithubRepoEntity> githubRepos) {
-                        mGitHubRepoEntityList = githubRepos;
-                        return Observable.just(githubRepos);
+                    public Observable<List<GithubRepoEntity>> call(Response<List<GithubRepoEntity>> listResponse) {
+                        mHeadaersMap = listResponse.headers().toMultimap();
+                        if(mGitHubRepoEntityList != null && mGitHubRepoEntityList.size()> 0){
+                            List<GithubRepoEntity> newList = new ArrayList<>(mGitHubRepoEntityList);
+                            newList.addAll(listResponse.body());
+                            mGitHubRepoEntityList = newList;
+                        } else {
+                            mGitHubRepoEntityList = listResponse.body();
+                        }
+                        return Observable.just(mGitHubRepoEntityList);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -121,5 +136,43 @@ public class GitHubViewerModel {
     public String getKeyword() {
         if(mKeyword == null) { return ""; }
         return mKeyword;
+    }
+
+    public int getLastPage() {
+        return extractLink("last");
+    }
+    public int getNextPage() {
+        return extractLink("next");
+    }
+
+    private int extractLink(String rel) {
+        if (mHeadaersMap == null) {
+            return 0;
+        }
+        if (!mHeadaersMap.containsKey("link")) {
+            return 1;
+        }
+        List<String> values = mHeadaersMap.get("link");
+        if (values.size() > 0) {
+            String linkValue = values.get(0);
+            String[] splitLinkValue = linkValue.split(",");
+            for (String v : splitLinkValue) {
+                if (v.contains(rel)) {
+                    v = v.trim();
+                    int startIndex = v.indexOf("<");
+                    int endIndex = v.indexOf(">");
+                    String url = v.substring(startIndex, endIndex);
+                    Uri uri = Uri.parse(url);
+                    String pageString = uri.getQueryParameter("page");
+                    return Integer.valueOf(pageString);
+                }
+            }
+        }
+        // ここまでこないはず
+        return 0;
+    }
+
+    public boolean hasNextPage() {
+        return  getNextPage() > 0;
     }
 }
