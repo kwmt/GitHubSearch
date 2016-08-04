@@ -29,6 +29,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.IMainVie
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private boolean mIsCalled = false;
+    private boolean mAddedAd = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +103,12 @@ public class MainActivity extends BaseActivity implements MainPresenter.IMainVie
         rxRecyclerViewScrollSubscribe();
         mGitHubRepoListAdapter.setGithubRepoEntityList(githubRepoEntities);
         mGitHubRepoListAdapter.notifyDataSetChanged();
+
+        if(!mAddedAd) {
+            mGitHubRepoListAdapter.addAdItemTypeThenNotify();
+            mAddedAd = true;
+        }
+
     }
 
     @Override

@@ -138,22 +138,26 @@ public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAd
     }
 
     public void addAdItemTypeThenNotify() {
-        int pos = addItemType(ItemType.Ad);
+        int pos = addItemTypeAtBeginningPosition(ItemType.Ad);
         if (pos > -1) {
             notifyItemInserted(pos);
         }
     }
 
-    public void removeAdItemTypeThenNotify() {
-        int pos = findPositionByItemType(ItemType.Ad);
-        if (pos > -1) {
-            mGithubRepoEntityList.remove(pos);
-            notifyItemRemoved(pos);
-        }
-    }
+//    public void removeAdItemTypeThenNotify() {
+//        int pos = findPositionByItemType(ItemType.Ad);
+//        if (pos > -1) {
+//            mGithubRepoEntityList.remove(pos);
+//            notifyItemRemoved(pos);
+//        }
+//    }
 
     private int addItemType(ItemType type) {
         mGithubRepoEntityList.add(new GithubRepoEntity(type));
+        return mGithubRepoEntityList.size() - 1;
+    }
+    private int addItemTypeAtBeginningPosition(ItemType type) {
+        mGithubRepoEntityList.add(0, new GithubRepoEntity(type));
         return mGithubRepoEntityList.size() - 1;
     }
 
