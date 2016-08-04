@@ -25,8 +25,8 @@ public class MainActivity extends BaseActivity implements MainPresenter.IMainVie
     private IMainPresenter mPresenter;
     private GitHubRepoListAdapter mGitHubRepoListAdapter;
     private Subscription mSubscription;
-    private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
+    private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLayoutManager;
     private boolean mIsCalled = false;
 
     @Override
@@ -56,30 +56,30 @@ public class MainActivity extends BaseActivity implements MainPresenter.IMainVie
 
         setTitle("レポジトリ一覧");
 
-        recyclerView = (RecyclerView) findViewById(R.id.github_repo_list);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), R.drawable.divider));
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
+        mRecyclerView = (RecyclerView) findViewById(R.id.github_repo_list);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), R.drawable.divider));
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mGitHubRepoListAdapter = new GitHubRepoListAdapter(getApplicationContext(), new OnItemClickListener<GitHubRepoListAdapter, GithubRepoEntity>() {
             @Override
             public void onItemClick(GitHubRepoListAdapter adapter, int position, GithubRepoEntity repo) {
                 DetailActivity.startActivity(MainActivity.this, repo.getName(), repo.getHtmlUrl(), repo);
             }
         });
-        recyclerView.setAdapter(mGitHubRepoListAdapter);
+        mRecyclerView.setAdapter(mGitHubRepoListAdapter);
 
         rxRecyclerViewScrollSubscribe();
 
     }
 
     private void rxRecyclerViewScrollSubscribe() {
-        mSubscription = RxRecyclerView.scrollEvents(recyclerView).subscribe(
+        mSubscription = RxRecyclerView.scrollEvents(mRecyclerView).subscribe(
                 new Action1<RecyclerViewScrollEvent>() {
                     @Override
                     public void call(RecyclerViewScrollEvent event) {
-                        int totalItemCount = layoutManager.getItemCount();
-                        int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+                        int totalItemCount = mLayoutManager.getItemCount();
+                        int lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
                         if (totalItemCount - 1 <= lastVisibleItemPosition) {
                             if(mIsCalled){
                                 return;
