@@ -33,7 +33,6 @@ public class GitHubViewerModel {
     private String mKeyword;
 
     private ReusableCompositeSubscription mCompositeSubscription = new ReusableCompositeSubscription();
-    private Headers mHeaders;
     private Map<String, List<String>> mHeadaersMap;
 
     public void unsubscribe() {
