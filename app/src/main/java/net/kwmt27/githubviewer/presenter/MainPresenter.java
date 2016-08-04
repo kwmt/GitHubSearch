@@ -21,7 +21,7 @@ public class MainPresenter implements IMainPresenter {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         mMainView.setupComponents();
-        fetchGitHubRepoList(null);
+        fetchRepositoryList(null);
     }
 
     @Override
@@ -33,17 +33,17 @@ public class MainPresenter implements IMainPresenter {
 
     @Override
     public void onClickReloadButton() {
-        fetchGitHubRepoList(null);
+        fetchRepositoryList(null);
     }
 
     @Override
     public void onScrollToBottom() {
         if(ModelLocator.getGithubService().hasNextPage()) {
-            fetchGitHubRepoList(ModelLocator.getGithubService().getNextPage());
+            fetchRepositoryListOnScroll(ModelLocator.getGithubService().getNextPage());
         }
     }
 
-    private void fetchGitHubRepoList(Integer page) {
+    private void fetchRepositoryList(Integer page) {
         mMainView.showProgress();
         ModelLocator.getGithubService().fetchListReposByUser(page, new ApiSubscriber<List<GithubRepoEntity>>((MainActivity)mMainView) {
             @Override
@@ -65,6 +65,29 @@ public class MainPresenter implements IMainPresenter {
         });
     }
 
+    private void fetchRepositoryListOnScroll(Integer page) {
+        mMainView.showProgressOnScroll();
+        ModelLocator.getGithubService().fetchListReposByUser(page, new ApiSubscriber<List<GithubRepoEntity>>((MainActivity)mMainView) {
+            @Override
+            public void onCompleted() {
+                mMainView.hideProgressOnScroll();
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+                mMainView.hideProgressOnScroll();
+                mMainView.showErrorOnScroll();
+            }
+
+            @Override
+            public void onNext(List<GithubRepoEntity> githubRepoEntities) {
+                mMainView.updateGitHubRepoListView(githubRepoEntities);
+            }
+        });
+
+    }
+
     public interface IMainView {
         void setupComponents();
         void updateGitHubRepoListView(List<GithubRepoEntity> githubRepoEntities);
@@ -74,6 +97,13 @@ public class MainPresenter implements IMainPresenter {
         void hideProgress();
 
         void showError();
+
+        void showProgressOnScroll();
+
+        void hideProgressOnScroll();
+
+        void showErrorOnScroll();
+
     }
 
 }

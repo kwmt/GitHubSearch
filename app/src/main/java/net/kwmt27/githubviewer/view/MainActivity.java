@@ -14,6 +14,7 @@ import net.kwmt27.githubviewer.entity.GithubRepoEntity;
 import net.kwmt27.githubviewer.presenter.IMainPresenter;
 import net.kwmt27.githubviewer.presenter.MainPresenter;
 import net.kwmt27.githubviewer.util.Logger;
+import net.kwmt27.githubviewer.util.ToastUtil;
 
 import java.util.List;
 
@@ -127,5 +128,21 @@ public class MainActivity extends BaseActivity implements MainPresenter.IMainVie
             }
         });
 
+    }
+
+    @Override
+    public void showProgressOnScroll() {
+        mGitHubRepoListAdapter.addProgressItemTypeThenNotify();
+    }
+
+    @Override
+    public void hideProgressOnScroll() {
+        mGitHubRepoListAdapter.removeProgressItemTypeThenNotify();
+
+    }
+
+    @Override
+    public void showErrorOnScroll() {
+        ToastUtil.show(getApplicationContext(), "データ取得に失敗しました。");
     }
 }

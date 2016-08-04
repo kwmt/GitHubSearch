@@ -1,5 +1,6 @@
 package net.kwmt27.githubviewer.entity;
 
+import android.support.annotation.Nullable;
 import android.text.format.DateFormat;
 
 import com.google.gson.annotations.SerializedName;
@@ -29,8 +30,10 @@ public class GithubRepoEntity implements Serializable{
     @SerializedName("stargazers_count")
     private int mStargazersCount;
 
-    public GithubRepoEntity(String name) {
-        mName = name;
+    private ItemType mItemType;
+
+    public GithubRepoEntity(ItemType type) {
+        mItemType = type;
     }
 
     public String getName() {
@@ -71,5 +74,10 @@ public class GithubRepoEntity implements Serializable{
 
     public String getStargazersCount() {
         return String.valueOf(mStargazersCount);
+    }
+
+    @Nullable
+    public ItemType getItemType() {
+        return mItemType;
     }
 }
