@@ -5,7 +5,7 @@ android {
     buildToolsVersion "24.0.1"
 
     defaultConfig {
-        applicationId "net.kwmt27.githubviewer"
+        applicationId "net.kwmt27.githubsearch"
         minSdkVersion 21
         targetSdkVersion 24
         versionCode 1
@@ -36,7 +36,7 @@ android {
 
     productFlavors {
         develop {
-            manifestPlaceholders = [appName:"[開発]GitHubViewer"]
+            manifestPlaceholders = [appName:"[開発]GitHubSearch"]
             buildConfigField "String", "BASE_API_URL", "\"https://api.github.com\""
             buildConfigField "String", "BASE_WEBVIEW_URL", "\"\""
         }
