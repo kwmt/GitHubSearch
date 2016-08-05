@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebResourceError;
@@ -52,12 +53,21 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 return goBackIfNeeded() || super.onOptionsItemSelected(item);
             case R.id.action_search:
                 mPresenter.onActionSearchSelected();
+                return true;
+            case R.id.action_close:
+                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
