@@ -18,6 +18,12 @@ public class ItemEntity implements Serializable {
     @SerializedName("text_matches")
     private List<TextMatchEntity> mTextMatchEntityList = new ArrayList<>();
 
+    private ItemType mItemType;
+
+    public ItemEntity(ItemType itemType) {
+        mItemType = itemType;
+    }
+
     public String getName() {
         return mName;
     }
@@ -36,5 +42,9 @@ public class ItemEntity implements Serializable {
 
     public List<TextMatchEntity> getTextMatchEntityList() {
         return mTextMatchEntityList;
+    }
+
+    public ItemType getItemType() {
+        return mItemType;
     }
 }

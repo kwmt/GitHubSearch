@@ -27,11 +27,21 @@ public class SearchRepositoryResultListPresenter implements ISearchResultListPre
         mSearchResultListView.setupComponents(view, savedInstanceState);
     }
 
+    @Override
+    public void onScrollToBottom() {
+
+    }
+
     public interface ISearchResultListView {
         void setupComponents(View view, Bundle savedInstanceState);
 
         void updateSearchResultListView(SearchRepositoryResultEntity searchRepositoryResultEntity);
 
+        void showProgressOnScroll();
+
+        void hideProgressOnScroll();
+
+        void showErrorOnScroll();
     }
 
 }

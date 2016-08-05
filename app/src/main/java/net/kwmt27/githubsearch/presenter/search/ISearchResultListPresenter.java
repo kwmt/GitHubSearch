@@ -5,5 +5,5 @@ import net.kwmt27.githubsearch.presenter.IBaseFragmentPresenter;
 public interface ISearchResultListPresenter extends IBaseFragmentPresenter {
 
 
-
+    void onScrollToBottom();
 }
