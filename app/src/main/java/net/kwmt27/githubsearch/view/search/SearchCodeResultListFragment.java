@@ -13,6 +13,7 @@ import com.jakewharton.rxbinding.support.v7.widget.RecyclerViewScrollEvent;
 import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 
 import net.kwmt27.githubsearch.R;
+import net.kwmt27.githubsearch.entity.GithubRepoEntity;
 import net.kwmt27.githubsearch.entity.ItemEntity;
 import net.kwmt27.githubsearch.entity.SearchCodeResultEntity;
 import net.kwmt27.githubsearch.presenter.search.ISearchResultListPresenter;
@@ -32,7 +33,6 @@ import rx.functions.Action1;
  */
 public class SearchCodeResultListFragment extends Fragment implements SearchCodeResultListPresenter.ISearchResultListView {
 
-
     public static final String TAG = SearchCodeResultListFragment.class.getSimpleName();
     private ISearchResultListPresenter mPresenter;
     private SearchCodeResultListAdapter mSearchCodeResultListAdapter;
@@ -41,8 +41,12 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
     private Subscription mSubscription;
     private boolean mIsCalled = false;
 
-    public static SearchCodeResultListFragment newInstance() {
-        return new SearchCodeResultListFragment();
+    private FragmentProgressCallback mCallback;
+
+    public static SearchCodeResultListFragment newInstance(FragmentProgressCallback callback) {
+        SearchCodeResultListFragment fragment = new SearchCodeResultListFragment();
+        fragment.setCallback(callback);
+        return fragment;
     }
 
     public SearchCodeResultListFragment() {
@@ -101,6 +105,26 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
     }
 
     @Override
+    public void onEditorActionSearch(String keyword, GithubRepoEntity entity) {
+        mPresenter.onEditorActionSearch(keyword, entity);
+    }
+
+    @Override
+    public void showProgress() {
+        mCallback.showProgress();
+    }
+
+    @Override
+    public void hideProgress() {
+        mCallback.hideProgress();
+    }
+
+    @Override
+    public void showError() {
+        mCallback.showError();
+    }
+
+    @Override
     public void showProgressOnScroll() {
         mSearchCodeResultListAdapter.addProgressItemTypeThenNotify();
     }
@@ -136,5 +160,7 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
         );
     }
 
-
+    private void setCallback(FragmentProgressCallback callback) {
+        mCallback = callback;
+    }
 }

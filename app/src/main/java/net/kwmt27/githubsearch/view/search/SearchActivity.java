@@ -3,6 +3,8 @@ package net.kwmt27.githubsearch.view.search;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,11 +28,12 @@ import net.kwmt27.githubsearch.presenter.search.SearchPresenter;
 import net.kwmt27.githubsearch.util.KeyboardUtil;
 import net.kwmt27.githubsearch.view.BaseActivity;
 
-public class SearchActivity extends BaseActivity implements SearchPresenter.ISearchView {
+public class SearchActivity extends BaseActivity implements SearchPresenter.ISearchView, FragmentProgressCallback {
 
 
     private MenuItem mActionClearMenu;
     private EditText mSearchEditText;
+    private boolean mCanSearchCode = false;
 
     public static void startActivity(AppCompatActivity activity, boolean canSearchCode) {
         SearchActivity.startActivity(activity, canSearchCode, null);
@@ -80,6 +83,19 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
     public void setupComponents() {
         setUpActionBar();
 
+        Intent intent = getIntent();
+        mCanSearchCode = intent.getBooleanExtra(ISearchPresenter.CAN_SEARCH_CODE, false);
+
+
+        final FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        if (mCanSearchCode) {
+            transaction.replace(R.id.container, SearchCodeResultListFragment.newInstance(this), SearchCodeResultListFragment.TAG);
+        } else {
+            transaction.replace(R.id.container, SearchRepositoryResultListFragment.newInstance(this), SearchRepositoryResultListFragment.TAG);
+        }
+        transaction.commit();
+
         mSearchEditText = (EditText) findViewById(R.id.search_edit);
         mSearchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -88,8 +104,16 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     KeyboardUtil.hideKeyboard(SearchActivity.this);
-                    if(v.getText().toString().length() > 0) {
-                        mPresenter.onEditorActionSearch(v.getText().toString());
+                    if(v.getText().toString().length() <= 0) {
+                        return false;
+                    }
+                    GithubRepoEntity repo = (GithubRepoEntity) getIntent().getSerializableExtra(ISearchPresenter.REPO_ENTITY_KEY);
+                    if (mCanSearchCode) {
+                        SearchCodeResultListFragment fragment = (SearchCodeResultListFragment) manager.findFragmentByTag(SearchCodeResultListFragment.TAG);
+                        fragment.onEditorActionSearch(v.getText().toString(), repo);
+                    } else {
+                        SearchRepositoryResultListFragment fragment = (SearchRepositoryResultListFragment) manager.findFragmentByTag(SearchRepositoryResultListFragment.TAG);
+                        fragment.onEditorActionSearch(v.getText().toString(), repo);
                     }
                 }
                 return handled;

@@ -42,9 +42,12 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
     private LinearLayoutManager mLayoutManager;
     private Subscription mSubscription;
     private boolean mIsCalled = false;
+    private FragmentProgressCallback mCallback;
 
-    public static SearchRepositoryResultListFragment newInstance() {
-        return new SearchRepositoryResultListFragment();
+    public static SearchRepositoryResultListFragment newInstance(FragmentProgressCallback callback) {
+        SearchRepositoryResultListFragment fragment = new SearchRepositoryResultListFragment();
+        fragment.setFragmentProgressCallback(callback);
+        return fragment;
     }
 
     public SearchRepositoryResultListFragment() {
@@ -103,6 +106,26 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
     }
 
     @Override
+    public void onEditorActionSearch(String keyword, GithubRepoEntity entity) {
+        mPresenter.onEditorActionSearch(keyword, entity);
+    }
+
+    @Override
+    public void showProgress() {
+        mCallback.showProgress();
+    }
+
+    @Override
+    public void hideProgress() {
+        mCallback.hideProgress();
+    }
+
+    @Override
+    public void showError() {
+        mCallback.showError();
+    }
+
+    @Override
     public void showProgressOnScroll() {
         mSearchRepositoryResultListAdapter.addProgressItemTypeThenNotify();
     }
@@ -137,5 +160,9 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
                     }
                 }
         );
+    }
+
+    public void setFragmentProgressCallback(FragmentProgressCallback fragmentProgressCallback) {
+        mCallback = fragmentProgressCallback;
     }
 }
