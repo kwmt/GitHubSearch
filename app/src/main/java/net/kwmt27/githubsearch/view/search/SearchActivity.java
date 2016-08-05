@@ -87,9 +87,10 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
                 // http://developer.android.com/reference/android/widget/TextView.OnEditorActionListener.html#onEditorAction(android.widget.TextView, int, android.view.KeyEvent)
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    //KeyboardUtil.hideKeyboard(SearchActivity.this);
                     KeyboardUtil.hideKeyboard(SearchActivity.this);
-                    mPresenter.onEditorActionSearch(v.getText().toString());
+                    if(v.getText().toString().length() > 0) {
+                        mPresenter.onEditorActionSearch(v.getText().toString());
+                    }
                 }
                 return handled;
             }
