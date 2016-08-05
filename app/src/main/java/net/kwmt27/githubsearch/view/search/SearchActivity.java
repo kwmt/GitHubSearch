@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -86,9 +87,10 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
                 // http://developer.android.com/reference/android/widget/TextView.OnEditorActionListener.html#onEditorAction(android.widget.TextView, int, android.view.KeyEvent)
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    //KeyboardUtil.hideKeyboard(SearchActivity.this);
                     KeyboardUtil.hideKeyboard(SearchActivity.this);
-                    mPresenter.onEditorActionSearch(v.getText().toString());
+                    if(v.getText().toString().length() > 0) {
+                        mPresenter.onEditorActionSearch(v.getText().toString());
+                    }
                 }
                 return handled;
             }
@@ -127,9 +129,35 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
         fragment.updateSearchResultListView(entity);
     }
 
+    @Override
+    public void showProgress() {
+        findViewById(R.id.progress_layout).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        findViewById(R.id.progress_layout).setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showError() {
+        final View errorLayout = findViewById(R.id.error_layout);
+        errorLayout.setVisibility(View.VISIBLE);
+
+        Button button = (Button)errorLayout.findViewById(R.id.reload_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                errorLayout.setVisibility(View.GONE);
+                mPresenter.onClickReloadButton();
+            }
+        });
+
+    }
+
     private void showNotFoundPageIfNeeded(boolean show) {
         RelativeLayout notFoundLayout = (RelativeLayout) findViewById(R.id.not_found_layout);
-        ((TextView)notFoundLayout.findViewById(R.id.keyword)).setText(ModelLocator.getGithubService().getKeyword());
+        ((TextView)notFoundLayout.findViewById(R.id.keyword)).setText(ModelLocator.getSearchModel().getKeyword());
         int visibility = show ? View.GONE : View.VISIBLE;
         notFoundLayout.setVisibility(visibility);
     }

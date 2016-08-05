@@ -12,11 +12,11 @@ public class ModelLocator {
 
     private static ApiClient sApiClient;
 
-    private static final SearchModel sGithubService;
+    private static final SearchModel sSearchModel;
 
     static {
         sApiClient = new ApiClient();
-        sGithubService = new SearchModel();
+        sSearchModel = new SearchModel();
     }
 
     public ModelLocator() {
@@ -30,8 +30,8 @@ public class ModelLocator {
         sApiClient = apiClient;
     }
 
-    public static SearchModel getGithubService() {
-        return sGithubService;
+    public static SearchModel getSearchModel() {
+        return sSearchModel;
     }
 }
 
