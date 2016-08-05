@@ -6,14 +6,14 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
-        android:name="net.kwmt27.githubsearch.App"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="${appName}"
         android:supportsRtl="true"
         android:theme="@style/Theme.GithubViewer">
         <activity
-            android:name="net.kwmt27.githubsearch.view.MainActivity"
+            android:name=".view.MainActivity"
             android:configChanges="orientation|screenSize"
             >
             <intent-filter>
@@ -23,12 +23,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="net.kwmt27.githubsearch.view.DetailActivity"
+            android:name=".view.DetailActivity"
             android:configChanges="orientation|screenSize"
             >
         </activity>
         <activity
-            android:name="net.kwmt27.githubsearch.view.search.SearchActivity"
+            android:name=".view.search.SearchActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/Theme.GithubViewer.Search"
             >
