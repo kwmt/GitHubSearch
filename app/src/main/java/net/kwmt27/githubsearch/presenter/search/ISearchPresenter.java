@@ -12,4 +12,6 @@ public interface ISearchPresenter extends IBaseActivityPresenter {
     String REPO_ENTITY_KEY = "repo_entity_key";
 
     void onEditorActionSearch(String keyword);
+
+    void onClickReloadButton();
 }

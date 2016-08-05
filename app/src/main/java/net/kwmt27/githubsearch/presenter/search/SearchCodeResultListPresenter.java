@@ -18,7 +18,7 @@ public class SearchCodeResultListPresenter implements ISearchResultListPresenter
 
     @Override
     public void onStop() {
-        ModelLocator.getGithubService().unsubscribe();
+        ModelLocator.getSearchModel().unsubscribe();
     }
 
 

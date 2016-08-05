@@ -30,6 +30,7 @@ public class SearchPresenter implements ISearchPresenter {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         mSearchView.setupComponents();
+
         Intent intent = mSearchView.getIntent();
         mCanSearchCode = intent.getBooleanExtra(CAN_SEARCH_CODE, false);
 
@@ -48,13 +49,19 @@ public class SearchPresenter implements ISearchPresenter {
 
     @Override
     public void onStop() {
-        ModelLocator.getGithubService().unsubscribe();
+        ModelLocator.getSearchModel().unsubscribe();
     }
 
 
     @Override
     public void onEditorActionSearch(String keyword) {
         search(keyword);
+    }
+
+    @Override
+    public void onClickReloadButton() {
+        String keyword = ModelLocator.getSearchModel().getKeyword();
+        searchRepository(keyword);
     }
 
     private void search(String keyword) {
@@ -66,17 +73,21 @@ public class SearchPresenter implements ISearchPresenter {
     }
 
     private void searchCode(String keyword) {
+        mSearchView.showProgress();
         String repo = getGitHubRepoEntityFromIntent().getFullName();
-        ModelLocator.getGithubService().searchCode(keyword, repo, new ApiSubscriber<SearchCodeResultEntity>((SearchActivity)mSearchView) {
+        ModelLocator.getSearchModel().searchCode(keyword, repo, new ApiSubscriber<SearchCodeResultEntity>((SearchActivity) mSearchView) {
             @Override
             public void onCompleted() {
                 Logger.d("onCompleted is called.");
+                mSearchView.hideProgress();
             }
 
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
                 Logger.e("onError is called. " + e);
+                mSearchView.hideProgress();
+                mSearchView.showError();
             }
 
             @Override
@@ -87,16 +98,20 @@ public class SearchPresenter implements ISearchPresenter {
     }
 
     private void searchRepository(String keyword) {
-        ModelLocator.getGithubService().searchRepositories(keyword, new ApiSubscriber<SearchRepositoryResultEntity>((SearchActivity)mSearchView) {
+        mSearchView.showProgress();
+        ModelLocator.getSearchModel().searchRepositories(keyword, new ApiSubscriber<SearchRepositoryResultEntity>((SearchActivity) mSearchView) {
             @Override
             public void onCompleted() {
                 Logger.d("onCompleted is called.");
+                mSearchView.hideProgress();
             }
 
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
                 Logger.e("onError is called. " + e);
+                mSearchView.hideProgress();
+                mSearchView.showError();
             }
 
             @Override
@@ -120,6 +135,12 @@ public class SearchPresenter implements ISearchPresenter {
         void updateSearchCodeResultView(SearchCodeResultEntity entity);
 
         Intent getIntent();
+
+        void showProgress();
+
+        void hideProgress();
+
+        void showError();
     }
 
 }
