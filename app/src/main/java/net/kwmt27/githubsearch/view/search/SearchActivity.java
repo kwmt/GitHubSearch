@@ -33,7 +33,6 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
 
     private MenuItem mActionClearMenu;
     private EditText mSearchEditText;
-    private boolean mCanSearchCode = false;
 
     public static void startActivity(AppCompatActivity activity, boolean canSearchCode) {
         SearchActivity.startActivity(activity, canSearchCode, null);
@@ -84,12 +83,12 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
         setUpActionBar();
 
         Intent intent = getIntent();
-        mCanSearchCode = intent.getBooleanExtra(ISearchPresenter.CAN_SEARCH_CODE, false);
+        final boolean canSearchCode = intent.getBooleanExtra(ISearchPresenter.CAN_SEARCH_CODE, false);
 
 
         final FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        if (mCanSearchCode) {
+        if (canSearchCode) {
             transaction.replace(R.id.container, SearchCodeResultListFragment.newInstance(this), SearchCodeResultListFragment.TAG);
         } else {
             transaction.replace(R.id.container, SearchRepositoryResultListFragment.newInstance(this), SearchRepositoryResultListFragment.TAG);
@@ -108,7 +107,7 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
                         return false;
                     }
                     GithubRepoEntity repo = (GithubRepoEntity) getIntent().getSerializableExtra(ISearchPresenter.REPO_ENTITY_KEY);
-                    if (mCanSearchCode) {
+                    if (canSearchCode) {
                         SearchCodeResultListFragment fragment = (SearchCodeResultListFragment) manager.findFragmentByTag(SearchCodeResultListFragment.TAG);
                         fragment.onEditorActionSearch(v.getText().toString(), repo);
                     } else {
