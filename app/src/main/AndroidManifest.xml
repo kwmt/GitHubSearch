@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="net.kwmt27.githubviewer"
+<manifest package="net.kwmt27.githubsearch"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
-        android:name=".App"
+        android:name="net.kwmt27.githubsearch.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="${appName}"
         android:supportsRtl="true"
         android:theme="@style/Theme.GithubViewer">
         <activity
-            android:name=".view.MainActivity"
+            android:name="net.kwmt27.githubsearch.view.MainActivity"
             android:configChanges="orientation|screenSize"
             >
             <intent-filter>
@@ -23,12 +23,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.DetailActivity"
+            android:name="net.kwmt27.githubsearch.view.DetailActivity"
             android:configChanges="orientation|screenSize"
             >
         </activity>
         <activity
-            android:name=".view.search.SearchActivity"
+            android:name="net.kwmt27.githubsearch.view.search.SearchActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/Theme.GithubViewer.Search"
             >
