@@ -4,4 +4,5 @@
     <string name="search_hint">Search GitHub</string>
     <string name="clear">クリア</string>
     <string name="offline_message">オフラインです。</string>
+    <string name="close_detail_activity">詳細画面を閉じる</string>
 </resources>
