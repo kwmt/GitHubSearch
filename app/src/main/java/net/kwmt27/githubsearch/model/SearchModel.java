@@ -176,10 +176,7 @@ public class SearchModel {
     }
 
     private int extractLink(Map<String, List<String>> headerMap, String rel) {
-        if (headerMap == null) {
-            return 0;
-        }
-        if (!headerMap.containsKey("link")) {
+        if (headerMap == null || !headerMap.containsKey("link")) {
             return 0;
         }
         List<String> values = headerMap.get("link");
