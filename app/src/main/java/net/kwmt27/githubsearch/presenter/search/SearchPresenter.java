@@ -27,28 +27,14 @@ public class SearchPresenter implements ISearchPresenter {
     }
 
 
-    @Override
-    public void onClickReloadButton() {
-        String keyword = ModelLocator.getSearchModel().getKeyword();
-        //searchRepository(keyword);
-    }
-
-
-
     public interface ISearchView {
         void setupComponents();
-
-//        void updateSearchRepositoryResultView(SearchRepositoryResultEntity searchRepositoryResultEntity);
-//
-//        void updateSearchCodeResultView(SearchCodeResultEntity entity);
 
         Intent getIntent();
 
         void showProgress();
 
         void hideProgress();
-
-        void showError();
     }
 
 }

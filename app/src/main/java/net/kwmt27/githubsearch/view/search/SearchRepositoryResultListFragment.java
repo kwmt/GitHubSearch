@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.jakewharton.rxbinding.support.v7.widget.RecyclerViewScrollEvent;
@@ -43,6 +44,7 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
     private Subscription mSubscription;
     private boolean mIsCalled = false;
     private FragmentProgressCallback mCallback;
+    private View mErrorLayout;
 
     public static SearchRepositoryResultListFragment newInstance(FragmentProgressCallback callback) {
         SearchRepositoryResultListFragment fragment = new SearchRepositoryResultListFragment();
@@ -95,6 +97,9 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
         });
         mRecyclerView.setAdapter(mSearchRepositoryResultListAdapter);
         rxRecyclerViewScrollSubscribe();
+
+        mErrorLayout = view.findViewById(R.id.error_layout);
+
     }
 
 
@@ -122,7 +127,17 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
 
     @Override
     public void showError() {
-        mCallback.showError();
+        mErrorLayout.setVisibility(View.VISIBLE);
+
+        Button button = (Button) mErrorLayout.findViewById(R.id.reload_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mErrorLayout.setVisibility(View.GONE);
+                mPresenter.onClickReloadButton();
+            }
+        });
+
     }
 
     @Override

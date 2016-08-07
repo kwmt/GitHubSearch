@@ -9,4 +9,6 @@ public interface ISearchResultListPresenter extends IBaseFragmentPresenter {
     void onScrollToBottom();
 
     void onEditorActionSearch(String keyword, GithubRepoEntity entity);
+
+    void onClickReloadButton();
 }

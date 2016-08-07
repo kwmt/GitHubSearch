@@ -5,7 +5,6 @@ public interface FragmentProgressCallback {
 
     void hideProgress();
 
-    void showError();
 
     void showNotFoundPageIfNeeded(boolean show);
 }

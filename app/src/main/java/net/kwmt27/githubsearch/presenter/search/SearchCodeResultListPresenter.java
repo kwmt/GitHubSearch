@@ -45,6 +45,11 @@ public class SearchCodeResultListPresenter implements ISearchResultListPresenter
         searchCode(keyword, entity, null);
     }
 
+    @Override
+    public void onClickReloadButton() {
+        searchCodeOnScroll(null);
+    }
+
 
     private void searchCode(String keyword, GithubRepoEntity entity, Integer page) {
         mSearchResultListView.showProgress();

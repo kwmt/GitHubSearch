@@ -41,6 +41,11 @@ public class SearchRepositoryResultListPresenter implements ISearchResultListPre
         searchRepository(keyword);
     }
 
+    @Override
+    public void onClickReloadButton() {
+        searchRepository(ModelLocator.getSearchModel().getKeyword());
+    }
+
     private void searchRepository(String keyword) {
         mSearchResultListView.showProgress();
         ModelLocator.getSearchModel().searchRepositories(keyword, new ApiSubscriber<SearchRepositoryResultEntity>(((SearchRepositoryResultListFragment) mSearchResultListView).getActivity().getApplicationContext()) {

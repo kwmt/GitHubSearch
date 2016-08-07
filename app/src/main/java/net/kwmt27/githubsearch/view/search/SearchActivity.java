@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -146,21 +145,6 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
         findViewById(R.id.progress_layout).setVisibility(View.GONE);
     }
 
-    @Override
-    public void showError() {
-        final View errorLayout = findViewById(R.id.error_layout);
-        errorLayout.setVisibility(View.VISIBLE);
-
-        Button button = (Button)errorLayout.findViewById(R.id.reload_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                errorLayout.setVisibility(View.GONE);
-                mPresenter.onClickReloadButton();
-            }
-        });
-
-    }
 
     @Override
     public void showNotFoundPageIfNeeded(boolean show) {

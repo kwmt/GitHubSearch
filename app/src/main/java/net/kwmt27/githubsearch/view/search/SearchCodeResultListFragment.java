@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.jakewharton.rxbinding.support.v7.widget.RecyclerViewScrollEvent;
 import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
@@ -43,6 +44,7 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
     private boolean mIsCalled = false;
 
     private FragmentProgressCallback mCallback;
+    private View mErrorLayout;
 
     public static SearchCodeResultListFragment newInstance(FragmentProgressCallback callback) {
         SearchCodeResultListFragment fragment = new SearchCodeResultListFragment();
@@ -97,6 +99,9 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
         });
         mRecyclerView.setAdapter(mSearchCodeResultListAdapter);
         rxRecyclerViewScrollSubscribe();
+
+        mErrorLayout = view.findViewById(R.id.error_layout);
+
     }
 
     @Override
@@ -125,9 +130,18 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
 
     @Override
     public void showError() {
-        mCallback.showError();
-    }
+        mErrorLayout.setVisibility(View.VISIBLE);
 
+        Button button = (Button) mErrorLayout.findViewById(R.id.reload_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mErrorLayout.setVisibility(View.GONE);
+                mPresenter.onClickReloadButton();
+            }
+        });
+
+    }
     @Override
     public void showProgressOnScroll() {
         mSearchCodeResultListAdapter.addProgressItemTypeThenNotify();
