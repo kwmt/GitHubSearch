@@ -3,7 +3,7 @@ package net.kwmt27.githubsearch;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
-import net.kwmt27.githubsearch.presenter.MainPresenter;
+import net.kwmt27.githubsearch.presenter.RepositoryListPresenter;
 import net.kwmt27.githubsearch.testUtil.FileUtil;
 
 import org.junit.After;
@@ -23,7 +23,7 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class MainPresenterTest {
+public class RepositoryListPresenterTest {
 
 
     private MockWebServer mMockServer;
@@ -49,14 +49,14 @@ public class MainPresenterTest {
     @Test
     public void testOnClearClick() {
 
-        class MockMainView implements MainPresenter.IMainView {
+        class MockMainView implements RepositoryListPresenter.IMainView {
 
             @Override
             public void updateTextView(String str) {
                 assertThat(str, is("クリアされました"));
             }
         }
-        MainPresenter presenter = new MainPresenter(new MockMainView());
+        RepositoryListPresenter presenter = new RepositoryListPresenter(new MockMainView());
         presenter.onClearClick();
     }
 
@@ -66,14 +66,14 @@ public class MainPresenterTest {
         assertThat(json, notNullValue());
         mMockServer.enqueue(new MockResponse().setBody(json));
 
-        class MockMainView implements MainPresenter.IMainView {
+        class MockMainView implements RepositoryListPresenter.IMainView {
 
             @Override
             public void updateTextView(String str) {
                 assertThat(str, is("https://api.github.com/user"));
             }
         }
-        MainPresenter presenter = new MainPresenter(new MockMainView());
+        RepositoryListPresenter presenter = new RepositoryListPresenter(new MockMainView());
         presenter.onGetClick();
     }
 //    @Test
@@ -82,14 +82,14 @@ public class MainPresenterTest {
 //        assertThat(json, notNullValue());
 //        mMockServer.enqueue(new MockResponse().setBody(json));
 //
-//        class MockMainView implements MainPresenter.IMainView {
+//        class MockMainView implements RepositoryListPresenter.IMainView {
 //
 //            @Override
 //            public void updateTextView(String str) {
 //                assertThat(str, is("JSONパースに失敗しました。"));
 //            }
 //        }
-//        MainPresenter presenter = new MainPresenter(new MockMainView());
+//        RepositoryListPresenter presenter = new RepositoryListPresenter(new MockMainView());
 //        presenter.onGetClick();
 //    }
 }

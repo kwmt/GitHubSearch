@@ -12,7 +12,7 @@ import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 import net.kwmt27.githubsearch.R;
 import net.kwmt27.githubsearch.entity.GithubRepoEntity;
 import net.kwmt27.githubsearch.presenter.IMainPresenter;
-import net.kwmt27.githubsearch.presenter.MainPresenter;
+import net.kwmt27.githubsearch.presenter.RepositoryListPresenter;
 import net.kwmt27.githubsearch.util.Logger;
 import net.kwmt27.githubsearch.util.ToastUtil;
 
@@ -21,7 +21,7 @@ import java.util.List;
 import rx.Subscription;
 import rx.functions.Action1;
 
-public class MainActivity extends BaseActivity implements MainPresenter.IMainView {
+public class RepositoryListActivity extends BaseActivity implements RepositoryListPresenter.IMainView {
 
     private IMainPresenter mPresenter;
     private GitHubRepoListAdapter mGitHubRepoListAdapter;
@@ -34,9 +34,9 @@ public class MainActivity extends BaseActivity implements MainPresenter.IMainVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_repository_list);
 
-        mPresenter = new MainPresenter(this);
+        mPresenter = new RepositoryListPresenter(this);
 
         mPresenter.onCreate(savedInstanceState);
     }
@@ -66,7 +66,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.IMainVie
         mGitHubRepoListAdapter = new GitHubRepoListAdapter(getApplicationContext(), new OnItemClickListener<GitHubRepoListAdapter, GithubRepoEntity>() {
             @Override
             public void onItemClick(GitHubRepoListAdapter adapter, int position, GithubRepoEntity repo) {
-                DetailActivity.startActivity(MainActivity.this, repo.getName(), repo.getHtmlUrl(), repo);
+                DetailActivity.startActivity(RepositoryListActivity.this, repo.getName(), repo.getHtmlUrl(), repo);
             }
         });
         mRecyclerView.setAdapter(mGitHubRepoListAdapter);
