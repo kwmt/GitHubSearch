@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import net.kwmt27.githubsearch.ModelLocator;
-import net.kwmt27.githubsearch.entity.SearchCodeResultEntity;
-import net.kwmt27.githubsearch.entity.SearchRepositoryResultEntity;
 
 public class SearchPresenter implements ISearchPresenter {
 
@@ -40,9 +38,9 @@ public class SearchPresenter implements ISearchPresenter {
     public interface ISearchView {
         void setupComponents();
 
-        void updateSearchRepositoryResultView(SearchRepositoryResultEntity searchRepositoryResultEntity);
-
-        void updateSearchCodeResultView(SearchCodeResultEntity entity);
+//        void updateSearchRepositoryResultView(SearchRepositoryResultEntity searchRepositoryResultEntity);
+//
+//        void updateSearchCodeResultView(SearchCodeResultEntity entity);
 
         Intent getIntent();
 

@@ -15,7 +15,6 @@ import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 import net.kwmt27.githubsearch.R;
 import net.kwmt27.githubsearch.entity.GithubRepoEntity;
 import net.kwmt27.githubsearch.entity.ItemEntity;
-import net.kwmt27.githubsearch.entity.SearchCodeResultEntity;
 import net.kwmt27.githubsearch.presenter.search.ISearchResultListPresenter;
 import net.kwmt27.githubsearch.presenter.search.SearchCodeResultListPresenter;
 import net.kwmt27.githubsearch.util.Logger;
@@ -23,6 +22,8 @@ import net.kwmt27.githubsearch.util.ToastUtil;
 import net.kwmt27.githubsearch.view.DetailActivity;
 import net.kwmt27.githubsearch.view.DividerItemDecoration;
 import net.kwmt27.githubsearch.view.OnItemClickListener;
+
+import java.util.List;
 
 import rx.Subscription;
 import rx.functions.Action1;
@@ -99,8 +100,11 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
     }
 
     @Override
-    public void updateSearchResultListView(SearchCodeResultEntity searchCodeResultEntity) {
-        mSearchCodeResultListAdapter.setSearchResultList(searchCodeResultEntity.getItemEntityList());
+    public void updateSearchResultListView(List<ItemEntity> itemEntityList) {
+        mIsCalled = false;
+        rxRecyclerViewScrollSubscribe();
+        mCallback.showNotFoundPageIfNeeded(itemEntityList.size() > 0);
+        mSearchCodeResultListAdapter.setSearchResultList(itemEntityList);
         mSearchCodeResultListAdapter.notifyDataSetChanged();
     }
 

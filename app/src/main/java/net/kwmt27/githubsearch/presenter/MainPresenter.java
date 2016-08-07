@@ -38,14 +38,14 @@ public class MainPresenter implements IMainPresenter {
 
     @Override
     public void onScrollToBottom() {
-        if(ModelLocator.getSearchModel().hasNextPage()) {
-            fetchRepositoryListOnScroll(ModelLocator.getSearchModel().getNextPage());
+        if(ModelLocator.getSearchModel().hasNextPageOfRepoList()) {
+            fetchRepositoryListOnScroll(ModelLocator.getSearchModel().getNextPageOfRepoList());
         }
     }
 
     private void fetchRepositoryList(Integer page) {
         mMainView.showProgress();
-        ModelLocator.getSearchModel().fetchListReposByUser(page, new ApiSubscriber<List<GithubRepoEntity>>((MainActivity)mMainView) {
+        ModelLocator.getSearchModel().fetchRepoListByUser(page, new ApiSubscriber<List<GithubRepoEntity>>((MainActivity)mMainView) {
             @Override
             public void onCompleted() {
                 mMainView.hideProgress();
@@ -67,7 +67,7 @@ public class MainPresenter implements IMainPresenter {
 
     private void fetchRepositoryListOnScroll(Integer page) {
         mMainView.showProgressOnScroll();
-        ModelLocator.getSearchModel().fetchListReposByUser(page, new ApiSubscriber<List<GithubRepoEntity>>((MainActivity)mMainView) {
+        ModelLocator.getSearchModel().fetchRepoListByUser(page, new ApiSubscriber<List<GithubRepoEntity>>((MainActivity)mMainView) {
             @Override
             public void onCompleted() {
                 mMainView.hideProgressOnScroll();

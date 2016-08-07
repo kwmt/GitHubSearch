@@ -21,8 +21,6 @@ import android.widget.TextView;
 import net.kwmt27.githubsearch.ModelLocator;
 import net.kwmt27.githubsearch.R;
 import net.kwmt27.githubsearch.entity.GithubRepoEntity;
-import net.kwmt27.githubsearch.entity.SearchCodeResultEntity;
-import net.kwmt27.githubsearch.entity.SearchRepositoryResultEntity;
 import net.kwmt27.githubsearch.presenter.search.ISearchPresenter;
 import net.kwmt27.githubsearch.presenter.search.SearchPresenter;
 import net.kwmt27.githubsearch.util.KeyboardUtil;
@@ -138,19 +136,19 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
 
     }
 
-    @Override
-    public void updateSearchRepositoryResultView(SearchRepositoryResultEntity entity) {
-        showNotFoundPageIfNeeded(entity.foundResult());
-        SearchRepositoryResultListFragment fragment = (SearchRepositoryResultListFragment) getSupportFragmentManager().findFragmentByTag(SearchRepositoryResultListFragment.TAG);
-        fragment.updateSearchResultListView(entity);
-    }
-
-    @Override
-    public void updateSearchCodeResultView(SearchCodeResultEntity entity) {
-        showNotFoundPageIfNeeded(entity.foundResult());
-        SearchCodeResultListFragment fragment = (SearchCodeResultListFragment) getSupportFragmentManager().findFragmentByTag(SearchCodeResultListFragment.TAG);
-        fragment.updateSearchResultListView(entity);
-    }
+//    @Override
+//    public void updateSearchRepositoryResultView(SearchRepositoryResultEntity entity) {
+//        showNotFoundPageIfNeeded(entity.foundResult());
+//        SearchRepositoryResultListFragment fragment = (SearchRepositoryResultListFragment) getSupportFragmentManager().findFragmentByTag(SearchRepositoryResultListFragment.TAG);
+//        fragment.updateSearchResultListView(entity);
+//    }
+//
+//    @Override
+//    public void updateSearchCodeResultView(SearchCodeResultEntity entity) {
+//        showNotFoundPageIfNeeded(entity.foundResult());
+//        SearchCodeResultListFragment fragment = (SearchCodeResultListFragment) getSupportFragmentManager().findFragmentByTag(SearchCodeResultListFragment.TAG);
+//        fragment.updateSearchResultListView(entity);
+//    }
 
     @Override
     public void showProgress() {
@@ -178,10 +176,13 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
 
     }
 
-    private void showNotFoundPageIfNeeded(boolean show) {
+    @Override
+    public void showNotFoundPageIfNeeded(boolean show) {
         RelativeLayout notFoundLayout = (RelativeLayout) findViewById(R.id.not_found_layout);
         ((TextView)notFoundLayout.findViewById(R.id.keyword)).setText(ModelLocator.getSearchModel().getKeyword());
         int visibility = show ? View.GONE : View.VISIBLE;
         notFoundLayout.setVisibility(visibility);
+
     }
+
 }

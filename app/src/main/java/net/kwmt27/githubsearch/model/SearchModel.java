@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import net.kwmt27.githubsearch.ModelLocator;
 import net.kwmt27.githubsearch.entity.GithubRepoEntity;
+import net.kwmt27.githubsearch.entity.ItemEntity;
 import net.kwmt27.githubsearch.entity.SearchCodeResultEntity;
 import net.kwmt27.githubsearch.entity.SearchRepositoryResultEntity;
 import net.kwmt27.githubsearch.model.rx.ReusableCompositeSubscription;
@@ -26,13 +27,17 @@ public class SearchModel {
 
     private static final String TAG = SearchModel.class.getSimpleName();
     private List<GithubRepoEntity> mGitHubRepoEntityList = new ArrayList<>();
-    private GithubRepoEntity mGitHubRepo;
+    private Map<String, List<String>> mHeadersMapOfRepoList;
     private SearchCodeResultEntity mSearchCodeResultEntity;
+    private List<ItemEntity> mItemEntityList = new ArrayList<>();
+    private Map<String, List<String>> mHeadersMapOfSearchCode;
+
+    private GithubRepoEntity mGitHubRepo;
     private SearchRepositoryResultEntity mSearchRepositoryResultEntity;
     private String mKeyword;
+    private String mRepository;
 
     private ReusableCompositeSubscription mCompositeSubscription = new ReusableCompositeSubscription();
-    private Map<String, List<String>> mHeadaersMap;
 
     public void unsubscribe() {
         if(mCompositeSubscription != null) {
@@ -42,16 +47,18 @@ public class SearchModel {
 
     public void clear() {
         mGitHubRepoEntityList = null;
+        mSearchCodeResultEntity = null;
+        mItemEntityList = null;
     }
 
 
-    public Subscription fetchListReposByUser(Integer page, final Subscriber<List<GithubRepoEntity>> subscriber) {
+    public Subscription fetchRepoListByUser(Integer page, final Subscriber<List<GithubRepoEntity>> subscriber) {
         Subscription listReposSubscription = ModelLocator.getApiClient().api.listRepos("kwmt", page)
                 .subscribeOn(Schedulers.newThread())
                 .flatMap(new Func1<Response<List<GithubRepoEntity>>, Observable<List<GithubRepoEntity>>>() {
                     @Override
                     public Observable<List<GithubRepoEntity>> call(Response<List<GithubRepoEntity>> listResponse) {
-                        mHeadaersMap = listResponse.headers().toMultimap();
+                        mHeadersMapOfRepoList = listResponse.headers().toMultimap();
                         if(mGitHubRepoEntityList != null && mGitHubRepoEntityList.size()> 0){
                             List<GithubRepoEntity> newList = new ArrayList<>(mGitHubRepoEntityList);
                             newList.addAll(listResponse.body());
@@ -92,18 +99,31 @@ public class SearchModel {
         return subscription;
     }
 
-    public Subscription searchCode(String keyword,  String repo, final Subscriber<SearchCodeResultEntity> subscriber) {
+    public Subscription searchCode(String keyword,  String repo, Integer page, final Subscriber<List<ItemEntity>> subscriber) {
+        if(!getKeyword().equals(keyword)) {
+            clear();
+        }
+
         mKeyword = keyword;
         // FIXME: least one repo or user
+        mRepository = repo;
         keyword += "+repo:" + repo;
 
-        Subscription subscription = ModelLocator.getApiClient().api.searchCode(keyword)
+        Subscription subscription = ModelLocator.getApiClient().api.searchCode(keyword, page)
                 .subscribeOn(Schedulers.newThread())
-                .flatMap(new Func1<SearchCodeResultEntity, Observable<SearchCodeResultEntity>>() {
+                .flatMap(new Func1<Response<SearchCodeResultEntity>, Observable<List<ItemEntity>>>() {
                     @Override
-                    public Observable<SearchCodeResultEntity> call(SearchCodeResultEntity searchResultEntity) {
-                        mSearchCodeResultEntity = searchResultEntity;
-                        return Observable.just(searchResultEntity);
+                    public Observable<List<ItemEntity>> call(Response<SearchCodeResultEntity> searchResultEntity) {
+                        mHeadersMapOfSearchCode = searchResultEntity.headers().toMultimap();
+                        mSearchCodeResultEntity = searchResultEntity.body();
+                        if(mItemEntityList != null && mItemEntityList.size() > 0) {
+                            List<ItemEntity> newList = new ArrayList<>(mItemEntityList);
+                            newList.addAll(mSearchCodeResultEntity.getItemEntityList());
+                            mItemEntityList = newList;
+                        } else {
+                            mItemEntityList = searchResultEntity.body().getItemEntityList();
+                        }
+                        return Observable.just(mItemEntityList);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -111,6 +131,7 @@ public class SearchModel {
         mCompositeSubscription.add(subscription);
         return subscription;
     }
+
     public Subscription searchRepositories(String keyword, final Subscriber<SearchRepositoryResultEntity> subscriber) {
         mKeyword = keyword;
         Subscription subscription = ModelLocator.getApiClient().api.searchRepositories(keyword)
@@ -138,21 +159,30 @@ public class SearchModel {
         return mKeyword;
     }
 
-    public int getLastPage() {
-        return extractLink("last");
-    }
-    public int getNextPage() {
-        return extractLink("next");
+    public String getRepository() {
+        if(mRepository == null) { return ""; }
+        return mRepository;
     }
 
-    private int extractLink(String rel) {
-        if (mHeadaersMap == null) {
+    public int getLastPage() {
+        return extractLink(mHeadersMapOfRepoList, "last");
+    }
+    public int getNextPageOfRepoList() {
+        return extractLink(mHeadersMapOfRepoList ,"next");
+    }
+
+    public int getNextPageOfSearchCode() {
+        return extractLink(mHeadersMapOfSearchCode ,"next");
+    }
+
+    private int extractLink(Map<String, List<String>> headerMap, String rel) {
+        if (headerMap == null) {
             return 0;
         }
-        if (!mHeadaersMap.containsKey("link")) {
-            return 1;
+        if (!headerMap.containsKey("link")) {
+            return 0;
         }
-        List<String> values = mHeadaersMap.get("link");
+        List<String> values = headerMap.get("link");
         if (values.size() > 0) {
             String linkValue = values.get(0);
             String[] splitLinkValue = linkValue.split(",");
@@ -172,7 +202,10 @@ public class SearchModel {
         return 0;
     }
 
-    public boolean hasNextPage() {
-        return  getNextPage() > 0;
+    public boolean hasNextPageOfRepoList() {
+        return  getNextPageOfRepoList() > 0;
+    }
+    public boolean hasNextPageOfSearchCode() {
+        return  getNextPageOfSearchCode() > 0;
     }
 }

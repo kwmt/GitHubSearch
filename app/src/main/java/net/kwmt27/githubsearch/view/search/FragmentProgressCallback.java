@@ -7,4 +7,5 @@ public interface FragmentProgressCallback {
 
     void showError();
 
+    void showNotFoundPageIfNeeded(boolean show);
 }
