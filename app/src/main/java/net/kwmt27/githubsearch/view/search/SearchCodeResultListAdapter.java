@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import net.kwmt27.githubsearch.R;
 import net.kwmt27.githubsearch.entity.ItemEntity;
+import net.kwmt27.githubsearch.entity.ItemType;
 import net.kwmt27.githubsearch.entity.MatchEntity;
 import net.kwmt27.githubsearch.entity.TextMatchEntity;
 import net.kwmt27.githubsearch.util.RoundedBackgroundSpan;
@@ -95,6 +96,35 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
 
     public void setSearchResultList(List<ItemEntity> searchResultList) {
         mSearchResultList = searchResultList;
+    }
+
+    public void addProgressItemTypeThenNotify() {
+        int pos = addItemType(ItemType.Progress);
+        if (pos > -1) {
+            notifyItemInserted(pos);
+        }
+    }
+
+    public void removeProgressItemTypeThenNotify() {
+        int pos = findPositionByItemType(ItemType.Progress);
+        if (pos > -1) {
+            mSearchResultList.remove(pos);
+            notifyItemRemoved(pos);
+        }
+    }
+
+    private int addItemType(ItemType type) {
+        mSearchResultList.add(new ItemEntity(type));
+        return mSearchResultList.size() - 1;
+    }
+
+    private int findPositionByItemType(ItemType type) {
+        for (int i = 0; i < mSearchResultList.size(); i++) {
+            if (mSearchResultList.get(i).getItemType() == type) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**

@@ -22,7 +22,7 @@ public interface GitHubService {
 
     @Headers("Accept: application/vnd.github.v3.text-match+json")
     @GET("search/code")
-    Observable<SearchCodeResultEntity> searchCode(@Query(value = "q", encoded = true) String keyword);
+    Observable<Response<SearchCodeResultEntity>> searchCode(@Query(value = "q", encoded = true) String keyword, @Query(value = "page") Integer page);
 
     @Headers("Accept: application/vnd.github.v3.text-match+json")
     @GET("search/repositories")

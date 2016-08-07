@@ -8,16 +8,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
+
+import com.jakewharton.rxbinding.support.v7.widget.RecyclerViewScrollEvent;
+import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 
 import net.kwmt27.githubsearch.R;
 import net.kwmt27.githubsearch.entity.GithubRepoEntity;
 import net.kwmt27.githubsearch.entity.SearchRepositoryResultEntity;
 import net.kwmt27.githubsearch.presenter.search.ISearchResultListPresenter;
 import net.kwmt27.githubsearch.presenter.search.SearchRepositoryResultListPresenter;
+import net.kwmt27.githubsearch.util.Logger;
+import net.kwmt27.githubsearch.util.ToastUtil;
 import net.kwmt27.githubsearch.view.DetailActivity;
 import net.kwmt27.githubsearch.view.DividerItemDecoration;
 import net.kwmt27.githubsearch.view.OnItemClickListener;
+
+import rx.Subscription;
+import rx.functions.Action1;
 
 
 /**
@@ -30,9 +39,17 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
     private ISearchResultListPresenter mPresenter;
     private SearchRepositoryResultListAdapter mSearchRepositoryResultListAdapter;
     private RelativeLayout mNotFoundLayout;
+    private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLayoutManager;
+    private Subscription mSubscription;
+    private boolean mIsCalled = false;
+    private FragmentProgressCallback mCallback;
+    private View mErrorLayout;
 
-    public static SearchRepositoryResultListFragment newInstance() {
-        return new SearchRepositoryResultListFragment();
+    public static SearchRepositoryResultListFragment newInstance(FragmentProgressCallback callback) {
+        SearchRepositoryResultListFragment fragment = new SearchRepositoryResultListFragment();
+        fragment.setFragmentProgressCallback(callback);
+        return fragment;
     }
 
     public SearchRepositoryResultListFragment() {
@@ -67,18 +84,21 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
     @Override
     public void setupComponents(View view, Bundle savedInstanceState) {
         final Context context = getActivity().getApplicationContext();
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.search_result_list);
-        recyclerView.addItemDecoration(new DividerItemDecoration(context, R.drawable.divider));
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.search_result_list);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(context, R.drawable.divider));
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mSearchRepositoryResultListAdapter = new SearchRepositoryResultListAdapter(getActivity().getApplicationContext(), new OnItemClickListener<SearchRepositoryResultListAdapter, GithubRepoEntity>() {
             @Override
             public void onItemClick(SearchRepositoryResultListAdapter adapter, int position, GithubRepoEntity repo) {
                 DetailActivity.startActivity(getActivity(), repo.getName(), repo.getHtmlUrl(), repo);
             }
         });
-        recyclerView.setAdapter(mSearchRepositoryResultListAdapter);
+        mRecyclerView.setAdapter(mSearchRepositoryResultListAdapter);
+        rxRecyclerViewScrollSubscribe();
+
+        mErrorLayout = view.findViewById(R.id.error_layout);
 
     }
 
@@ -90,4 +110,74 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
         mSearchRepositoryResultListAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onEditorActionSearch(String keyword, GithubRepoEntity entity) {
+        mPresenter.onEditorActionSearch(keyword, entity);
+    }
+
+    @Override
+    public void showProgress() {
+        mCallback.showProgress();
+    }
+
+    @Override
+    public void hideProgress() {
+        mCallback.hideProgress();
+    }
+
+    @Override
+    public void showError() {
+        mErrorLayout.setVisibility(View.VISIBLE);
+
+        Button button = (Button) mErrorLayout.findViewById(R.id.reload_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mErrorLayout.setVisibility(View.GONE);
+                mPresenter.onClickReloadButton();
+            }
+        });
+
+    }
+
+    @Override
+    public void showProgressOnScroll() {
+        mSearchRepositoryResultListAdapter.addProgressItemTypeThenNotify();
+    }
+
+    @Override
+    public void hideProgressOnScroll() {
+        mSearchRepositoryResultListAdapter.removeProgressItemTypeThenNotify();
+    }
+
+    @Override
+    public void showErrorOnScroll() {
+        ToastUtil.show(getActivity().getApplicationContext(), "データ取得に失敗しました。");
+    }
+
+
+    private void rxRecyclerViewScrollSubscribe() {
+        mSubscription = RxRecyclerView.scrollEvents(mRecyclerView).subscribe(
+                new Action1<RecyclerViewScrollEvent>() {
+                    @Override
+                    public void call(RecyclerViewScrollEvent event) {
+                        int totalItemCount = mLayoutManager.getItemCount();
+                        int lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
+                        if (totalItemCount - 1 <= lastVisibleItemPosition) {
+                            if(mIsCalled){
+                                return;
+                            }
+                            mIsCalled = true;
+                            Logger.d("onLastVisible");
+                            mSubscription.unsubscribe();
+                            mPresenter.onScrollToBottom();
+                        }
+                    }
+                }
+        );
+    }
+
+    public void setFragmentProgressCallback(FragmentProgressCallback fragmentProgressCallback) {
+        mCallback = fragmentProgressCallback;
+    }
 }

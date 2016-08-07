@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import net.kwmt27.githubsearch.R;
 import net.kwmt27.githubsearch.entity.GithubRepoEntity;
+import net.kwmt27.githubsearch.entity.ItemType;
 import net.kwmt27.githubsearch.util.Logger;
 import net.kwmt27.githubsearch.view.OnItemClickListener;
 
@@ -86,5 +87,34 @@ public class SearchRepositoryResultListAdapter extends RecyclerView.Adapter<Sear
 
     public void setSearchResultList(List<GithubRepoEntity> searchResultList) {
         mSearchResultList = searchResultList;
+    }
+
+    public void addProgressItemTypeThenNotify() {
+        int pos = addItemType(ItemType.Progress);
+        if (pos > -1) {
+            notifyItemInserted(pos);
+        }
+    }
+
+    public void removeProgressItemTypeThenNotify() {
+        int pos = findPositionByItemType(ItemType.Progress);
+        if (pos > -1) {
+            mSearchResultList.remove(pos);
+            notifyItemRemoved(pos);
+        }
+    }
+
+    private int addItemType(ItemType type) {
+        mSearchResultList.add(new GithubRepoEntity(type));
+        return mSearchResultList.size() - 1;
+    }
+
+    private int findPositionByItemType(ItemType type) {
+        for (int i = 0; i < mSearchResultList.size(); i++) {
+            if (mSearchResultList.get(i).getItemType() == type) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

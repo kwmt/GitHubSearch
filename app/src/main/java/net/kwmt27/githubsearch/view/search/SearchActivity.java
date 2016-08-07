@@ -3,6 +3,8 @@ package net.kwmt27.githubsearch.view.search;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,14 +20,12 @@ import android.widget.TextView;
 import net.kwmt27.githubsearch.ModelLocator;
 import net.kwmt27.githubsearch.R;
 import net.kwmt27.githubsearch.entity.GithubRepoEntity;
-import net.kwmt27.githubsearch.entity.SearchCodeResultEntity;
-import net.kwmt27.githubsearch.entity.SearchRepositoryResultEntity;
 import net.kwmt27.githubsearch.presenter.search.ISearchPresenter;
 import net.kwmt27.githubsearch.presenter.search.SearchPresenter;
 import net.kwmt27.githubsearch.util.KeyboardUtil;
 import net.kwmt27.githubsearch.view.BaseActivity;
 
-public class SearchActivity extends BaseActivity implements SearchPresenter.ISearchView {
+public class SearchActivity extends BaseActivity implements SearchPresenter.ISearchView, FragmentProgressCallback {
 
 
     private MenuItem mActionClearMenu;
@@ -80,6 +79,19 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
     public void setupComponents() {
         setUpActionBar();
 
+        Intent intent = getIntent();
+        final boolean canSearchCode = intent.getBooleanExtra(ISearchPresenter.CAN_SEARCH_CODE, false);
+
+
+        final FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        if (canSearchCode) {
+            transaction.replace(R.id.container, SearchCodeResultListFragment.newInstance(this), SearchCodeResultListFragment.TAG);
+        } else {
+            transaction.replace(R.id.container, SearchRepositoryResultListFragment.newInstance(this), SearchRepositoryResultListFragment.TAG);
+        }
+        transaction.commit();
+
         mSearchEditText = (EditText) findViewById(R.id.search_edit);
         mSearchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -88,8 +100,16 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     KeyboardUtil.hideKeyboard(SearchActivity.this);
-                    if(v.getText().toString().length() > 0) {
-                        mPresenter.onEditorActionSearch(v.getText().toString());
+                    if(v.getText().toString().length() <= 0) {
+                        return false;
+                    }
+                    GithubRepoEntity repo = (GithubRepoEntity) getIntent().getSerializableExtra(ISearchPresenter.REPO_ENTITY_KEY);
+                    if (canSearchCode) {
+                        SearchCodeResultListFragment fragment = (SearchCodeResultListFragment) manager.findFragmentByTag(SearchCodeResultListFragment.TAG);
+                        fragment.onEditorActionSearch(v.getText().toString(), repo);
+                    } else {
+                        SearchRepositoryResultListFragment fragment = (SearchRepositoryResultListFragment) manager.findFragmentByTag(SearchRepositoryResultListFragment.TAG);
+                        fragment.onEditorActionSearch(v.getText().toString(), repo);
                     }
                 }
                 return handled;
@@ -116,20 +136,6 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
     }
 
     @Override
-    public void updateSearchRepositoryResultView(SearchRepositoryResultEntity entity) {
-        showNotFoundPageIfNeeded(entity.foundResult());
-        SearchRepositoryResultListFragment fragment = (SearchRepositoryResultListFragment) getSupportFragmentManager().findFragmentByTag(SearchRepositoryResultListFragment.TAG);
-        fragment.updateSearchResultListView(entity);
-    }
-
-    @Override
-    public void updateSearchCodeResultView(SearchCodeResultEntity entity) {
-        showNotFoundPageIfNeeded(entity.foundResult());
-        SearchCodeResultListFragment fragment = (SearchCodeResultListFragment) getSupportFragmentManager().findFragmentByTag(SearchCodeResultListFragment.TAG);
-        fragment.updateSearchResultListView(entity);
-    }
-
-    @Override
     public void showProgress() {
         findViewById(R.id.progress_layout).setVisibility(View.VISIBLE);
     }
@@ -139,26 +145,14 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
         findViewById(R.id.progress_layout).setVisibility(View.GONE);
     }
 
+
     @Override
-    public void showError() {
-        final View errorLayout = findViewById(R.id.error_layout);
-        errorLayout.setVisibility(View.VISIBLE);
-
-        Button button = (Button)errorLayout.findViewById(R.id.reload_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                errorLayout.setVisibility(View.GONE);
-                mPresenter.onClickReloadButton();
-            }
-        });
-
-    }
-
-    private void showNotFoundPageIfNeeded(boolean show) {
+    public void showNotFoundPageIfNeeded(boolean show) {
         RelativeLayout notFoundLayout = (RelativeLayout) findViewById(R.id.not_found_layout);
         ((TextView)notFoundLayout.findViewById(R.id.keyword)).setText(ModelLocator.getSearchModel().getKeyword());
         int visibility = show ? View.GONE : View.VISIBLE;
         notFoundLayout.setVisibility(visibility);
+
     }
+
 }

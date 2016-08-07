@@ -9,6 +9,14 @@
         android:id="@+id/search_result_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="vertical"
         />
+
+    <include
+        layout="@layout/include_error_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
 
 </RelativeLayout>
