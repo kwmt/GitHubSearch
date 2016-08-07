@@ -49,14 +49,14 @@ public class RepositoryListPresenterTest {
     @Test
     public void testOnClearClick() {
 
-        class MockMainView implements RepositoryListPresenter.IMainView {
+        class MockRepositoryListView implements RepositoryListPresenter.IMainView {
 
             @Override
             public void updateTextView(String str) {
                 assertThat(str, is("クリアされました"));
             }
         }
-        RepositoryListPresenter presenter = new RepositoryListPresenter(new MockMainView());
+        RepositoryListPresenter presenter = new RepositoryListPresenter(new MockRepositoryListView());
         presenter.onClearClick();
     }
 
@@ -82,14 +82,14 @@ public class RepositoryListPresenterTest {
 //        assertThat(json, notNullValue());
 //        mMockServer.enqueue(new MockResponse().setBody(json));
 //
-//        class MockMainView implements RepositoryListPresenter.IMainView {
+//        class MockRepositoryListView implements RepositoryListPresenter.IMainView {
 //
 //            @Override
 //            public void updateTextView(String str) {
 //                assertThat(str, is("JSONパースに失敗しました。"));
 //            }
 //        }
-//        RepositoryListPresenter presenter = new RepositoryListPresenter(new MockMainView());
+//        RepositoryListPresenter presenter = new RepositoryListPresenter(new MockRepositoryListView());
 //        presenter.onGetClick();
 //    }
 }
