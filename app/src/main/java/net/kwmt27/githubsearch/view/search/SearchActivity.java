@@ -136,20 +136,6 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
 
     }
 
-//    @Override
-//    public void updateSearchRepositoryResultView(SearchRepositoryResultEntity entity) {
-//        showNotFoundPageIfNeeded(entity.foundResult());
-//        SearchRepositoryResultListFragment fragment = (SearchRepositoryResultListFragment) getSupportFragmentManager().findFragmentByTag(SearchRepositoryResultListFragment.TAG);
-//        fragment.updateSearchResultListView(entity);
-//    }
-//
-//    @Override
-//    public void updateSearchCodeResultView(SearchCodeResultEntity entity) {
-//        showNotFoundPageIfNeeded(entity.foundResult());
-//        SearchCodeResultListFragment fragment = (SearchCodeResultListFragment) getSupportFragmentManager().findFragmentByTag(SearchCodeResultListFragment.TAG);
-//        fragment.updateSearchResultListView(entity);
-//    }
-
     @Override
     public void showProgress() {
         findViewById(R.id.progress_layout).setVisibility(View.VISIBLE);
