@@ -5,15 +5,15 @@ import android.os.Bundle;
 import net.kwmt27.githubsearch.ModelLocator;
 import net.kwmt27.githubsearch.entity.GithubRepoEntity;
 import net.kwmt27.githubsearch.model.rx.ApiSubscriber;
-import net.kwmt27.githubsearch.view.MainActivity;
+import net.kwmt27.githubsearch.view.RepositoryListActivity;
 
 import java.util.List;
 
-public class MainPresenter implements IMainPresenter {
+public class RepositoryListPresenter implements IMainPresenter {
 
     private IMainView mMainView;
 
-    public MainPresenter(IMainView mainView) {
+    public RepositoryListPresenter(IMainView mainView) {
         mMainView = mainView;
     }
 
@@ -45,7 +45,7 @@ public class MainPresenter implements IMainPresenter {
 
     private void fetchRepositoryList(Integer page) {
         mMainView.showProgress();
-        ModelLocator.getSearchModel().fetchRepoListByUser(page, new ApiSubscriber<List<GithubRepoEntity>>((MainActivity)mMainView) {
+        ModelLocator.getSearchModel().fetchRepoListByUser(page, new ApiSubscriber<List<GithubRepoEntity>>((RepositoryListActivity)mMainView) {
             @Override
             public void onCompleted() {
                 mMainView.hideProgress();
@@ -67,7 +67,7 @@ public class MainPresenter implements IMainPresenter {
 
     private void fetchRepositoryListOnScroll(Integer page) {
         mMainView.showProgressOnScroll();
-        ModelLocator.getSearchModel().fetchRepoListByUser(page, new ApiSubscriber<List<GithubRepoEntity>>((MainActivity)mMainView) {
+        ModelLocator.getSearchModel().fetchRepoListByUser(page, new ApiSubscriber<List<GithubRepoEntity>>((RepositoryListActivity)mMainView) {
             @Override
             public void onCompleted() {
                 mMainView.hideProgressOnScroll();
