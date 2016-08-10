@@ -13,7 +13,7 @@ import net.kwmt27.githubsearch.view.search.SearchActivity;
 
 
 /**
- * レポジトリ一覧
+ * トップ画面
  */
 public class TopFragment extends Fragment { //implements TopPresenter.ITopView {
 
