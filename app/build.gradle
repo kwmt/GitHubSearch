@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 24
@@ -34,21 +35,32 @@ android {
         }
     }
 
+
+    // ~/.gradle/gradle.properties に記入
+    def GITHUB_CLIENT_ID = '"' + GithubClientIdProp + '"' ?: '"Define GitHub Client Id"';
+    def GITHUB_CLIENT_SECRET = '"' + GithubClientSecretProp + '"' ?: '"Defien GitHub Client secret"';
+
+
     productFlavors {
         develop {
             manifestPlaceholders = [appName:"[開発]GitHubSearch"]
             buildConfigField "String", "BASE_API_URL", "\"https://api.github.com\""
             buildConfigField "String", "BASE_WEBVIEW_URL", "\"\""
+            buildConfigField "String", "GITHUB_CLIENT_ID", GITHUB_CLIENT_ID
+            buildConfigField "String", "GITHUB_CLIENT_SECRET", GITHUB_CLIENT_SECRET
         }
         production {
             manifestPlaceholders = [appName:"@string/app_name"]
             buildConfigField "String", "BASE_API_URL", "\"https://api.github.com\""
             buildConfigField "String", "BASE_WEBVIEW_URL", "\"\""
+            buildConfigField "String", "GITHUB_CLIENT_ID", GITHUB_CLIENT_ID
+            buildConfigField "String", "GITHUB_CLIENT_SECRET", GITHUB_CLIENT_SECRET
         }
 
     }
 
 }
+
 
 final SUPPORT_LIB_VERSION = '24.1.1'
 final OKHTTP_VERSION = '3.4.1'
@@ -71,6 +83,9 @@ dependencies {
 
     compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0'
 
+//    compile 'com.google.firebase:firebase-core:9.4.0'
+    compile 'com.google.firebase:firebase-auth:9.4.0'
+
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
     androidTestCompile "com.squareup.okhttp3:mockwebserver:${OKHTTP_VERSION}"
@@ -78,3 +93,5 @@ dependencies {
     androidTestCompile "com.android.support:support-annotations:${SUPPORT_LIB_VERSION}"
 
 }
+
+apply plugin: 'com.google.gms.google-services'

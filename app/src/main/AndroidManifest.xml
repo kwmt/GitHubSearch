@@ -13,25 +13,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GithubViewer">
         <activity
-            android:name=".view.RepositoryListActivity"
+            android:name=".view.DetailActivity"
+            android:configChanges="orientation|screenSize">
+        </activity>
+        <activity
+            android:name=".view.search.SearchActivity"
             android:configChanges="orientation|screenSize"
-            >
+            android:theme="@style/Theme.GithubViewer.Search">
+        </activity>
+        <activity
+            android:name=".view.MainActivity"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".view.DetailActivity"
-            android:configChanges="orientation|screenSize"
-            >
-        </activity>
-        <activity
-            android:name=".view.search.SearchActivity"
-            android:configChanges="orientation|screenSize"
-            android:theme="@style/Theme.GithubViewer.Search"
-            >
+        <activity android:name=".view.LoginActivity">
         </activity>
     </application>
 

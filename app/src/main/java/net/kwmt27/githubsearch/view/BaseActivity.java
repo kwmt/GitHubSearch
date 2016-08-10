@@ -18,13 +18,18 @@ public class BaseActivity extends AppCompatActivity {
 
 
     protected void setUpActionBar() {
+        setUpActionBar(true);
+    }
+
+    protected void setUpActionBar(boolean showHomeAsUp) {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar != null) {
             setSupportActionBar(toolbar);
         }
         String title = getIntent().getStringExtra(TITLE_KEY);
         setTitle(title);
-        setDisplayHomeAsUpEnabled(true);
+        setDisplayHomeAsUpEnabled(showHomeAsUp);
+
     }
 
     protected void setTitle(String title) {

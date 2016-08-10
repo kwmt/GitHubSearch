@@ -11,4 +11,8 @@
     <color name="match_background_color">#FFFFC6</color>
 
     <color name="text_color">@android:color/black</color>
+    <color name="button_github_login">#444444</color>
+    <color name="button_github_login_pressed">#565C59</color>
+    <color name="button_search_github">#ffffff</color>
+    <color name="button_search_github_pressed">#10000000</color>
 </resources>

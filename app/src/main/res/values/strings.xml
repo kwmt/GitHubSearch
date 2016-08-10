@@ -5,4 +5,6 @@
     <string name="clear">クリア</string>
     <string name="offline_message">オフラインです。</string>
     <string name="close_detail_activity">詳細画面を閉じる</string>
+    <string name="github_login">Sign in to GitHub</string>
+    <string name="title_repository_list">レポジトリ一覧</string>
 </resources>

@@ -3,7 +3,7 @@ package net.kwmt27.githubsearch;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
-import net.kwmt27.githubsearch.presenter.RepositoryListPresenter;
+import net.kwmt27.githubsearch.presenter.repolist.RepositoryListPresenter;
 import net.kwmt27.githubsearch.testUtil.FileUtil;
 
 import org.junit.After;
@@ -49,7 +49,7 @@ public class RepositoryListPresenterTest {
     @Test
     public void testOnClearClick() {
 
-        class MockRepositoryListView implements RepositoryListPresenter.IMainView {
+        class MockRepositoryListView implements RepositoryListPresenter.IRepositoryListView {
 
             @Override
             public void updateTextView(String str) {
@@ -66,14 +66,14 @@ public class RepositoryListPresenterTest {
         assertThat(json, notNullValue());
         mMockServer.enqueue(new MockResponse().setBody(json));
 
-        class MockMainView implements RepositoryListPresenter.IMainView {
+        class MockRepositoryListView implements RepositoryListPresenter.IRepositoryListView {
 
             @Override
             public void updateTextView(String str) {
                 assertThat(str, is("https://api.github.com/user"));
             }
         }
-        RepositoryListPresenter presenter = new RepositoryListPresenter(new MockMainView());
+        RepositoryListPresenter presenter = new RepositoryListPresenter(new MockRepositoryListView());
         presenter.onGetClick();
     }
 //    @Test
@@ -82,7 +82,7 @@ public class RepositoryListPresenterTest {
 //        assertThat(json, notNullValue());
 //        mMockServer.enqueue(new MockResponse().setBody(json));
 //
-//        class MockRepositoryListView implements RepositoryListPresenter.IMainView {
+//        class MockRepositoryListView implements RepositoryListPresenter.IRepositoryListView {
 //
 //            @Override
 //            public void updateTextView(String str) {

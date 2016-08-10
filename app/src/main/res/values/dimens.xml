@@ -5,4 +5,7 @@
     <dimen name="shadow_height">4dp</dimen>
     <dimen name="text_size14">14sp</dimen>
     <dimen name="text_size12">12sp</dimen>
+    <dimen name="corner">2dp</dimen>
+    <dimen name="margin16">16dp</dimen>
+    <dimen name="login_text_size_button">16sp</dimen>
 </resources>

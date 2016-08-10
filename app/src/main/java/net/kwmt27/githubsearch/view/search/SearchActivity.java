@@ -1,5 +1,6 @@
 package net.kwmt27.githubsearch.view.search;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
@@ -43,6 +44,24 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
             intent.putExtra(ISearchPresenter.REPO_ENTITY_KEY, entity);
         }
         activity.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
+    }
+    public static void startActivity(AppCompatActivity activity, boolean canSearchCode,  GithubRepoEntity entity, View sharedElement, String sharedElementName) {
+
+        Intent intent = new Intent(activity, SearchActivity.class);
+        intent.putExtra(ISearchPresenter.CAN_SEARCH_CODE, canSearchCode);
+        if (entity != null) {
+            intent.putExtra(ISearchPresenter.REPO_ENTITY_KEY, entity);
+        }
+        activity.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity, sharedElement, sharedElementName).toBundle());
+    }
+    public static void startActivity(Activity activity, boolean canSearchCode, GithubRepoEntity entity, View sharedElement, String sharedElementName) {
+
+        Intent intent = new Intent(activity, SearchActivity.class);
+        intent.putExtra(ISearchPresenter.CAN_SEARCH_CODE, canSearchCode);
+        if (entity != null) {
+            intent.putExtra(ISearchPresenter.REPO_ENTITY_KEY, entity);
+        }
+        activity.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity, sharedElement, sharedElementName).toBundle());
     }
 
     private ISearchPresenter mPresenter;

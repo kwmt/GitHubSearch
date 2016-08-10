@@ -1,4 +1,6 @@
-package net.kwmt27.githubsearch.presenter;
+package net.kwmt27.githubsearch.presenter.detail;
+
+import net.kwmt27.githubsearch.presenter.IBaseActivityPresenter;
 
 public interface IDetailPresenter extends IBaseActivityPresenter {
 
