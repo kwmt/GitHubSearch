@@ -7,17 +7,13 @@ import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import net.kwmt27.githubsearch.ModelLocator;
 import net.kwmt27.githubsearch.R;
 import net.kwmt27.githubsearch.util.Logger;
 
 public class MainActivity extends BaseActivity {
 
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private boolean signedIn = false;
+    private boolean mSignedIn = false;
 
 
     @Override
@@ -26,51 +22,30 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         setUpActionBar(false);
 
+        switchScreen();
+
+    }
+
+    private void switchScreen() {
         String token = ModelLocator.getLoginModel().getAccessToken();
         if (!TextUtils.isEmpty(token)) {
-            // User is signed in
-            Logger.d("onAuthStateChanged:signed_in:" +token);
+            Logger.d("signed_in:" +token);
             replaceFragment(RepositoryListFragment.newInstance(), true, R.string.title_repository_list);
+            mSignedIn = true;
         } else {
-            // User is signed out
-            Logger.d("onAuthStateChanged:signed_out");
+            Logger.d("signed_out");
             replaceFragment(TopFragment.newInstance(), false, 0);
         }
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Logger.d("onResume");
-        if(signedIn) {
+        if(mSignedIn) {
             return;
         }
-        String token = ModelLocator.getLoginModel().getAccessToken();
-        if (!TextUtils.isEmpty(token)) {
-            // User is signed in
-            Logger.d("onAuthStateChanged:signed_in:" +token);
-            replaceFragment(RepositoryListFragment.newInstance(), true, R.string.title_repository_list);
-            signedIn = true;
-        } else {
-            // User is signed out
-            Logger.d("onAuthStateChanged:signed_out");
-            replaceFragment(TopFragment.newInstance(), false, 0);
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Logger.d("onStart");
-        //mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    protected void onStop() {
-        Logger.d("onStop");
-        //mAuth.removeAuthStateListener(mAuthListener);
-        super.onStop();
+        switchScreen();
     }
 
     private void replaceFragment(Fragment fragment, boolean showToolBar, int titleResId) {
@@ -82,13 +57,10 @@ public class MainActivity extends BaseActivity {
                 actionBar.setTitle(titleResId);
             }
         }
-
-
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit();
     }
-
 
 }
