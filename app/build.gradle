@@ -36,25 +36,20 @@ android {
     }
 
 
-    // ~/.gradle/gradle.properties に記入
-    def GITHUB_CLIENT_ID = '"' + GithubClientIdProp + '"' ?: '"Define GitHub Client Id"';
-    def GITHUB_CLIENT_SECRET = '"' + GithubClientSecretProp + '"' ?: '"Defien GitHub Client secret"';
-
-
     productFlavors {
         develop {
             manifestPlaceholders = [appName:"[開発]GitHubSearch"]
             buildConfigField "String", "BASE_API_URL", "\"https://api.github.com\""
             buildConfigField "String", "BASE_WEBVIEW_URL", "\"\""
-            buildConfigField "String", "GITHUB_CLIENT_ID", GITHUB_CLIENT_ID
-            buildConfigField "String", "GITHUB_CLIENT_SECRET", GITHUB_CLIENT_SECRET
+            buildConfigField "String", "GITHUB_CLIENT_ID", System.getenv("GITHUB_CLIENT_ID_FOR_DEVELOP") ?: '"Define GitHub Client Id"'
+            buildConfigField "String", "GITHUB_CLIENT_SECRET", System.getenv("GITHUB_CLIENT_SECRET_FOR_DEVELOP") ?: '"Defien GitHub Client secret"'
         }
         production {
             manifestPlaceholders = [appName:"@string/app_name"]
             buildConfigField "String", "BASE_API_URL", "\"https://api.github.com\""
             buildConfigField "String", "BASE_WEBVIEW_URL", "\"\""
-            buildConfigField "String", "GITHUB_CLIENT_ID", GITHUB_CLIENT_ID
-            buildConfigField "String", "GITHUB_CLIENT_SECRET", GITHUB_CLIENT_SECRET
+            buildConfigField "String", "GITHUB_CLIENT_ID", System.getenv("GITHUB_CLIENT_ID") ?: '"Define GitHub Client Id"'
+            buildConfigField "String", "GITHUB_CLIENT_SECRET", System.getenv("GITHUB_CLIENT_SECRET") ?: '"Defien GitHub Client secret"'
         }
 
     }
