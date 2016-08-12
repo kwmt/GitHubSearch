@@ -11,7 +11,7 @@ import net.kwmt27.githubsearch.ModelLocator;
 import net.kwmt27.githubsearch.R;
 import net.kwmt27.githubsearch.util.Logger;
 
-public class MainActivity extends BaseActivity {
+public class                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       MainActivity extends BaseActivity {
 
     private boolean mSignedIn = false;
 

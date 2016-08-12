@@ -10,6 +10,7 @@ import net.kwmt27.githubsearch.ModelLocator;
 import net.kwmt27.githubsearch.R;
 import net.kwmt27.githubsearch.entity.TokenEntity;
 import net.kwmt27.githubsearch.util.Logger;
+import net.kwmt27.githubsearch.util.PrefUtil;
 
 import rx.Subscriber;
 import rx.Subscription;
@@ -53,7 +54,7 @@ public class LoginActivity extends Activity {
                         @Override
                         public void onNext(TokenEntity tokenEntity) {
                             Logger.d("onNext:" + tokenEntity.getAccessToken());
-                            ModelLocator.getDbModel().saveToken(tokenEntity);
+                            PrefUtil.setAccessToken(getApplicationContext(), tokenEntity.getAccessToken());
 
                             finish();
                         }

@@ -8,6 +8,9 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 
+/**
+ * 現在未使用。TODO: 検索履歴の保存に使っていきたい
+ */
 public class DbModel {
 
 
@@ -15,6 +18,7 @@ public class DbModel {
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(context).build();
         Realm.setDefaultConfiguration(realmConfiguration);
+
 
     }
 
@@ -28,10 +32,10 @@ public class DbModel {
         });
     }
 
+
     public TokenEntity getToken() {
         Realm realm = Realm.getDefaultInstance();
         final TokenEntity tokenEntity = realm.where(TokenEntity.class).findFirst();
-        realm.close();
         return tokenEntity;
     }
 

@@ -23,7 +23,7 @@ public class ModelLocator {
     static {
         sApiClient = new ApiClient();
         sSearchModel = new SearchModel();
-        sLoginModel = new LoginModel();
+        sLoginModel = new LoginModel(App.getInstance().getApplicationContext());
         sDbModel = new DbModel(App.getInstance().getApplicationContext());
     }
 
