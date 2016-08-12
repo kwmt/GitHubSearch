@@ -2,6 +2,8 @@ package net.kwmt27.githubsearch;
 
 import android.app.Application;
 
+import com.google.android.gms.ads.MobileAds;
+
 public class App extends Application {
 
     private static App sInstance;
@@ -11,6 +13,8 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         sInstance = this;
+        MobileAds.initialize(getApplicationContext(), BuildConfig.ADMOB_APP_ID);
+
 
         sModelLocator = new ModelLocator();
     }

@@ -38,6 +38,7 @@ android {
 
     def githubClientId = System.getenv('GITHUB_CLIENT_ID')
     def githubClientSecret = System.getenv('GITHUB_CLIENT_SECRET')
+    def adMobAppId = System.getenv('ADMOB_APP_ID')
 
     productFlavors {
         develop {
@@ -46,6 +47,7 @@ android {
             buildConfigField "String", "BASE_WEBVIEW_URL", "\"\""
             buildConfigField "String", "GITHUB_CLIENT_ID", "\"${githubClientId}\""
             buildConfigField "String", "GITHUB_CLIENT_SECRET", "\"${githubClientSecret}\""
+            buildConfigField "String", "ADMOB_APP_ID", "\"${adMobAppId}\""
         }
         production {
             manifestPlaceholders = [appName:"@string/app_name"]
@@ -53,6 +55,7 @@ android {
             buildConfigField "String", "BASE_WEBVIEW_URL", "\"\""
             buildConfigField "String", "GITHUB_CLIENT_ID", "\"${githubClientId}\""
             buildConfigField "String", "GITHUB_CLIENT_SECRET", "\"${githubClientSecret}\""
+            buildConfigField "String", "ADMOB_APP_ID", "\"${adMobAppId}\""
         }
 
     }
@@ -78,6 +81,7 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}"
     compile "com.squareup.retrofit2:converter-gson:${RETROFIT_VERSION}"
     compile "com.squareup.retrofit2:adapter-rxjava:${RETROFIT_VERSION}"
+    compile 'com.google.firebase:firebase-ads:9.0.0'
 
     compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0'
 
@@ -89,4 +93,4 @@ dependencies {
 
 }
 
-// apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services'
