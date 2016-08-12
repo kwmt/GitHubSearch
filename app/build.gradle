@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
+
 
 android {
     compileSdkVersion 24
@@ -34,21 +36,29 @@ android {
         }
     }
 
+    def githubClientId = System.getenv('GITHUB_CLIENT_ID')
+    def githubClientSecret = System.getenv('GITHUB_CLIENT_SECRET')
+
     productFlavors {
         develop {
             manifestPlaceholders = [appName:"[開発]GitHubSearch"]
             buildConfigField "String", "BASE_API_URL", "\"https://api.github.com\""
             buildConfigField "String", "BASE_WEBVIEW_URL", "\"\""
+            buildConfigField "String", "GITHUB_CLIENT_ID", "\"${githubClientId}\""
+            buildConfigField "String", "GITHUB_CLIENT_SECRET", "\"${githubClientSecret}\""
         }
         production {
             manifestPlaceholders = [appName:"@string/app_name"]
             buildConfigField "String", "BASE_API_URL", "\"https://api.github.com\""
             buildConfigField "String", "BASE_WEBVIEW_URL", "\"\""
+            buildConfigField "String", "GITHUB_CLIENT_ID", "\"${githubClientId}\""
+            buildConfigField "String", "GITHUB_CLIENT_SECRET", "\"${githubClientSecret}\""
         }
 
     }
 
 }
+
 
 final SUPPORT_LIB_VERSION = '24.1.1'
 final OKHTTP_VERSION = '3.4.1'
@@ -78,3 +88,5 @@ dependencies {
     androidTestCompile "com.android.support:support-annotations:${SUPPORT_LIB_VERSION}"
 
 }
+
+// apply plugin: 'com.google.gms.google-services'

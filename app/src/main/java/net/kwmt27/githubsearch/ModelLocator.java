@@ -1,6 +1,8 @@
 package net.kwmt27.githubsearch;
 
 import net.kwmt27.githubsearch.model.ApiClient;
+import net.kwmt27.githubsearch.model.DbModel;
+import net.kwmt27.githubsearch.model.LoginModel;
 import net.kwmt27.githubsearch.model.SearchModel;
 
 /**
@@ -14,9 +16,15 @@ public class ModelLocator {
 
     private static final SearchModel sSearchModel;
 
+    private static final LoginModel sLoginModel;
+
+    private static final DbModel sDbModel;
+
     static {
         sApiClient = new ApiClient();
         sSearchModel = new SearchModel();
+        sLoginModel = new LoginModel(App.getInstance().getApplicationContext());
+        sDbModel = new DbModel(App.getInstance().getApplicationContext());
     }
 
     public ModelLocator() {
@@ -32,6 +40,14 @@ public class ModelLocator {
 
     public static SearchModel getSearchModel() {
         return sSearchModel;
+    }
+
+    public static LoginModel getLoginModel() {
+        return sLoginModel;
+    }
+
+    public static DbModel getDbModel() {
+        return sDbModel;
     }
 }
 

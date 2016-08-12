@@ -1,4 +1,4 @@
-package net.kwmt27.githubsearch.presenter;
+package net.kwmt27.githubsearch.presenter.detail;
 
 import android.content.Intent;
 import android.os.Bundle;

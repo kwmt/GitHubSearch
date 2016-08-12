@@ -14,8 +14,8 @@ import retrofit2.http.Query;
 import rx.Observable;
 
 public interface GitHubService {
-    @GET("users/{user}/repos")
-    Observable<Response<List<GithubRepoEntity>>> listRepos(@Path("user") String user, @Query(value = "page") Integer page);
+    @GET("user/repos")
+    Observable<Response<List<GithubRepoEntity>>> fetchUserRepository(@Query(value = "page") Integer page);
 
     @GET("repos/{owner}/{repo}")
     Observable<GithubRepoEntity> fetchRepo(@Path("owner") String user, @Path("repo") String repo);

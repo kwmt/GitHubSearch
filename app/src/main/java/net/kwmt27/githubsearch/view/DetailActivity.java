@@ -18,8 +18,8 @@ import android.widget.Button;
 
 import net.kwmt27.githubsearch.R;
 import net.kwmt27.githubsearch.entity.GithubRepoEntity;
-import net.kwmt27.githubsearch.presenter.DetailPresenter;
-import net.kwmt27.githubsearch.presenter.IDetailPresenter;
+import net.kwmt27.githubsearch.presenter.detail.DetailPresenter;
+import net.kwmt27.githubsearch.presenter.detail.IDetailPresenter;
 import net.kwmt27.githubsearch.util.Logger;
 
 public class DetailActivity extends BaseActivity implements DetailPresenter.IDetailView {

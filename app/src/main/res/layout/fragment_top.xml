@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="net.kwmt27.githubsearch.view.MainActivity"
+    >
+
+
+    <Button
+        android:id="@+id/search_github"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/center"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_search_github"
+        android:gravity="left|center_vertical"
+        android:hint="@string/search_hint"
+        android:paddingBottom="@dimen/margin16"
+        android:paddingLeft="56dp"
+        android:paddingTop="@dimen/margin16"
+        android:textAllCaps="false"
+        android:textColor="@color/gray6000"
+        android:textSize="@dimen/login_text_size_button"
+        android:transitionName="search_bar"
+        />
+
+
+    <View
+        android:id="@+id/center"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_centerVertical="true"
+        />
+
+
+    <Button
+        android:id="@+id/login_with_github"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/center"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_github_login"
+        android:gravity="left|center_vertical"
+        android:paddingBottom="@dimen/margin16"
+        android:paddingLeft="56dp"
+        android:paddingTop="@dimen/margin16"
+        android:text="@string/github_login"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/login_text_size_button"
+        />
+</RelativeLayout>
