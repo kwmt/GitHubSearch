@@ -110,7 +110,7 @@ public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAd
         }
         GithubRepoEntity item = mGithubRepoEntityList.get(position);
         if (item.getItemType() == null) {
-            holder.nameTextView.setText(item.getName());
+            holder.nameTextView.setText(item.getFullName());
             holder.descriptionTextView.setText(item.getDescription());
             holder.favoriteCountTextView.setText(item.getStargazersCount());
             holder.languageTextView.setText(item.getLanguage());
