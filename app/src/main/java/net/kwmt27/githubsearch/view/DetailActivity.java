@@ -189,6 +189,8 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
         });
 
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setDisplayZoomControls(false);
         webView.loadUrl(url);
     }
 
