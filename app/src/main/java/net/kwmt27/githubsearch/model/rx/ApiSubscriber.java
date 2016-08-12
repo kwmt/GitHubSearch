@@ -26,8 +26,12 @@ public abstract class ApiSubscriber<T> extends Subscriber<T> {
 
         RetrofitException error = (RetrofitException)throwable;
         Throwable cause = error.getCause();
-
         if (NetworkUtil.showAlertIfOffline(mContext)) {
+            return;
+        }
+        if (error.getKind() == RetrofitException.Kind.UNAUTHORIZED) {
+            Logger.e("UNAUTHORIZED:" + throwable);
+            ToastUtil.show(mContext, "認証エラーです。");
             return;
         }
         if (cause instanceof UnknownHostException) {
@@ -53,7 +57,7 @@ public abstract class ApiSubscriber<T> extends Subscriber<T> {
         try {
             ApiErrorEntity apiErrorEntity = error.getErrorBodyAs(ApiErrorEntity.class);
             if (apiErrorEntity != null){
-                Logger.d(apiErrorEntity.getMessage());
+                ToastUtil.show(mContext,apiErrorEntity.getMessage());
             }
         } catch (IOException e) {
             Logger.e(e);

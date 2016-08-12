@@ -13,6 +13,10 @@ public class RetrofitException extends RuntimeException {
         String message = response.code() + " " + response.message();
         return new RetrofitException(message, url, response, Kind.HTTP, throwable, retrofit);
     }
+    public static RetrofitException unauthorizedError(String url, Response response, Throwable throwable, Retrofit retrofit) {
+        String message = response.code() + " " + response.message();
+        return new RetrofitException(message, url, response, Kind.UNAUTHORIZED, throwable, retrofit);
+    }
 
     public static RetrofitException networkError(IOException exception) {
         return new RetrofitException(exception.getMessage(), null, null, Kind.NETWORK, exception, null);
@@ -25,6 +29,7 @@ public class RetrofitException extends RuntimeException {
     public enum Kind {
         NETWORK,
         HTTP,
+        UNAUTHORIZED,
         UNEXPECTED
     }
 

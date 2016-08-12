@@ -24,6 +24,7 @@ public class ApiClient {
     private static final String BASE_API_URL = "https://api.github.com"; // BuildConfig.BASE_API_URL;
     public final GitHubService api;
     public final GitHubLoginService login;
+    public final Retrofit mRetrofit;
 
     private OkHttpClient mClient;
 
@@ -41,14 +42,14 @@ public class ApiClient {
                 .build();
 
 
-        Retrofit retrofit = new Retrofit.Builder()
+        mRetrofit = new Retrofit.Builder()
                 .baseUrl(BuildConfig.BASE_API_URL)
                 .client(mClient)
                 .addConverterFactory(GsonConverterFactory.create(GsonFactory.create()))
                 .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create())
                 .build();
 
-        api = retrofit.create(GitHubService.class);
+        api = mRetrofit.create(GitHubService.class);
 
         Retrofit retrofitForLogin = new Retrofit.Builder()
                 .baseUrl("https://github.com")

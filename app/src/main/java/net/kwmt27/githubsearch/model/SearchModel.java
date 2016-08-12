@@ -8,14 +8,17 @@ import net.kwmt27.githubsearch.entity.GithubRepoEntity;
 import net.kwmt27.githubsearch.entity.ItemEntity;
 import net.kwmt27.githubsearch.entity.SearchCodeResultEntity;
 import net.kwmt27.githubsearch.entity.SearchRepositoryResultEntity;
+import net.kwmt27.githubsearch.model.rx.RetrofitException;
 import net.kwmt27.githubsearch.model.rx.ReusableCompositeSubscription;
 import net.kwmt27.githubsearch.util.Logger;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import retrofit2.Response;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -57,14 +60,22 @@ public class SearchModel {
                 .subscribeOn(Schedulers.newThread())
                 .flatMap(new Func1<Response<List<GithubRepoEntity>>, Observable<List<GithubRepoEntity>>>() {
                     @Override
-                    public Observable<List<GithubRepoEntity>> call(Response<List<GithubRepoEntity>> listResponse) {
-                        mHeadersMapOfRepoList = listResponse.headers().toMultimap();
+                    public Observable<List<GithubRepoEntity>> call(Response<List<GithubRepoEntity>> response) {
+                        // TODO: 他にいい方法がありそう RxErrorHandlingCallAdapterFactory 側でなんとかしたい
+                        if (!response.isSuccessful()) {
+                            if(response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                                throw RetrofitException.unauthorizedError("", response, new HttpException(response), ModelLocator.getApiClient().mRetrofit);
+                            }
+                            // TODO: 401以外のエラー対応
+                        }
+
+                        mHeadersMapOfRepoList = response.headers().toMultimap();
                         if(mGitHubRepoEntityList != null && mGitHubRepoEntityList.size()> 0){
                             List<GithubRepoEntity> newList = new ArrayList<>(mGitHubRepoEntityList);
-                            newList.addAll(listResponse.body());
+                            newList.addAll(response.body());
                             mGitHubRepoEntityList = newList;
                         } else {
-                            mGitHubRepoEntityList = listResponse.body();
+                            mGitHubRepoEntityList = response.body();
                         }
                         return Observable.just(mGitHubRepoEntityList);
                     }

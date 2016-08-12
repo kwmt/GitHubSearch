@@ -16,7 +16,7 @@ import rx.schedulers.Schedulers;
 public class LoginModel {
 
     private static final String OAUTH_URL = "https://github.com/login/oauth/authorize";
-    private static final String SCOPE = "repo";
+    private static final String SCOPE = "read:org";
 
     private ReusableCompositeSubscription mCompositeSubscription = new ReusableCompositeSubscription();
     private Context mContext;
