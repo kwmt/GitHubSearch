@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import net.kwmt27.githubsearch.R;
 import net.kwmt27.githubsearch.entity.GithubRepoEntity;
 import net.kwmt27.githubsearch.entity.ItemType;
@@ -72,6 +75,9 @@ public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAd
                 break;
             case Ad:
                 view = mLayoutInflater.inflate(R.layout.recyclerview_ad_layout, parent, false);
+                AdView adView = (AdView) view.findViewById(R.id.adView);
+                AdRequest adRequest = new AdRequest.Builder().build();
+                adView.loadAd(adRequest);
                 break;
             default:
                 view = mLayoutInflater.inflate(R.layout.recyclerview_repo_list_item, parent, false);
