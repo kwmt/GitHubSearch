@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 
+
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
@@ -35,21 +36,23 @@ android {
         }
     }
 
+    def githubClientId = System.getenv('GITHUB_CLIENT_ID')
+    def githubClientSecret = System.getenv('GITHUB_CLIENT_SECRET')
 
     productFlavors {
         develop {
             manifestPlaceholders = [appName:"[開発]GitHubSearch"]
             buildConfigField "String", "BASE_API_URL", "\"https://api.github.com\""
             buildConfigField "String", "BASE_WEBVIEW_URL", "\"\""
-            buildConfigField "String", "GITHUB_CLIENT_ID", "\"${System.getenv('GITHUB_CLIENT_ID')}\"" ?: '"Define GitHub Client Id"'
-            buildConfigField "String", "GITHUB_CLIENT_SECRET", "\"${System.getenv('GITHUB_CLIENT_SECRET')}\"" ?: '"Defien GitHub Client secret"'
+            buildConfigField "String", "GITHUB_CLIENT_ID", "\"${githubClientId}\""
+            buildConfigField "String", "GITHUB_CLIENT_SECRET", "\"${githubClientSecret}\""
         }
         production {
             manifestPlaceholders = [appName:"@string/app_name"]
             buildConfigField "String", "BASE_API_URL", "\"https://api.github.com\""
             buildConfigField "String", "BASE_WEBVIEW_URL", "\"\""
-            buildConfigField "String", "GITHUB_CLIENT_ID", "\"${System.getenv('GITHUB_CLIENT_ID')}\"" ?: '"Define GitHub Client Id"'
-            buildConfigField "String", "GITHUB_CLIENT_SECRET", "\"${System.getenv('GITHUB_CLIENT_SECRET')}\"" ?: '"Defien GitHub Client secret"'
+            buildConfigField "String", "GITHUB_CLIENT_ID", "\"${githubClientId}\""
+            buildConfigField "String", "GITHUB_CLIENT_SECRET", "\"${githubClientSecret}\""
         }
 
     }
