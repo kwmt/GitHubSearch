@@ -55,8 +55,8 @@ public class SearchModel {
     }
 
 
-    public Subscription fetchRepoListByUser(Integer page, final Subscriber<List<GithubRepoEntity>> subscriber) {
-        Subscription listReposSubscription = ModelLocator.getApiClient().api.listRepos("kwmt", page)
+    public Subscription fetchUserRepository(Integer page, final Subscriber<List<GithubRepoEntity>> subscriber) {
+        Subscription listReposSubscription = ModelLocator.getApiClient().api.fetchUserRepository(page)
                 .subscribeOn(Schedulers.newThread())
                 .flatMap(new Func1<Response<List<GithubRepoEntity>>, Observable<List<GithubRepoEntity>>>() {
                     @Override

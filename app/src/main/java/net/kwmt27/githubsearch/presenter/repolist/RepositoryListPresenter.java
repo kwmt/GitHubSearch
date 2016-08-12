@@ -46,7 +46,7 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
 
     private void fetchRepositoryList(Integer page) {
         mMainView.showProgress();
-        ModelLocator.getSearchModel().fetchRepoListByUser(page, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment)mMainView).getActivity()) {
+        ModelLocator.getSearchModel().fetchUserRepository(page, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment)mMainView).getActivity()) {
             @Override
             public void onCompleted() {
                 mMainView.hideProgress();
@@ -68,7 +68,7 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
 
     private void fetchRepositoryListOnScroll(Integer page) {
         mMainView.showProgressOnScroll();
-        ModelLocator.getSearchModel().fetchRepoListByUser(page, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment)mMainView).getActivity()) {
+        ModelLocator.getSearchModel().fetchUserRepository(page, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment)mMainView).getActivity()) {
             @Override
             public void onCompleted() {
                 mMainView.hideProgressOnScroll();
