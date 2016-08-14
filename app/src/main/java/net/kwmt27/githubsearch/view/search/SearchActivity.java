@@ -89,20 +89,22 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
     public void setupComponents() {
         setUpActionBar();
 
+        mSearchEditText = (EditText) findViewById(R.id.search_edit);
+
         Intent intent = getIntent();
         final boolean canSearchCode = intent.getBooleanExtra(ISearchPresenter.CAN_SEARCH_CODE, false);
-
 
         final FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         if (canSearchCode) {
+            mSearchEditText.setHint("Search Code in this Repository");
             transaction.replace(R.id.container, SearchCodeResultListFragment.newInstance(this), SearchCodeResultListFragment.TAG);
         } else {
+            mSearchEditText.setHint("Search Repository");
             transaction.replace(R.id.container, SearchRepositoryResultListFragment.newInstance(this), SearchRepositoryResultListFragment.TAG);
         }
         transaction.commit();
 
-        mSearchEditText = (EditText) findViewById(R.id.search_edit);
         mSearchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
