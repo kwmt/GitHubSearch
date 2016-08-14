@@ -26,9 +26,9 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-public class SearchModel {
+public class SearchCodeModel {
 
-    private static final String TAG = SearchModel.class.getSimpleName();
+    private static final String TAG = SearchCodeModel.class.getSimpleName();
     private List<GithubRepoEntity> mGitHubRepoEntityList = new ArrayList<>();
     private Map<String, List<String>> mHeadersMapOfRepoList;
     private SearchCodeResultEntity mSearchCodeResultEntity;
@@ -37,7 +37,8 @@ public class SearchModel {
 
     private GithubRepoEntity mGitHubRepo;
     private SearchRepositoryResultEntity mSearchRepositoryResultEntity;
-    private String mKeyword;
+    private String mKeywordForSearchCode;
+    private String mKeywordForSearchRepository;
     private String mRepository;
 
     private ReusableCompositeSubscription mCompositeSubscription = new ReusableCompositeSubscription();
@@ -117,8 +118,7 @@ public class SearchModel {
             clear();
         }
 
-        mKeyword = keyword;
-        // FIXME: least one repo or user
+        mKeywordForSearchCode = keyword;
         mRepository = repo;
         keyword += "+repo:" + repo;
 
@@ -150,7 +150,7 @@ public class SearchModel {
             clear();
         }
 
-        mKeyword = keyword;
+        mKeywordForSearchRepository = keyword;
         Subscription subscription = ModelLocator.getApiClient().api.searchRepositories(keyword, page)
                 .subscribeOn(Schedulers.newThread())
                 .flatMap(new Func1<Response<SearchRepositoryResultEntity>, Observable<List<GithubRepoEntity>>>() {
@@ -180,8 +180,8 @@ public class SearchModel {
     }
 
     public String getKeyword() {
-        if(mKeyword == null) { return ""; }
-        return mKeyword;
+        if(mKeywordForSearchCode == null) { return ""; }
+        return mKeywordForSearchCode;
     }
 
     /**

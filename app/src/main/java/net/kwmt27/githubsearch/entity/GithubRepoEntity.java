@@ -69,6 +69,7 @@ public class GithubRepoEntity implements Serializable{
     }
 
     public String getFormattedPushedAt() {
+        if(mPushedAt == null) { return "not yet pushed"; }
         return DateFormat.format("yyyy/MM/dd", mPushedAt).toString();
     }
 
