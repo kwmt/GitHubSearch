@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import com.jakewharton.rxbinding.support.v7.widget.RecyclerViewScrollEvent;
 import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 
+import net.kwmt27.githubsearch.ModelLocator;
 import net.kwmt27.githubsearch.R;
 import net.kwmt27.githubsearch.entity.GithubRepoEntity;
 import net.kwmt27.githubsearch.presenter.search.ISearchResultListPresenter;
@@ -110,12 +111,15 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
     public void updateSearchResultListView(List<GithubRepoEntity> entities) {
         mIsCalled = false;
         rxRecyclerViewScrollSubscribe();
-        mSearchRepositoryResultListAdapter.setSearchResultList(entities);
-        mSearchRepositoryResultListAdapter.notifyDataSetChanged();
+        mCallback.showNotFoundPageIfNeeded(ModelLocator.getSearchRepositoryModel(), entities.size() > 0);
+        if (entities.size() > 0) {
+            mSearchRepositoryResultListAdapter.setSearchResultList(entities);
+            mSearchRepositoryResultListAdapter.notifyDataSetChanged();
 
-        if(!mAddedAd) {
-            mSearchRepositoryResultListAdapter.addAdItemTypeThenNotify();
-            mAddedAd = true;
+            if (!mAddedAd) {
+                mSearchRepositoryResultListAdapter.addAdItemTypeThenNotify();
+                mAddedAd = true;
+            }
         }
 
     }

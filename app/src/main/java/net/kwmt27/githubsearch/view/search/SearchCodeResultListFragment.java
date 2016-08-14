@@ -111,12 +111,15 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
         mIsCalled = false;
         rxRecyclerViewScrollSubscribe();
         mCallback.showNotFoundPageIfNeeded(ModelLocator.getSearchCodeModel(), itemEntityList.size() > 0);
-        mSearchCodeResultListAdapter.setSearchResultList(itemEntityList);
-        mSearchCodeResultListAdapter.notifyDataSetChanged();
 
-        if(!mAddedAd) {
-            mSearchCodeResultListAdapter.addAdItemTypeThenNotify();
-            mAddedAd = true;
+        if (itemEntityList.size() > 0) {
+            mSearchCodeResultListAdapter.setSearchResultList(itemEntityList);
+            mSearchCodeResultListAdapter.notifyDataSetChanged();
+
+            if (!mAddedAd) {
+                mSearchCodeResultListAdapter.addAdItemTypeThenNotify();
+                mAddedAd = true;
+            }
         }
     }
 
