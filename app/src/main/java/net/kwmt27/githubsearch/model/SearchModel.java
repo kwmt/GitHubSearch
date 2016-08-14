@@ -41,6 +41,7 @@ public class SearchModel {
     private String mRepository;
 
     private ReusableCompositeSubscription mCompositeSubscription = new ReusableCompositeSubscription();
+    private List<GithubRepoEntity> mRepositoryResultList;
 
     public void unsubscribe() {
         if(mCompositeSubscription != null) {
@@ -52,6 +53,7 @@ public class SearchModel {
         mGitHubRepoEntityList = null;
         mSearchCodeResultEntity = null;
         mItemEntityList = null;
+        mRepositoryResultList = null;
     }
 
 
@@ -110,7 +112,7 @@ public class SearchModel {
         return subscription;
     }
 
-    public Subscription searchCode(String keyword,  String repo, Integer page, final Subscriber<List<ItemEntity>> subscriber) {
+    public Subscription searchCode(String keyword, String repo, Integer page, final Subscriber<List<ItemEntity>> subscriber) {
         if(!getKeyword().equals(keyword)) {
             clear();
         }
@@ -143,15 +145,27 @@ public class SearchModel {
         return subscription;
     }
 
-    public Subscription searchRepositories(String keyword, final Subscriber<SearchRepositoryResultEntity> subscriber) {
+    public Subscription searchRepositories(String keyword, Integer page, final Subscriber<List<GithubRepoEntity>> subscriber) {
+        if(!getKeyword().equals(keyword)) {
+            clear();
+        }
+
         mKeyword = keyword;
-        Subscription subscription = ModelLocator.getApiClient().api.searchRepositories(keyword)
+        Subscription subscription = ModelLocator.getApiClient().api.searchRepositories(keyword, page)
                 .subscribeOn(Schedulers.newThread())
-                .flatMap(new Func1<SearchRepositoryResultEntity, Observable<SearchRepositoryResultEntity>>() {
+                .flatMap(new Func1<Response<SearchRepositoryResultEntity>, Observable<List<GithubRepoEntity>>>() {
                     @Override
-                    public Observable<SearchRepositoryResultEntity> call(SearchRepositoryResultEntity searchResultEntity) {
-                        mSearchRepositoryResultEntity = searchResultEntity;
-                        return Observable.just(searchResultEntity);
+                    public Observable<List<GithubRepoEntity>> call(Response<SearchRepositoryResultEntity> response) {
+                        mHeadersMapOfSearchCode = response.headers().toMultimap();
+                        mSearchRepositoryResultEntity = response.body();
+                        if(mRepositoryResultList != null && mRepositoryResultList.size() > 0) {
+                            List<GithubRepoEntity> newList = new ArrayList<>(mRepositoryResultList);
+                            newList.addAll(mSearchRepositoryResultEntity.getGithubRepoEntityList());
+                            mRepositoryResultList = newList;
+                        } else {
+                            mRepositoryResultList = response.body().getGithubRepoEntityList();
+                        }
+                        return Observable.just(mRepositoryResultList);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())

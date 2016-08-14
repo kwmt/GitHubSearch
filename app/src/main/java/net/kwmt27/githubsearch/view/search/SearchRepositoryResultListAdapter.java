@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import net.kwmt27.githubsearch.R;
 import net.kwmt27.githubsearch.entity.GithubRepoEntity;
 import net.kwmt27.githubsearch.entity.ItemType;
@@ -47,8 +50,40 @@ public class SearchRepositoryResultListAdapter extends RecyclerView.Adapter<Sear
     }
 
     @Override
+    public int getItemViewType(int position) {
+        ItemType itemType = mSearchResultList.get(position).getItemType();
+        if (itemType == null) {
+            return ItemType.Normal.getTypeId();
+        }
+        switch (itemType) {
+            case Progress:
+                return ItemType.Progress.getTypeId();
+            case Ad:
+                return ItemType.Ad.getTypeId();
+            default:
+                return ItemType.Normal.getTypeId();
+        }
+    }
+
+    @Override
     public SearchRepositoryResultListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.recyclerview_search_repo_result_list_item, parent, false);
+        View view;
+        ItemType itemType = ItemType.valueOf(viewType);
+        switch (itemType) {
+            case Progress:
+                view = mLayoutInflater.inflate(R.layout.recyclerview_progress_layout, parent, false);
+                break;
+            case Ad:
+                view = mLayoutInflater.inflate(R.layout.recyclerview_ad_layout, parent, false);
+                AdView adView = (AdView) view.findViewById(R.id.adView);
+                AdRequest adRequest = new AdRequest.Builder().build();
+                adView.loadAd(adRequest);
+                break;
+            default:
+                view = mLayoutInflater.inflate(R.layout.recyclerview_search_repo_result_list_item, parent, false);
+                break;
+        }
+
         final SearchRepositoryResultListAdapter.ViewHolder viewHolder = new SearchRepositoryResultListAdapter.ViewHolder(view);
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,12 +106,13 @@ public class SearchRepositoryResultListAdapter extends RecyclerView.Adapter<Sear
             return;
         }
         GithubRepoEntity item = mSearchResultList.get(position);
-
-        holder.nameTextView.setText(item.getFullName());
-        holder.descriptionTextView.setText(item.getDescription());
-        holder.favoriteCountTextView.setText(item.getStargazersCount());
-        holder.languageTextView.setText(item.getLanguage());
-        holder.pushedAtTextView.setText(item.getFormattedPushedAt());
+        if (item.getItemType() == null) {
+            holder.nameTextView.setText(item.getFullName());
+            holder.descriptionTextView.setText(item.getDescription());
+            holder.favoriteCountTextView.setText(item.getStargazersCount());
+            holder.languageTextView.setText(item.getLanguage());
+            holder.pushedAtTextView.setText(item.getFormattedPushedAt());
+        }
     }
 
     @Override
@@ -104,6 +140,14 @@ public class SearchRepositoryResultListAdapter extends RecyclerView.Adapter<Sear
         }
     }
 
+    public void addAdItemTypeThenNotify() {
+        int pos = addItemTypeAtBeginningPosition(ItemType.Ad);
+        if (pos > -1) {
+            notifyItemInserted(pos);
+        }
+    }
+
+
     private int addItemType(ItemType type) {
         mSearchResultList.add(new GithubRepoEntity(type));
         return mSearchResultList.size() - 1;
@@ -116,5 +160,10 @@ public class SearchRepositoryResultListAdapter extends RecyclerView.Adapter<Sear
             }
         }
         return -1;
+    }
+
+    private int addItemTypeAtBeginningPosition(ItemType type) {
+        mSearchResultList.add(0, new GithubRepoEntity(type));
+        return mSearchResultList.size() - 1;
     }
 }
