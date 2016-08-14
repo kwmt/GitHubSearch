@@ -40,6 +40,7 @@ public class SearchRepositoryModel implements ISearchModel {
         }
     }
 
+    @Override
     public void clear() {
         mRepositoryResultList = new ArrayList<>();
         mGitHubRepoEntityList = new ArrayList<>();
@@ -109,10 +110,12 @@ public class SearchRepositoryModel implements ISearchModel {
         return mKeyword;
     }
 
+    @Override
     public int getNextPage() {
         return extractLink(mHeadersMapOfRepoList ,"next");
     }
 
+    @Override
     public boolean hasNextPage() {
         return  getNextPage() > 0;
     }

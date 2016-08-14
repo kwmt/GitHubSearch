@@ -35,6 +35,7 @@ public class SearchCodeModel implements ISearchModel {
         }
     }
 
+    @Override
     public void clear() {
         mItemEntityList = new ArrayList<>();
     }
@@ -80,10 +81,12 @@ public class SearchCodeModel implements ISearchModel {
         return mRepository;
     }
 
+    @Override
     public int getNextPage() {
         return extractLink(mHeadersMap,"next");
     }
 
+    @Override
     public boolean hasNextPage() {
         return  getNextPage() > 0;
     }
