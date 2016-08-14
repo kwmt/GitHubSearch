@@ -23,7 +23,7 @@ public class SearchPresenter implements ISearchPresenter {
 
     @Override
     public void onStop() {
-        ModelLocator.getSearchModel().unsubscribe();
+        ModelLocator.getSearchCodeModel().unsubscribe();
     }
 
 

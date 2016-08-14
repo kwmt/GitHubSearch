@@ -27,8 +27,8 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
 
     @Override
     public void onStop() {
-        ModelLocator.getSearchModel().unsubscribe();
-        ModelLocator.getSearchModel().clear();
+        ModelLocator.getSearchRepositoryModel().unsubscribe();
+        ModelLocator.getSearchRepositoryModel().clear();
     }
 
 
@@ -39,14 +39,14 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
 
     @Override
     public void onScrollToBottom() {
-        if(ModelLocator.getSearchModel().hasNextPageOfRepoList()) {
-            fetchRepositoryListOnScroll(ModelLocator.getSearchModel().getNextPageOfRepoList());
+        if(ModelLocator.getSearchRepositoryModel().hasNextPage()) {
+            fetchRepositoryListOnScroll(ModelLocator.getSearchRepositoryModel().getNextPage());
         }
     }
 
     private void fetchRepositoryList(Integer page) {
         mMainView.showProgress();
-        ModelLocator.getSearchModel().fetchUserRepository(page, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment)mMainView).getActivity()) {
+        ModelLocator.getSearchRepositoryModel().fetchUserRepository(page, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment)mMainView).getActivity()) {
             @Override
             public void onCompleted() {
                 mMainView.hideProgress();
@@ -68,7 +68,7 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
 
     private void fetchRepositoryListOnScroll(Integer page) {
         mMainView.showProgressOnScroll();
-        ModelLocator.getSearchModel().fetchUserRepository(page, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment)mMainView).getActivity()) {
+        ModelLocator.getSearchRepositoryModel().fetchUserRepository(page, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment)mMainView).getActivity()) {
             @Override
             public void onCompleted() {
                 mMainView.hideProgressOnScroll();

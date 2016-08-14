@@ -18,9 +18,9 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import net.kwmt27.githubsearch.ModelLocator;
 import net.kwmt27.githubsearch.R;
 import net.kwmt27.githubsearch.entity.GithubRepoEntity;
+import net.kwmt27.githubsearch.model.ISearchModel;
 import net.kwmt27.githubsearch.presenter.search.ISearchPresenter;
 import net.kwmt27.githubsearch.presenter.search.SearchPresenter;
 import net.kwmt27.githubsearch.util.KeyboardUtil;
@@ -44,15 +44,6 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
             intent.putExtra(ISearchPresenter.REPO_ENTITY_KEY, entity);
         }
         activity.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
-    }
-    public static void startActivity(AppCompatActivity activity, boolean canSearchCode,  GithubRepoEntity entity, View sharedElement, String sharedElementName) {
-
-        Intent intent = new Intent(activity, SearchActivity.class);
-        intent.putExtra(ISearchPresenter.CAN_SEARCH_CODE, canSearchCode);
-        if (entity != null) {
-            intent.putExtra(ISearchPresenter.REPO_ENTITY_KEY, entity);
-        }
-        activity.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity, sharedElement, sharedElementName).toBundle());
     }
     public static void startActivity(Activity activity, boolean canSearchCode, GithubRepoEntity entity, View sharedElement, String sharedElementName) {
 
@@ -166,9 +157,9 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
 
 
     @Override
-    public void showNotFoundPageIfNeeded(boolean show) {
+    public void showNotFoundPageIfNeeded(ISearchModel model, boolean show) {
         RelativeLayout notFoundLayout = (RelativeLayout) findViewById(R.id.not_found_layout);
-        ((TextView)notFoundLayout.findViewById(R.id.keyword)).setText(ModelLocator.getSearchModel().getKeyword());
+        ((TextView)notFoundLayout.findViewById(R.id.keyword)).setText(model.getKeyword());
         int visibility = show ? View.GONE : View.VISIBLE;
         notFoundLayout.setVisibility(visibility);
 

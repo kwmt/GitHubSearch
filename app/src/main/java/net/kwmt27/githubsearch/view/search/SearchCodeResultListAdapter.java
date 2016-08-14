@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import net.kwmt27.githubsearch.R;
 import net.kwmt27.githubsearch.entity.ItemEntity;
 import net.kwmt27.githubsearch.entity.ItemType;
@@ -23,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCodeResultListAdapter.ViewHolder> {
+public class SearchCodeResultListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final LayoutInflater mLayoutInflater;
     private final Context mContext;
@@ -52,6 +55,21 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
         }
     }
 
+    public static class AdViewHolder extends RecyclerView.ViewHolder {
+
+        public AdViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+    public static class ProgressViewHolder extends RecyclerView.ViewHolder {
+
+        public ProgressViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+
+
     public SearchCodeResultListAdapter(Context context, OnItemClickListener<SearchCodeResultListAdapter, ItemEntity> listener) {
         mContext = context.getApplicationContext();
         mLayoutInflater = LayoutInflater.from(context);
@@ -59,33 +77,67 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
     }
 
     @Override
-    public SearchCodeResultListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.recyclerview_search_code_result_list_item, parent, false);
-        final SearchCodeResultListAdapter.ViewHolder viewHolder = new SearchCodeResultListAdapter.ViewHolder(view);
-        return viewHolder;
+    public int getItemViewType(int position) {
+        ItemType itemType = mSearchResultList.get(position).getItemType();
+        if (itemType == null) {
+            return ItemType.Normal.getTypeId();
+        }
+        switch (itemType) {
+            case Progress:
+                return ItemType.Progress.getTypeId();
+            case Ad:
+                return ItemType.Ad.getTypeId();
+            default:
+                return ItemType.Normal.getTypeId();
+        }
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
+        ItemType itemType = ItemType.valueOf(viewType);
+        switch (itemType) {
+            case Progress:
+                view = mLayoutInflater.inflate(R.layout.recyclerview_progress_layout, parent, false);
+                return new ProgressViewHolder(view);
+            case Ad:
+                view = mLayoutInflater.inflate(R.layout.recyclerview_ad_layout, parent, false);
+                AdView adView = (AdView) view.findViewById(R.id.adView);
+                AdRequest adRequest = new AdRequest.Builder().build();
+                adView.loadAd(adRequest);
+                return new AdViewHolder(view);
+            default:
+                view = mLayoutInflater.inflate(R.layout.recyclerview_search_code_result_list_item, parent, false);
+                return new SearchCodeResultListAdapter.ViewHolder(view);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (getItemCount() <= 0) {
             return;
         }
         final ItemEntity item = mSearchResultList.get(position);
 
-        holder.nameTextView.setText(item.getName());
-        holder.pathTextView.setText(item.getPath());
-        holder.pathTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mListener != null){
-                    mListener.onItemClick(SearchCodeResultListAdapter.this, position, item);
+        if(!(holder instanceof ViewHolder)) {
+            return;
+        }
+        ViewHolder viewHolder = (ViewHolder)holder;
+
+        if (item.getItemType() == null) {
+            viewHolder.nameTextView.setText(item.getName());
+            viewHolder.pathTextView.setText(item.getPath());
+            viewHolder.pathTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mListener != null) {
+                        mListener.onItemClick(SearchCodeResultListAdapter.this, position, item);
+                    }
                 }
-            }
-        });
-
-
-        holder.mChildAdapter.setSearchResultList(item.getTextMatchEntityList());
-        holder.textMatchRecyclerView.setAdapter(holder.mChildAdapter);
+            });
+            viewHolder.mChildAdapter.setSearchResultList(item.getTextMatchEntityList());
+            viewHolder.textMatchRecyclerView.setAdapter(viewHolder.mChildAdapter);
+        }
     }
 
     @Override
@@ -112,6 +164,18 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<SearchCode
             notifyItemRemoved(pos);
         }
     }
+
+    public void addAdItemTypeThenNotify() {
+        int pos = addItemTypeAtBeginningPosition(ItemType.Ad);
+        if (pos > -1) {
+            notifyItemInserted(pos);
+        }
+    }
+    private int addItemTypeAtBeginningPosition(ItemType type) {
+        mSearchResultList.add(0, new ItemEntity(type));
+        return mSearchResultList.size() - 1;
+    }
+
 
     private int addItemType(ItemType type) {
         mSearchResultList.add(new ItemEntity(type));

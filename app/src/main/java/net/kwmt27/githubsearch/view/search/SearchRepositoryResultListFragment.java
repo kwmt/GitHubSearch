@@ -14,9 +14,9 @@ import android.widget.RelativeLayout;
 import com.jakewharton.rxbinding.support.v7.widget.RecyclerViewScrollEvent;
 import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 
+import net.kwmt27.githubsearch.ModelLocator;
 import net.kwmt27.githubsearch.R;
 import net.kwmt27.githubsearch.entity.GithubRepoEntity;
-import net.kwmt27.githubsearch.entity.SearchRepositoryResultEntity;
 import net.kwmt27.githubsearch.presenter.search.ISearchResultListPresenter;
 import net.kwmt27.githubsearch.presenter.search.SearchRepositoryResultListPresenter;
 import net.kwmt27.githubsearch.util.Logger;
@@ -24,6 +24,8 @@ import net.kwmt27.githubsearch.util.ToastUtil;
 import net.kwmt27.githubsearch.view.DetailActivity;
 import net.kwmt27.githubsearch.view.DividerItemDecoration;
 import net.kwmt27.githubsearch.view.OnItemClickListener;
+
+import java.util.List;
 
 import rx.Subscription;
 import rx.functions.Action1;
@@ -45,6 +47,7 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
     private boolean mIsCalled = false;
     private FragmentProgressCallback mCallback;
     private View mErrorLayout;
+    private boolean mAddedAd = false;
 
     public static SearchRepositoryResultListFragment newInstance(FragmentProgressCallback callback) {
         SearchRepositoryResultListFragment fragment = new SearchRepositoryResultListFragment();
@@ -105,9 +108,20 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
 
 
     @Override
-    public void updateSearchResultListView(SearchRepositoryResultEntity entity) {
-        mSearchRepositoryResultListAdapter.setSearchResultList(entity.getGithubRepoEntityList());
-        mSearchRepositoryResultListAdapter.notifyDataSetChanged();
+    public void updateSearchResultListView(List<GithubRepoEntity> entities) {
+        mIsCalled = false;
+        rxRecyclerViewScrollSubscribe();
+        mCallback.showNotFoundPageIfNeeded(ModelLocator.getSearchRepositoryModel(), entities.size() > 0);
+        if (entities.size() > 0) {
+            mSearchRepositoryResultListAdapter.setSearchResultList(entities);
+            mSearchRepositoryResultListAdapter.notifyDataSetChanged();
+
+            if (!mAddedAd) {
+                mSearchRepositoryResultListAdapter.addAdItemTypeThenNotify();
+                mAddedAd = true;
+            }
+        }
+
     }
 
     @Override

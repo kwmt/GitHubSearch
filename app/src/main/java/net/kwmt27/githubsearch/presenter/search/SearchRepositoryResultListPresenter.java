@@ -5,10 +5,11 @@ import android.view.View;
 
 import net.kwmt27.githubsearch.ModelLocator;
 import net.kwmt27.githubsearch.entity.GithubRepoEntity;
-import net.kwmt27.githubsearch.entity.SearchRepositoryResultEntity;
 import net.kwmt27.githubsearch.model.rx.ApiSubscriber;
 import net.kwmt27.githubsearch.util.Logger;
 import net.kwmt27.githubsearch.view.search.SearchRepositoryResultListFragment;
+
+import java.util.List;
 
 public class SearchRepositoryResultListPresenter implements ISearchResultListPresenter {
 
@@ -22,7 +23,7 @@ public class SearchRepositoryResultListPresenter implements ISearchResultListPre
 
     @Override
     public void onStop() {
-        ModelLocator.getSearchModel().unsubscribe();
+        ModelLocator.getSearchRepositoryModel().unsubscribe();
     }
 
 
@@ -33,39 +34,56 @@ public class SearchRepositoryResultListPresenter implements ISearchResultListPre
 
     @Override
     public void onScrollToBottom() {
+        if(ModelLocator.getSearchRepositoryModel().hasNextPage()) {
+            searchRepository(ModelLocator.getSearchRepositoryModel().getKeyword(), ModelLocator.getSearchRepositoryModel().getNextPage());
+        }
 
     }
 
     @Override
     public void onEditorActionSearch(String keyword, GithubRepoEntity entity) {
-        searchRepository(keyword);
+        ModelLocator.getSearchRepositoryModel().clear();
+        searchRepository(keyword, null);
     }
 
     @Override
     public void onClickReloadButton() {
-        searchRepository(ModelLocator.getSearchModel().getKeyword());
+        searchRepository(ModelLocator.getSearchRepositoryModel().getKeyword(), null);
     }
 
-    private void searchRepository(String keyword) {
-        mSearchResultListView.showProgress();
-        ModelLocator.getSearchModel().searchRepositories(keyword, new ApiSubscriber<SearchRepositoryResultEntity>(((SearchRepositoryResultListFragment) mSearchResultListView).getActivity().getApplicationContext()) {
+    private void searchRepository(String keyword, final Integer page) {
+        if(page == null) {
+            mSearchResultListView.showProgress();
+        } else {
+            mSearchResultListView.showProgressOnScroll();
+        }
+        ModelLocator.getSearchRepositoryModel().searchRepositories(keyword, page, new ApiSubscriber<List<GithubRepoEntity>>(((SearchRepositoryResultListFragment) mSearchResultListView).getActivity().getApplicationContext()) {
             @Override
             public void onCompleted() {
                 Logger.d("onCompleted is called.");
-                mSearchResultListView.hideProgress();
+                if(page == null) {
+                    mSearchResultListView.hideProgress();
+                } else {
+                    mSearchResultListView.hideProgressOnScroll();
+                }
             }
 
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
                 Logger.e("onError is called. " + e);
-                mSearchResultListView.hideProgress();
-                mSearchResultListView.showError();
+                if(page == null) {
+                    mSearchResultListView.hideProgress();
+                    mSearchResultListView.showError();
+                } else {
+                    mSearchResultListView.hideProgressOnScroll();
+                    mSearchResultListView.showErrorOnScroll();
+                }
             }
 
             @Override
-            public void onNext(SearchRepositoryResultEntity entity) {
-                mSearchResultListView.updateSearchResultListView(entity);
+            public void onNext(List<GithubRepoEntity> entities) {
+                mSearchResultListView.updateSearchResultListView(entities);
             }
         });
     }
@@ -73,7 +91,7 @@ public class SearchRepositoryResultListPresenter implements ISearchResultListPre
     public interface ISearchResultListView {
         void setupComponents(View view, Bundle savedInstanceState);
 
-        void updateSearchResultListView(SearchRepositoryResultEntity searchRepositoryResultEntity);
+        void updateSearchResultListView(List<GithubRepoEntity> entities);
 
         void onEditorActionSearch(String keyword, GithubRepoEntity entity);
 
