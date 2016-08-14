@@ -184,6 +184,13 @@ public class SearchModel {
         return mKeyword;
     }
 
+    /**
+     * @return {@code keyword} が前回検索したキーワードと同じ場合はtrue
+     */
+    public boolean isSameKeyword(String keyword) {
+        return getKeyword().equals(keyword);
+    }
+
     public String getRepository() {
         if(mRepository == null) { return ""; }
         return mRepository;

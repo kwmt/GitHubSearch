@@ -146,6 +146,10 @@ public class SearchRepositoryResultListAdapter extends RecyclerView.Adapter<Sear
             notifyItemInserted(pos);
         }
     }
+    private int addItemTypeAtBeginningPosition(ItemType type) {
+        mSearchResultList.add(0, new GithubRepoEntity(type));
+        return mSearchResultList.size() - 1;
+    }
 
 
     private int addItemType(ItemType type) {
@@ -162,8 +166,4 @@ public class SearchRepositoryResultListAdapter extends RecyclerView.Adapter<Sear
         return -1;
     }
 
-    private int addItemTypeAtBeginningPosition(ItemType type) {
-        mSearchResultList.add(0, new GithubRepoEntity(type));
-        return mSearchResultList.size() - 1;
-    }
 }

@@ -42,7 +42,9 @@ public class SearchCodeResultListPresenter implements ISearchResultListPresenter
 
     @Override
     public void onEditorActionSearch(String keyword, GithubRepoEntity entity) {
-        searchCode(keyword, entity, null);
+        if(!ModelLocator.getSearchModel().isSameKeyword(keyword)) {
+            searchCode(keyword, entity, null);
+        }
     }
 
     @Override

@@ -45,6 +45,7 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
 
     private FragmentProgressCallback mCallback;
     private View mErrorLayout;
+    private boolean mAddedAd = false;
 
     public static SearchCodeResultListFragment newInstance(FragmentProgressCallback callback) {
         SearchCodeResultListFragment fragment = new SearchCodeResultListFragment();
@@ -111,6 +112,11 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
         mCallback.showNotFoundPageIfNeeded(itemEntityList.size() > 0);
         mSearchCodeResultListAdapter.setSearchResultList(itemEntityList);
         mSearchCodeResultListAdapter.notifyDataSetChanged();
+
+        if(!mAddedAd) {
+            mSearchCodeResultListAdapter.addAdItemTypeThenNotify();
+            mAddedAd = true;
+        }
     }
 
     @Override

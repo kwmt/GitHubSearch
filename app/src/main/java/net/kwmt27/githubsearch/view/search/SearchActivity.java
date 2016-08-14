@@ -45,15 +45,6 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
         }
         activity.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
     }
-    public static void startActivity(AppCompatActivity activity, boolean canSearchCode,  GithubRepoEntity entity, View sharedElement, String sharedElementName) {
-
-        Intent intent = new Intent(activity, SearchActivity.class);
-        intent.putExtra(ISearchPresenter.CAN_SEARCH_CODE, canSearchCode);
-        if (entity != null) {
-            intent.putExtra(ISearchPresenter.REPO_ENTITY_KEY, entity);
-        }
-        activity.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity, sharedElement, sharedElementName).toBundle());
-    }
     public static void startActivity(Activity activity, boolean canSearchCode, GithubRepoEntity entity, View sharedElement, String sharedElementName) {
 
         Intent intent = new Intent(activity, SearchActivity.class);
