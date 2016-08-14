@@ -26,7 +26,7 @@ public class DetailPresenter implements IDetailPresenter {
 
     @Override
     public void onStop() {
-        ModelLocator.getSearchModel().unsubscribe();
+        ModelLocator.getSearchCodeModel().unsubscribe();
     }
 
     @Override

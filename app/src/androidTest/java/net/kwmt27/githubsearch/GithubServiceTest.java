@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.kwmt27.githubsearch.entity.GithubResponse;
-import net.kwmt27.githubsearch.model.SearchModel;
+import net.kwmt27.githubsearch.model.SearchCodeModel;
 import net.kwmt27.githubsearch.testUtil.FileUtil;
 
 import org.json.JSONException;
@@ -64,7 +64,7 @@ public class GithubServiceTest {
 
         TestSubscriber<GithubResponse> testSubscriber = new TestSubscriber<>();
 
-        SearchModel githubService = new SearchModel();
+        SearchCodeModel githubService = new SearchCodeModel();
         githubService.fetchGithub(testSubscriber);
 
         testSubscriber.awaitTerminalEvent();
@@ -88,7 +88,7 @@ public class GithubServiceTest {
         mMockServer.enqueue(new MockResponse().setBody(json));
 
         TestSubscriber<GithubResponse> testSubscriber = new TestSubscriber<>();
-        SearchModel githubService = new SearchModel();
+        SearchCodeModel githubService = new SearchCodeModel();
         githubService.fetchGithub(testSubscriber);
 
         testSubscriber.awaitTerminalEvent();

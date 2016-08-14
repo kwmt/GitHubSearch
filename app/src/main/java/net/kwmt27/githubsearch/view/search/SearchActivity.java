@@ -18,9 +18,9 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import net.kwmt27.githubsearch.ModelLocator;
 import net.kwmt27.githubsearch.R;
 import net.kwmt27.githubsearch.entity.GithubRepoEntity;
+import net.kwmt27.githubsearch.model.ISearchModel;
 import net.kwmt27.githubsearch.presenter.search.ISearchPresenter;
 import net.kwmt27.githubsearch.presenter.search.SearchPresenter;
 import net.kwmt27.githubsearch.util.KeyboardUtil;
@@ -157,9 +157,9 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
 
 
     @Override
-    public void showNotFoundPageIfNeeded(boolean show) {
+    public void showNotFoundPageIfNeeded(ISearchModel model, boolean show) {
         RelativeLayout notFoundLayout = (RelativeLayout) findViewById(R.id.not_found_layout);
-        ((TextView)notFoundLayout.findViewById(R.id.keyword)).setText(ModelLocator.getSearchModel().getKeyword());
+        ((TextView)notFoundLayout.findViewById(R.id.keyword)).setText(model.getKeyword());
         int visibility = show ? View.GONE : View.VISIBLE;
         notFoundLayout.setVisibility(visibility);
 

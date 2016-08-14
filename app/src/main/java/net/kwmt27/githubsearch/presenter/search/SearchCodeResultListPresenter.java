@@ -24,7 +24,7 @@ public class SearchCodeResultListPresenter implements ISearchResultListPresenter
 
     @Override
     public void onStop() {
-        ModelLocator.getSearchModel().unsubscribe();
+        ModelLocator.getSearchCodeModel().unsubscribe();
     }
 
 
@@ -35,16 +35,15 @@ public class SearchCodeResultListPresenter implements ISearchResultListPresenter
 
     @Override
     public void onScrollToBottom() {
-        if(ModelLocator.getSearchModel().hasNextPageOfSearchCode()) {
-            searchCodeOnScroll(ModelLocator.getSearchModel().getNextPageOfSearchCode());
+        if(ModelLocator.getSearchCodeModel().hasNextPage()) {
+            searchCodeOnScroll(ModelLocator.getSearchCodeModel().getNextPage());
         }
     }
 
     @Override
     public void onEditorActionSearch(String keyword, GithubRepoEntity entity) {
-        if(!ModelLocator.getSearchModel().isSameKeyword(keyword)) {
-            searchCode(keyword, entity, null);
-        }
+        ModelLocator.getSearchCodeModel().clear();
+        searchCode(keyword, entity, null);
     }
 
     @Override
@@ -56,7 +55,7 @@ public class SearchCodeResultListPresenter implements ISearchResultListPresenter
     private void searchCode(String keyword, GithubRepoEntity entity, Integer page) {
         mSearchResultListView.showProgress();
         String repo = entity.getFullName();
-        ModelLocator.getSearchModel().searchCode(keyword, repo, page, new ApiSubscriber<List<ItemEntity>>(((SearchCodeResultListFragment) mSearchResultListView).getActivity().getApplicationContext()) {
+        ModelLocator.getSearchCodeModel().searchCode(keyword, repo, page, new ApiSubscriber<List<ItemEntity>>(((SearchCodeResultListFragment) mSearchResultListView).getActivity().getApplicationContext()) {
             @Override
             public void onCompleted() {
                 Logger.d("onCompleted is called.");
@@ -80,9 +79,9 @@ public class SearchCodeResultListPresenter implements ISearchResultListPresenter
 
     private void searchCodeOnScroll(Integer page) {
         mSearchResultListView.showProgressOnScroll();
-        String keyword = ModelLocator.getSearchModel().getKeyword();
-        String repo = ModelLocator.getSearchModel().getRepository();
-        ModelLocator.getSearchModel().searchCode(keyword, repo, page, new ApiSubscriber<List<ItemEntity>>(((SearchCodeResultListFragment) mSearchResultListView).getActivity().getApplicationContext()) {
+        String keyword = ModelLocator.getSearchCodeModel().getKeyword();
+        String repo = ModelLocator.getSearchCodeModel().getRepository();
+        ModelLocator.getSearchCodeModel().searchCode(keyword, repo, page, new ApiSubscriber<List<ItemEntity>>(((SearchCodeResultListFragment) mSearchResultListView).getActivity().getApplicationContext()) {
             @Override
             public void onCompleted() {
                 Logger.d("onCompleted is called.");

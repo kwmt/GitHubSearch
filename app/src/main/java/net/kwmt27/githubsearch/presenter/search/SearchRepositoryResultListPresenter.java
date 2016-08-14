@@ -23,7 +23,7 @@ public class SearchRepositoryResultListPresenter implements ISearchResultListPre
 
     @Override
     public void onStop() {
-        ModelLocator.getSearchModel().unsubscribe();
+        ModelLocator.getSearchRepositoryModel().unsubscribe();
     }
 
 
@@ -34,22 +34,21 @@ public class SearchRepositoryResultListPresenter implements ISearchResultListPre
 
     @Override
     public void onScrollToBottom() {
-        if(ModelLocator.getSearchModel().hasNextPageOfRepoList()) {
-            searchRepository(ModelLocator.getSearchModel().getKeyword(), ModelLocator.getSearchModel().getNextPageOfRepoList());
+        if(ModelLocator.getSearchRepositoryModel().hasNextPage()) {
+            searchRepository(ModelLocator.getSearchRepositoryModel().getKeyword(), ModelLocator.getSearchRepositoryModel().getNextPage());
         }
 
     }
 
     @Override
     public void onEditorActionSearch(String keyword, GithubRepoEntity entity) {
-        if(!ModelLocator.getSearchModel().isSameKeyword(keyword)) {
-            searchRepository(keyword, null);
-        }
+        ModelLocator.getSearchRepositoryModel().clear();
+        searchRepository(keyword, null);
     }
 
     @Override
     public void onClickReloadButton() {
-        searchRepository(ModelLocator.getSearchModel().getKeyword(), null);
+        searchRepository(ModelLocator.getSearchRepositoryModel().getKeyword(), null);
     }
 
     private void searchRepository(String keyword, final Integer page) {
@@ -58,7 +57,7 @@ public class SearchRepositoryResultListPresenter implements ISearchResultListPre
         } else {
             mSearchResultListView.showProgressOnScroll();
         }
-        ModelLocator.getSearchModel().searchRepositories(keyword, page, new ApiSubscriber<List<GithubRepoEntity>>(((SearchRepositoryResultListFragment) mSearchResultListView).getActivity().getApplicationContext()) {
+        ModelLocator.getSearchRepositoryModel().searchRepositories(keyword, page, new ApiSubscriber<List<GithubRepoEntity>>(((SearchRepositoryResultListFragment) mSearchResultListView).getActivity().getApplicationContext()) {
             @Override
             public void onCompleted() {
                 Logger.d("onCompleted is called.");

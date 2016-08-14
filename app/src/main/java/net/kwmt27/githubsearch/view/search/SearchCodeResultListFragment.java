@@ -13,6 +13,7 @@ import android.widget.Button;
 import com.jakewharton.rxbinding.support.v7.widget.RecyclerViewScrollEvent;
 import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 
+import net.kwmt27.githubsearch.ModelLocator;
 import net.kwmt27.githubsearch.R;
 import net.kwmt27.githubsearch.entity.GithubRepoEntity;
 import net.kwmt27.githubsearch.entity.ItemEntity;
@@ -109,7 +110,7 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
     public void updateSearchResultListView(List<ItemEntity> itemEntityList) {
         mIsCalled = false;
         rxRecyclerViewScrollSubscribe();
-        mCallback.showNotFoundPageIfNeeded(itemEntityList.size() > 0);
+        mCallback.showNotFoundPageIfNeeded(ModelLocator.getSearchCodeModel(), itemEntityList.size() > 0);
         mSearchCodeResultListAdapter.setSearchResultList(itemEntityList);
         mSearchCodeResultListAdapter.notifyDataSetChanged();
 
