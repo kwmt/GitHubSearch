@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:123456789000:android:1111111111111111",
         "android_client_info": {
-          "package_name": "net.kwmt27.githubsearch.develop"
+          "package_name": "net.kwmt27.codesearch.develop"
         }
       },
       "oauth_client": [
@@ -48,7 +48,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:123456789000:android:1111111111111111",
         "android_client_info": {
-          "package_name": "net.kwmt27.githubsearch"
+          "package_name": "net.kwmt27.codesearch"
         }
       },
       "oauth_client": [
