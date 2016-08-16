@@ -1,6 +1,6 @@
-
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'com.github.triplet.play'
 
 def versionMajor = 0
 def versionMinor = 0
@@ -115,6 +115,12 @@ dependencies {
     // http://stackoverflow.com/a/36835268
     androidTestCompile "com.android.support:support-annotations:${SUPPORT_LIB_VERSION}"
 
+}
+
+play {
+    track = 'alpha'    // GooglePlayのベータ版へのアップ。製品版は 'production' 、アルファ版は 'alpha'
+    serviceAccountEmail = System.getenv("SERVICE_ACCOUNT_EMAIL")
+    jsonFile = file('android-publisher-key.json')
 }
 
 apply plugin: 'com.google.gms.google-services'
