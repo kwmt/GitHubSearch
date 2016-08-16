@@ -11,7 +11,7 @@ android {
     buildToolsVersion "24.0.1"
 
     defaultConfig {
-        applicationId "net.kwmt27.githubsearch"
+        applicationId "net.kwmt27.codesearch"
         minSdkVersion 21
         targetSdkVersion 24
         versionCode versionMajor * 100 + versionMinor * 10 + versionPatch
