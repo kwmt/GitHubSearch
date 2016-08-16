@@ -25,7 +25,7 @@ android {
         release {
             storeFile rootProject.file("release.keystore")
             storePassword System.getenv("GITHUB_SEARCH_KEY_STORE_PWD")
-            keyAlias "githubsearch"
+            keyAlias "codesearch"
             keyPassword System.getenv("GITHUB_SEARCH_KEY_PWD")
         }
     }
