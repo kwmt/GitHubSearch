@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:theme="@style/Theme.GithubViewer.Text12"
+                android:theme="@style/Theme.CodeSearch.Text12"
                 >
 
                 <TextView
@@ -86,7 +86,7 @@
         android:layout_marginTop="8dp"
         android:ellipsize="end"
         android:lines="2"
-        android:theme="@style/Theme.GithubViewer.TextGrayA_12"
+        android:theme="@style/Theme.CodeSearch.TextGrayA_12"
         />
 
     <RelativeLayout
@@ -94,7 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/description"
         android:layout_marginTop="8dp"
-        android:theme="@style/Theme.GithubViewer.TextGray6_12"
+        android:theme="@style/Theme.CodeSearch.TextGray6_12"
         >
 
         <TextView

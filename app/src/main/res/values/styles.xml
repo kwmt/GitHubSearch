@@ -3,7 +3,7 @@
     <style name="FrameworkRoot.Theme" parent="@style/Theme.AppCompat.Light.NoActionBar"/>
 
     <!-- Base application theme. -->
-    <style name="Theme.GithubViewer.Base" parent="FrameworkRoot.Theme">
+    <style name="Theme.CodeSearch.Base" parent="FrameworkRoot.Theme">
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
@@ -24,26 +24,26 @@
 
     </style>
 
-    <style name="Theme.GithubViewer" parent="Theme.GithubViewer.Base"/>
+    <style name="Theme.CodeSearch" parent="Theme.CodeSearch.Base"/>
 
-    <style name="Theme.GithubViewer.Search" parent="Theme.GithubViewer.Base">
+    <style name="Theme.CodeSearch.Search" parent="Theme.CodeSearch.Base">
         <item name="colorPrimaryDark">@color/diviver</item>
     </style>
 
-    <style name="Theme.GithubViewer.Text14">
+    <style name="Theme.CodeSearch.Text14">
         <item name="android:textColor">@color/text_color</item>
         <item name="android:textSize">@dimen/text_size14</item>
     </style>
 
-    <style name="Theme.GithubViewer.Text12">
+    <style name="Theme.CodeSearch.Text12">
         <item name="android:textColor">@color/text_color</item>
         <item name="android:textSize">@dimen/text_size12</item>
     </style>
-    <style name="Theme.GithubViewer.TextGrayA_12">
+    <style name="Theme.CodeSearch.TextGrayA_12">
         <item name="android:textColor">@color/grayA000</item>
         <item name="android:textSize">@dimen/text_size12</item>
     </style>
-    <style name="Theme.GithubViewer.TextGray6_12">
+    <style name="Theme.CodeSearch.TextGray6_12">
         <item name="android:textColor">@color/gray6000</item>
         <item name="android:textSize">@dimen/text_size12</item>
     </style>
