@@ -1,4 +1,4 @@
-package net.kwmt27.codesearch.view;
+package net.kwmt27.codesearch.view.repolist;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +18,9 @@ import net.kwmt27.codesearch.presenter.repolist.IRepositoryListPresenter;
 import net.kwmt27.codesearch.presenter.repolist.RepositoryListPresenter;
 import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.util.ToastUtil;
+import net.kwmt27.codesearch.view.parts.DividerItemDecoration;
+import net.kwmt27.codesearch.view.parts.OnItemClickListener;
+import net.kwmt27.codesearch.view.detail.DetailActivity;
 
 import java.util.List;
 
@@ -30,9 +33,8 @@ import rx.functions.Action1;
  */
 public class RepositoryListFragment extends Fragment implements RepositoryListPresenter.IRepositoryListView {
 
-    public static final String TAG = RepositoryListFragment.class.getSimpleName();
     private IRepositoryListPresenter mPresenter;
-    private GitHubRepoListAdapter mGitHubRepoListAdapter;
+    private RepositoryListAdapter mRepositoryListAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private Subscription mSubscription;
@@ -78,8 +80,6 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
 
     @Override
     public void setupComponents(View view, Bundle savedInstanceState) {
-        //getActivity().setTitle("レポジトリ一覧");
-
         mProgressLayout = view.findViewById(R.id.progress_layout);
         mErrorLayout = view.findViewById(R.id.error_layout);
 
@@ -88,13 +88,13 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mGitHubRepoListAdapter = new GitHubRepoListAdapter(getActivity().getApplicationContext(), new OnItemClickListener<GitHubRepoListAdapter, GithubRepoEntity>() {
+        mRepositoryListAdapter = new RepositoryListAdapter(getActivity().getApplicationContext(), new OnItemClickListener<RepositoryListAdapter, GithubRepoEntity>() {
             @Override
-            public void onItemClick(GitHubRepoListAdapter adapter, int position, GithubRepoEntity repo) {
+            public void onItemClick(RepositoryListAdapter adapter, int position, GithubRepoEntity repo) {
                 DetailActivity.startActivity(getActivity(), repo.getName(), repo.getHtmlUrl(), repo);
             }
         });
-        mRecyclerView.setAdapter(mGitHubRepoListAdapter);
+        mRecyclerView.setAdapter(mRepositoryListAdapter);
 
         rxRecyclerViewScrollSubscribe();
     }
@@ -128,11 +128,11 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
     public void updateGitHubRepoListView(List<GithubRepoEntity> githubRepoEntities) {
         mIsCalled = false;
         rxRecyclerViewScrollSubscribe();
-        mGitHubRepoListAdapter.setGithubRepoEntityList(githubRepoEntities);
-        mGitHubRepoListAdapter.notifyDataSetChanged();
+        mRepositoryListAdapter.setGithubRepoEntityList(githubRepoEntities);
+        mRepositoryListAdapter.notifyDataSetChanged();
 
         if(!mAddedAd) {
-            mGitHubRepoListAdapter.addAdItemTypeThenNotify();
+            mRepositoryListAdapter.addAdItemTypeThenNotify();
             mAddedAd = true;
         }
 
@@ -164,12 +164,12 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
     }
     @Override
     public void showProgressOnScroll() {
-        mGitHubRepoListAdapter.addProgressItemTypeThenNotify();
+        mRepositoryListAdapter.addProgressItemTypeThenNotify();
     }
 
     @Override
     public void hideProgressOnScroll() {
-        mGitHubRepoListAdapter.removeProgressItemTypeThenNotify();
+        mRepositoryListAdapter.removeProgressItemTypeThenNotify();
     }
 
     @Override

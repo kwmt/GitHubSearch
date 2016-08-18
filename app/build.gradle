@@ -1,6 +1,5 @@
 
 apply plugin: 'com.android.application'
-apply plugin: 'realm-android'
 
 def versionMajor = 0
 def versionMinor = 0
@@ -57,7 +56,7 @@ android {
 
     productFlavors {
         develop {
-            manifestPlaceholders = [appName:"[開発]GitHubSearch"]
+            manifestPlaceholders = [appName:"@string/app_name"]
             buildConfigField "String", "BASE_API_URL", "\"https://api.github.com\""
             buildConfigField "String", "BASE_WEBVIEW_URL", "\"\""
             buildConfigField "String", "GITHUB_CLIENT_ID", "\"${githubClientId}\""

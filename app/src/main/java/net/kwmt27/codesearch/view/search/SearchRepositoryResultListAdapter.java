@@ -14,7 +14,7 @@ import net.kwmt27.codesearch.R;
 import net.kwmt27.codesearch.entity.GithubRepoEntity;
 import net.kwmt27.codesearch.entity.ItemType;
 import net.kwmt27.codesearch.util.Logger;
-import net.kwmt27.codesearch.view.OnItemClickListener;
+import net.kwmt27.codesearch.view.parts.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

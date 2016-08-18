@@ -1,4 +1,4 @@
-package net.kwmt27.codesearch.view;
+package net.kwmt27.codesearch.view.top;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import net.kwmt27.codesearch.R;
+import net.kwmt27.codesearch.view.login.LoginActivity;
 import net.kwmt27.codesearch.view.search.SearchActivity;
 
 

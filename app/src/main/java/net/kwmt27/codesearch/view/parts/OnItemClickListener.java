@@ -1,4 +1,4 @@
-package net.kwmt27.codesearch.view;
+package net.kwmt27.codesearch.view.parts;
 
 /**
  * AdapterViewにあるitemがクリックされたときに呼ばれるコールバックを定義

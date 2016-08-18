@@ -1,4 +1,4 @@
-package net.kwmt27.codesearch.view;
+package net.kwmt27.codesearch.view.detail;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -21,6 +21,7 @@ import net.kwmt27.codesearch.entity.GithubRepoEntity;
 import net.kwmt27.codesearch.presenter.detail.DetailPresenter;
 import net.kwmt27.codesearch.presenter.detail.IDetailPresenter;
 import net.kwmt27.codesearch.util.Logger;
+import net.kwmt27.codesearch.view.BaseActivity;
 
 public class DetailActivity extends BaseActivity implements DetailPresenter.IDetailView {
 

@@ -1,7 +1,6 @@
 package net.kwmt27.codesearch;
 
 import net.kwmt27.codesearch.model.ApiClient;
-import net.kwmt27.codesearch.model.DbModel;
 import net.kwmt27.codesearch.model.LoginModel;
 import net.kwmt27.codesearch.model.SearchCodeModel;
 import net.kwmt27.codesearch.model.SearchRepositoryModel;
@@ -21,14 +20,12 @@ public class ModelLocator {
 
     private static final LoginModel sLoginModel;
 
-    private static final DbModel sDbModel;
 
     static {
         sApiClient = new ApiClient();
         sSearchCodeModel = new SearchCodeModel();
         sSearchRepositoryModel = new SearchRepositoryModel();
         sLoginModel = new LoginModel(App.getInstance().getApplicationContext());
-        sDbModel = new DbModel(App.getInstance().getApplicationContext());
     }
 
     public ModelLocator() {
@@ -54,9 +51,6 @@ public class ModelLocator {
         return sLoginModel;
     }
 
-    public static DbModel getDbModel() {
-        return sDbModel;
-    }
 }
 
 

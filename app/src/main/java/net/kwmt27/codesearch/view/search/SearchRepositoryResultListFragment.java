@@ -21,9 +21,9 @@ import net.kwmt27.codesearch.presenter.search.ISearchResultListPresenter;
 import net.kwmt27.codesearch.presenter.search.SearchRepositoryResultListPresenter;
 import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.util.ToastUtil;
-import net.kwmt27.codesearch.view.DetailActivity;
-import net.kwmt27.codesearch.view.DividerItemDecoration;
-import net.kwmt27.codesearch.view.OnItemClickListener;
+import net.kwmt27.codesearch.view.detail.DetailActivity;
+import net.kwmt27.codesearch.view.parts.DividerItemDecoration;
+import net.kwmt27.codesearch.view.parts.OnItemClickListener;
 
 import java.util.List;
 
