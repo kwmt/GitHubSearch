@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    private static final String BASE_API_URL = "https://api.github.com"; // BuildConfig.BASE_API_URL;
+    private static final String BASE_API_URL = BuildConfig.BASE_API_URL;
     public final GitHubService api;
     public final GitHubLoginService login;
     public final Retrofit mRetrofit;
