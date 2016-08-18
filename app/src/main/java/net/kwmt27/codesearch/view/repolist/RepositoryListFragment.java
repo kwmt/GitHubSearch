@@ -33,7 +33,6 @@ import rx.functions.Action1;
  */
 public class RepositoryListFragment extends Fragment implements RepositoryListPresenter.IRepositoryListView {
 
-    public static final String TAG = RepositoryListFragment.class.getSimpleName();
     private IRepositoryListPresenter mPresenter;
     private RepositoryListAdapter mRepositoryListAdapter;
     private RecyclerView mRecyclerView;
@@ -81,8 +80,6 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
 
     @Override
     public void setupComponents(View view, Bundle savedInstanceState) {
-        //getActivity().setTitle("レポジトリ一覧");
-
         mProgressLayout = view.findViewById(R.id.progress_layout);
         mErrorLayout = view.findViewById(R.id.error_layout);
 
