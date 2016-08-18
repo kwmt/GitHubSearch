@@ -1,4 +1,4 @@
-package net.kwmt27.codesearch.view;
+package net.kwmt27.codesearch.view.login;
 
 import android.app.Activity;
 import android.graphics.Bitmap;

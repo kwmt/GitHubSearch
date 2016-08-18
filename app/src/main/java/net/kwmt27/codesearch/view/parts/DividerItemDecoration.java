@@ -1,4 +1,4 @@
-package net.kwmt27.codesearch.view;
+package net.kwmt27.codesearch.view.parts;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -1,4 +1,4 @@
-package net.kwmt27.codesearch.view;
+package net.kwmt27.codesearch.view.repolist;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -14,15 +14,16 @@ import net.kwmt27.codesearch.R;
 import net.kwmt27.codesearch.entity.GithubRepoEntity;
 import net.kwmt27.codesearch.entity.ItemType;
 import net.kwmt27.codesearch.util.Logger;
+import net.kwmt27.codesearch.view.parts.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAdapter.ViewHolder> {
+public class RepositoryListAdapter extends RecyclerView.Adapter<RepositoryListAdapter.ViewHolder> {
 
     private final LayoutInflater mLayoutInflater;
-    private OnItemClickListener<GitHubRepoListAdapter, GithubRepoEntity> mListener;
+    private OnItemClickListener<RepositoryListAdapter, GithubRepoEntity> mListener;
 
     private List<GithubRepoEntity> mGithubRepoEntityList = new ArrayList<>();
 
@@ -43,7 +44,7 @@ public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAd
         }
     }
 
-    public GitHubRepoListAdapter(Context context, OnItemClickListener<GitHubRepoListAdapter, GithubRepoEntity> listener) {
+    public RepositoryListAdapter(Context context, OnItemClickListener<RepositoryListAdapter, GithubRepoEntity> listener) {
         mLayoutInflater = LayoutInflater.from(context);
         mListener = listener;
     }
@@ -66,7 +67,7 @@ public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAd
 
 
     @Override
-    public GitHubRepoListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RepositoryListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         ItemType itemType = ItemType.valueOf(viewType);
         switch (itemType) {
@@ -85,7 +86,7 @@ public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAd
         }
 
 
-        final GitHubRepoListAdapter.ViewHolder viewHolder = new GitHubRepoListAdapter.ViewHolder(view);
+        final RepositoryListAdapter.ViewHolder viewHolder = new RepositoryListAdapter.ViewHolder(view);
         if(itemType == ItemType.Normal) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -94,7 +95,7 @@ public class GitHubRepoListAdapter extends RecyclerView.Adapter<GitHubRepoListAd
                         int position = viewHolder.getAdapterPosition();
                         Logger.d("click position:" + position);
                         GithubRepoEntity entity = mGithubRepoEntityList.get(position);
-                        mListener.onItemClick(GitHubRepoListAdapter.this, position, entity);
+                        mListener.onItemClick(RepositoryListAdapter.this, position, entity);
                     }
 
                 }

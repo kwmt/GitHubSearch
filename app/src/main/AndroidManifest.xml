@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CodeSearch">
         <activity
-            android:name=".view.DetailActivity"
+            android:name=".view.detail.DetailActivity"
             android:configChanges="orientation|screenSize">
         </activity>
         <activity
@@ -30,7 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.LoginActivity">
+        <activity android:name=".view.login.LoginActivity">
         </activity>
     </application>
 

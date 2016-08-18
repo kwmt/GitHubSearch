@@ -6,7 +6,7 @@ import android.view.View;
 import net.kwmt27.codesearch.ModelLocator;
 import net.kwmt27.codesearch.entity.GithubRepoEntity;
 import net.kwmt27.codesearch.model.rx.ApiSubscriber;
-import net.kwmt27.codesearch.view.RepositoryListFragment;
+import net.kwmt27.codesearch.view.repolist.RepositoryListFragment;
 
 import java.util.List;
 

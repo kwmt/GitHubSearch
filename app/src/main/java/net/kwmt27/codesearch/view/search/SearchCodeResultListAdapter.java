@@ -19,8 +19,8 @@ import net.kwmt27.codesearch.entity.ItemType;
 import net.kwmt27.codesearch.entity.MatchEntity;
 import net.kwmt27.codesearch.entity.TextMatchEntity;
 import net.kwmt27.codesearch.util.RoundedBackgroundSpan;
-import net.kwmt27.codesearch.view.DividerItemDecoration;
-import net.kwmt27.codesearch.view.OnItemClickListener;
+import net.kwmt27.codesearch.view.parts.DividerItemDecoration;
+import net.kwmt27.codesearch.view.parts.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

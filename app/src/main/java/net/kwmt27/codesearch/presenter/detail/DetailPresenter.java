@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import net.kwmt27.codesearch.ModelLocator;
 import net.kwmt27.codesearch.entity.GithubRepoEntity;
-import net.kwmt27.codesearch.view.DetailActivity;
+import net.kwmt27.codesearch.view.detail.DetailActivity;
 import net.kwmt27.codesearch.view.search.SearchActivity;
 
 public class DetailPresenter implements IDetailPresenter {
