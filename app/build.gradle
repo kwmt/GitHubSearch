@@ -1,6 +1,5 @@
 
 apply plugin: 'com.android.application'
-apply plugin: 'realm-android'
 
 def versionMajor = 0
 def versionMinor = 0
