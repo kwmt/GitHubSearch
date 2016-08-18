@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -26,14 +25,12 @@ public class ApiClient {
     public final GitHubLoginService login;
     public final Retrofit mRetrofit;
 
-    private OkHttpClient mClient;
-
     public ApiClient() {
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        mClient = new OkHttpClient.Builder()
+        OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(new HeaderInterceptor())
                 .connectTimeout(10, TimeUnit.SECONDS)
@@ -44,7 +41,7 @@ public class ApiClient {
 
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BuildConfig.BASE_API_URL)
-                .client(mClient)
+                .client(client)
                 .addConverterFactory(GsonConverterFactory.create(GsonFactory.create()))
                 .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create())
                 .build();
@@ -53,7 +50,7 @@ public class ApiClient {
 
         Retrofit retrofitForLogin = new Retrofit.Builder()
                 .baseUrl("https://github.com")
-                .client(mClient)
+                .client(client)
                 .addConverterFactory(GsonConverterFactory.create(GsonFactory.create()))
                 .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create())
                 .build();
@@ -73,30 +70,6 @@ public class ApiClient {
             }
             return chain.proceed(builder.build());
         }
-    }
-
-
-    public String buildUrl(String path) {
-        return BASE_API_URL + path;
-    }
-
-    /**
-     * リクエスト共通処理
-     *
-     * @param path エンドポイント
-     * @param body POST内容
-     */
-    public Response request(final String path, final RequestBody body) throws IOException {
-
-        String url = buildUrl(path);
-        Request.Builder builder = new Request.Builder()
-                .url(url);
-
-        if (body != null) {
-            builder = builder.post(body);
-        }
-        final Request request = builder.build();
-        return mClient.newCall(request).execute();
     }
 
 }
