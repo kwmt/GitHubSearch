@@ -3,11 +3,7 @@ package net.kwmt27.codesearch.entity;
 
 import com.google.gson.annotations.SerializedName;
 
-import io.realm.RealmObject;
-import io.realm.annotations.RealmClass;
-
-@RealmClass
-public class TokenEntity extends RealmObject {
+public class TokenEntity {
 
     @SerializedName("access_token")
     private String mAccessToken;
