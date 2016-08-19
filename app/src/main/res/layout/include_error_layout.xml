@@ -6,9 +6,11 @@
     android:layout_height="match_parent"
     android:layout_below="@+id/toolbar"
     android:background="#E5E5E5"
+    android:clickable="true"
     android:visibility="gone"
     >
 
+    <!--TODO: design-->
     <TextView
         android:id="@+id/error_text"
         android:layout_width="wrap_content"
