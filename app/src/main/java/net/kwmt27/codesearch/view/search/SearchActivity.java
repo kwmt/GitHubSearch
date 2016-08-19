@@ -31,6 +31,7 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
 
     private MenuItem mActionClearMenu;
     private EditText mSearchEditText;
+    private View mProgress;
 
     public static void startActivity(AppCompatActivity activity, boolean canSearchCode) {
         SearchActivity.startActivity(activity, canSearchCode, null);
@@ -90,6 +91,7 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
         setUpActionBar();
 
         mSearchEditText = (EditText) findViewById(R.id.search_edit);
+        mProgress = findViewById(R.id.progress_layout);
 
         Intent intent = getIntent();
         final boolean canSearchCode = intent.getBooleanExtra(ISearchPresenter.CAN_SEARCH_CODE, false);
@@ -149,12 +151,12 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
 
     @Override
     public void showProgress() {
-        findViewById(R.id.progress_layout).setVisibility(View.VISIBLE);
+        mProgress.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-        findViewById(R.id.progress_layout).setVisibility(View.GONE);
+        mProgress.setVisibility(View.GONE);
     }
 
 
