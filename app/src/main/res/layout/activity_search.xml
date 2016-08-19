@@ -48,7 +48,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        android:layout_margin="16dp"
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:padding="16dp"
         android:visibility="gone"
         >
 
