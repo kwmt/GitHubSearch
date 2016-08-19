@@ -82,6 +82,7 @@ final SUPPORT_LIB_VERSION = '24.1.1'
 final OKHTTP_VERSION = '3.4.1'
 final RETROFIT_VERSION = '2.1.0'
 final DAGGER_VERSION = '2.6'
+final FIREBASE_VERSION = '9.4.0'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -97,7 +98,9 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}"
     compile "com.squareup.retrofit2:converter-gson:${RETROFIT_VERSION}"
     compile "com.squareup.retrofit2:adapter-rxjava:${RETROFIT_VERSION}"
-    compile 'com.google.firebase:firebase-ads:9.0.0'
+    compile "com.google.firebase:firebase-core:${FIREBASE_VERSION}"
+    compile "com.google.firebase:firebase-ads:${FIREBASE_VERSION}"
+    compile "com.google.firebase:firebase-crash:${FIREBASE_VERSION}"
 
     compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0'
 
