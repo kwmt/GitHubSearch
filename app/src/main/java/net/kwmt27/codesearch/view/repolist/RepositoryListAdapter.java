@@ -151,7 +151,7 @@ public class RepositoryListAdapter extends RecyclerView.Adapter<RepositoryListAd
         }
     }
 
-//    public void removeAdItemTypeThenNotify() {
+//    public void removeAdItemTypeIfNeeded() {
 //        int pos = findPositionByItemType(ItemType.Ad);
 //        if (pos > -1) {
 //            mGithubRepoEntityList.remove(pos);

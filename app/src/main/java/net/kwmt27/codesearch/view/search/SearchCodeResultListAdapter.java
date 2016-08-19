@@ -171,6 +171,15 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<RecyclerVi
             notifyItemInserted(pos);
         }
     }
+
+    public void removeAdItemTypeThenNotify() {
+        int pos = findPositionByItemType(ItemType.Ad);
+        if (pos > -1) {
+            mSearchResultList.remove(pos);
+            notifyItemRemoved(pos);
+        }
+    }
+
     private int addItemTypeAtBeginningPosition(ItemType type) {
         mSearchResultList.add(0, new ItemEntity(type));
         return mSearchResultList.size() - 1;
