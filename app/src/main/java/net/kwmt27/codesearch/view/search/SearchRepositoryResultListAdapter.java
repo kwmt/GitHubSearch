@@ -146,6 +146,14 @@ public class SearchRepositoryResultListAdapter extends RecyclerView.Adapter<Sear
             notifyItemInserted(pos);
         }
     }
+
+    public void removeAdItemTypeIfNeeded() {
+        int pos = findPositionByItemType(ItemType.Ad);
+        if (pos > -1) {
+            mSearchResultList.remove(pos);
+        }
+    }
+
     private int addItemTypeAtBeginningPosition(ItemType type) {
         mSearchResultList.add(0, new GithubRepoEntity(type));
         return mSearchResultList.size() - 1;

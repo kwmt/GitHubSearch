@@ -117,6 +117,7 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
             mSearchCodeResultListAdapter.notifyDataSetChanged();
 
             if (!mAddedAd) {
+                mSearchCodeResultListAdapter.removeAdItemTypeThenNotify();
                 mSearchCodeResultListAdapter.addAdItemTypeThenNotify();
                 mAddedAd = true;
             }
@@ -125,6 +126,7 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
 
     @Override
     public void onEditorActionSearch(String keyword, GithubRepoEntity entity) {
+        mAddedAd = false;
         mPresenter.onEditorActionSearch(keyword, entity);
     }
 

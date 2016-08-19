@@ -117,6 +117,7 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
             mSearchRepositoryResultListAdapter.notifyDataSetChanged();
 
             if (!mAddedAd) {
+                mSearchRepositoryResultListAdapter.removeAdItemTypeIfNeeded();
                 mSearchRepositoryResultListAdapter.addAdItemTypeThenNotify();
                 mAddedAd = true;
             }
@@ -126,6 +127,7 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
 
     @Override
     public void onEditorActionSearch(String keyword, GithubRepoEntity entity) {
+        mAddedAd = false;
         mPresenter.onEditorActionSearch(keyword, entity);
     }
 
