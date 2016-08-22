@@ -14,10 +14,10 @@ build:
         name: run gradle assembleDebug
         code: |
           ./gradlew assembleDebug
-    - setup-android-emulator:
-            target: android-24
+steps:
+  - wercker/setup-android-emulator@0.0.8
     - script:
-        name: run gradle assembleDebug
+        name: run gradle connectedAndroidTest
         code: |
           ./gradlew connectedAndroidTest
   after-steps:
