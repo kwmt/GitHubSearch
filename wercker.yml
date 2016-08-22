@@ -10,8 +10,6 @@ build:
           echo $ANDROID_SDK_VERSION
           echo $ANDROID_BUILD_TOOLS
           echo $ANDROID_UPDATE_FILTER      
-    - android-sdk-update:
-        filter: sys-img-arm64-v8a-android-24
     - setup-android-emulator:
         target: android-24
     - script:
