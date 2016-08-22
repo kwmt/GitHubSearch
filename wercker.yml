@@ -14,12 +14,14 @@ build:
         name: run gradle assembleDebug
         code: |
           ./gradlew assembleDebug
-steps:
-  - wercker/setup-android-emulator@0.0.8
+    - android-sdk-update:
+        filter: sys-img-armeabi-v7a-android-21
+    - setup-android-emulator:
+        target: android-21
     - script:
-        name: run gradle connectedAndroidTest
+        name: run gradle connectedCheck
         code: |
-          ./gradlew connectedAndroidTest
+          gradle --project-cache-dir=$WERCKER_CACHE_DIR connectedCheck
   after-steps:
     - raizyr/ultimate-slack-notify@1.0.6:
         webhook_url: $SLACK_URL
