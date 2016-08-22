@@ -15,8 +15,10 @@ build:
         code: |
           DEPS="$ANDROID_HOME/installed-dependencies"
           if [ ! -e $DEPS ]; then echo no | android create avd -n testAVD -f -t android-24 --abi armeabi-v7a && touch $DEPS; fi;
-    - setup-android-emulator:
-        target: android-24
+    - script:
+        name: start AVD
+        code: |
+          emulator -avd testAVD -no-audio -no-window
     - script:
         name: run gradle connectedCheck
         code: |
