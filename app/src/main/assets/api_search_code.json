@@ -1,0 +1,309 @@
+{
+  "total_count": 3,
+  "incomplete_results": false,
+  "items": [
+    {
+      "name": "RxErrorHandlingCallAdapterFactory.java",
+      "path": "app/src/main/java/net/kwmt27/codesearch/model/rx/RxErrorHandlingCallAdapterFactory.java",
+      "sha": "53c679e1e35de8f9ad67eb6d34f7fa4929140d64",
+      "url": "https://api.github.com/repositories/64045445/contents/app/src/main/java/net/kwmt27/codesearch/model/rx/RxErrorHandlingCallAdapterFactory.java?ref=e0bba0d3212b5efab778aaade8e12ac56aeefafa",
+      "git_url": "https://api.github.com/repositories/64045445/git/blobs/53c679e1e35de8f9ad67eb6d34f7fa4929140d64",
+      "html_url": "https://github.com/kwmt/GitHubSearch/blob/e0bba0d3212b5efab778aaade8e12ac56aeefafa/app/src/main/java/net/kwmt27/codesearch/model/rx/RxErrorHandlingCallAdapterFactory.java",
+      "repository": {
+        "id": 64045445,
+        "name": "GitHubSearch",
+        "full_name": "kwmt/GitHubSearch",
+        "owner": {
+          "login": "kwmt",
+          "id": 1450486,
+          "avatar_url": "https://avatars.githubusercontent.com/u/1450486?v=3",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/kwmt",
+          "html_url": "https://github.com/kwmt",
+          "followers_url": "https://api.github.com/users/kwmt/followers",
+          "following_url": "https://api.github.com/users/kwmt/following{/other_user}",
+          "gists_url": "https://api.github.com/users/kwmt/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/kwmt/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/kwmt/subscriptions",
+          "organizations_url": "https://api.github.com/users/kwmt/orgs",
+          "repos_url": "https://api.github.com/users/kwmt/repos",
+          "events_url": "https://api.github.com/users/kwmt/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/kwmt/received_events",
+          "type": "User",
+          "site_admin": false
+        },
+        "private": false,
+        "html_url": "https://github.com/kwmt/GitHubSearch",
+        "description": null,
+        "fork": false,
+        "url": "https://api.github.com/repos/kwmt/GitHubSearch",
+        "forks_url": "https://api.github.com/repos/kwmt/GitHubSearch/forks",
+        "keys_url": "https://api.github.com/repos/kwmt/GitHubSearch/keys{/key_id}",
+        "collaborators_url": "https://api.github.com/repos/kwmt/GitHubSearch/collaborators{/collaborator}",
+        "teams_url": "https://api.github.com/repos/kwmt/GitHubSearch/teams",
+        "hooks_url": "https://api.github.com/repos/kwmt/GitHubSearch/hooks",
+        "issue_events_url": "https://api.github.com/repos/kwmt/GitHubSearch/issues/events{/number}",
+        "events_url": "https://api.github.com/repos/kwmt/GitHubSearch/events",
+        "assignees_url": "https://api.github.com/repos/kwmt/GitHubSearch/assignees{/user}",
+        "branches_url": "https://api.github.com/repos/kwmt/GitHubSearch/branches{/branch}",
+        "tags_url": "https://api.github.com/repos/kwmt/GitHubSearch/tags",
+        "blobs_url": "https://api.github.com/repos/kwmt/GitHubSearch/git/blobs{/sha}",
+        "git_tags_url": "https://api.github.com/repos/kwmt/GitHubSearch/git/tags{/sha}",
+        "git_refs_url": "https://api.github.com/repos/kwmt/GitHubSearch/git/refs{/sha}",
+        "trees_url": "https://api.github.com/repos/kwmt/GitHubSearch/git/trees{/sha}",
+        "statuses_url": "https://api.github.com/repos/kwmt/GitHubSearch/statuses/{sha}",
+        "languages_url": "https://api.github.com/repos/kwmt/GitHubSearch/languages",
+        "stargazers_url": "https://api.github.com/repos/kwmt/GitHubSearch/stargazers",
+        "contributors_url": "https://api.github.com/repos/kwmt/GitHubSearch/contributors",
+        "subscribers_url": "https://api.github.com/repos/kwmt/GitHubSearch/subscribers",
+        "subscription_url": "https://api.github.com/repos/kwmt/GitHubSearch/subscription",
+        "commits_url": "https://api.github.com/repos/kwmt/GitHubSearch/commits{/sha}",
+        "git_commits_url": "https://api.github.com/repos/kwmt/GitHubSearch/git/commits{/sha}",
+        "comments_url": "https://api.github.com/repos/kwmt/GitHubSearch/comments{/number}",
+        "issue_comment_url": "https://api.github.com/repos/kwmt/GitHubSearch/issues/comments{/number}",
+        "contents_url": "https://api.github.com/repos/kwmt/GitHubSearch/contents/{+path}",
+        "compare_url": "https://api.github.com/repos/kwmt/GitHubSearch/compare/{base}...{head}",
+        "merges_url": "https://api.github.com/repos/kwmt/GitHubSearch/merges",
+        "archive_url": "https://api.github.com/repos/kwmt/GitHubSearch/{archive_format}{/ref}",
+        "downloads_url": "https://api.github.com/repos/kwmt/GitHubSearch/downloads",
+        "issues_url": "https://api.github.com/repos/kwmt/GitHubSearch/issues{/number}",
+        "pulls_url": "https://api.github.com/repos/kwmt/GitHubSearch/pulls{/number}",
+        "milestones_url": "https://api.github.com/repos/kwmt/GitHubSearch/milestones{/number}",
+        "notifications_url": "https://api.github.com/repos/kwmt/GitHubSearch/notifications{?since,all,participating}",
+        "labels_url": "https://api.github.com/repos/kwmt/GitHubSearch/labels{/name}",
+        "releases_url": "https://api.github.com/repos/kwmt/GitHubSearch/releases{/id}",
+        "deployments_url": "https://api.github.com/repos/kwmt/GitHubSearch/deployments"
+      },
+      "score": 0.9006504,
+      "text_matches": [
+        {
+          "object_url": "https://api.github.com/repositories/64045445/contents/app/src/main/java/net/kwmt27/codesearch/model/rx/RxErrorHandlingCallAdapterFactory.java?ref=e0bba0d3212b5efab778aaade8e12ac56aeefafa",
+          "object_type": "FileContent",
+          "property": "content",
+          "fragment": ";\nimport retrofit2.Response;\nimport retrofit2.Retrofit;\nimport retrofit2.adapter.rxjava.HttpException",
+          "matches": [
+            {
+              "text": "rxjava",
+              "indices": [
+                81,
+                87
+              ]
+            }
+          ]
+        },
+        {
+          "object_url": "https://api.github.com/repositories/64045445/contents/app/src/main/java/net/kwmt27/codesearch/model/rx/RxErrorHandlingCallAdapterFactory.java?ref=e0bba0d3212b5efab778aaade8e12ac56aeefafa",
+          "object_type": "FileContent",
+          "property": "content",
+          "fragment": ";\nimport retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;\nimport rx.Observable;\nimport rx.functions",
+          "matches": [
+            {
+              "text": "rxjava",
+              "indices": [
+                27,
+                33
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "build.gradle",
+      "path": "app/build.gradle",
+      "sha": "e3050af37cf6e864f7bf849d5e343185682f4392",
+      "url": "https://api.github.com/repositories/64045445/contents/app/build.gradle?ref=31891e745747c1d318bed4e85c94ded69ef08e83",
+      "git_url": "https://api.github.com/repositories/64045445/git/blobs/e3050af37cf6e864f7bf849d5e343185682f4392",
+      "html_url": "https://github.com/kwmt/GitHubSearch/blob/31891e745747c1d318bed4e85c94ded69ef08e83/app/build.gradle",
+      "repository": {
+        "id": 64045445,
+        "name": "GitHubSearch",
+        "full_name": "kwmt/GitHubSearch",
+        "owner": {
+          "login": "kwmt",
+          "id": 1450486,
+          "avatar_url": "https://avatars.githubusercontent.com/u/1450486?v=3",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/kwmt",
+          "html_url": "https://github.com/kwmt",
+          "followers_url": "https://api.github.com/users/kwmt/followers",
+          "following_url": "https://api.github.com/users/kwmt/following{/other_user}",
+          "gists_url": "https://api.github.com/users/kwmt/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/kwmt/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/kwmt/subscriptions",
+          "organizations_url": "https://api.github.com/users/kwmt/orgs",
+          "repos_url": "https://api.github.com/users/kwmt/repos",
+          "events_url": "https://api.github.com/users/kwmt/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/kwmt/received_events",
+          "type": "User",
+          "site_admin": false
+        },
+        "private": false,
+        "html_url": "https://github.com/kwmt/GitHubSearch",
+        "description": null,
+        "fork": false,
+        "url": "https://api.github.com/repos/kwmt/GitHubSearch",
+        "forks_url": "https://api.github.com/repos/kwmt/GitHubSearch/forks",
+        "keys_url": "https://api.github.com/repos/kwmt/GitHubSearch/keys{/key_id}",
+        "collaborators_url": "https://api.github.com/repos/kwmt/GitHubSearch/collaborators{/collaborator}",
+        "teams_url": "https://api.github.com/repos/kwmt/GitHubSearch/teams",
+        "hooks_url": "https://api.github.com/repos/kwmt/GitHubSearch/hooks",
+        "issue_events_url": "https://api.github.com/repos/kwmt/GitHubSearch/issues/events{/number}",
+        "events_url": "https://api.github.com/repos/kwmt/GitHubSearch/events",
+        "assignees_url": "https://api.github.com/repos/kwmt/GitHubSearch/assignees{/user}",
+        "branches_url": "https://api.github.com/repos/kwmt/GitHubSearch/branches{/branch}",
+        "tags_url": "https://api.github.com/repos/kwmt/GitHubSearch/tags",
+        "blobs_url": "https://api.github.com/repos/kwmt/GitHubSearch/git/blobs{/sha}",
+        "git_tags_url": "https://api.github.com/repos/kwmt/GitHubSearch/git/tags{/sha}",
+        "git_refs_url": "https://api.github.com/repos/kwmt/GitHubSearch/git/refs{/sha}",
+        "trees_url": "https://api.github.com/repos/kwmt/GitHubSearch/git/trees{/sha}",
+        "statuses_url": "https://api.github.com/repos/kwmt/GitHubSearch/statuses/{sha}",
+        "languages_url": "https://api.github.com/repos/kwmt/GitHubSearch/languages",
+        "stargazers_url": "https://api.github.com/repos/kwmt/GitHubSearch/stargazers",
+        "contributors_url": "https://api.github.com/repos/kwmt/GitHubSearch/contributors",
+        "subscribers_url": "https://api.github.com/repos/kwmt/GitHubSearch/subscribers",
+        "subscription_url": "https://api.github.com/repos/kwmt/GitHubSearch/subscription",
+        "commits_url": "https://api.github.com/repos/kwmt/GitHubSearch/commits{/sha}",
+        "git_commits_url": "https://api.github.com/repos/kwmt/GitHubSearch/git/commits{/sha}",
+        "comments_url": "https://api.github.com/repos/kwmt/GitHubSearch/comments{/number}",
+        "issue_comment_url": "https://api.github.com/repos/kwmt/GitHubSearch/issues/comments{/number}",
+        "contents_url": "https://api.github.com/repos/kwmt/GitHubSearch/contents/{+path}",
+        "compare_url": "https://api.github.com/repos/kwmt/GitHubSearch/compare/{base}...{head}",
+        "merges_url": "https://api.github.com/repos/kwmt/GitHubSearch/merges",
+        "archive_url": "https://api.github.com/repos/kwmt/GitHubSearch/{archive_format}{/ref}",
+        "downloads_url": "https://api.github.com/repos/kwmt/GitHubSearch/downloads",
+        "issues_url": "https://api.github.com/repos/kwmt/GitHubSearch/issues{/number}",
+        "pulls_url": "https://api.github.com/repos/kwmt/GitHubSearch/pulls{/number}",
+        "milestones_url": "https://api.github.com/repos/kwmt/GitHubSearch/milestones{/number}",
+        "notifications_url": "https://api.github.com/repos/kwmt/GitHubSearch/notifications{?since,all,participating}",
+        "labels_url": "https://api.github.com/repos/kwmt/GitHubSearch/labels{/name}",
+        "releases_url": "https://api.github.com/repos/kwmt/GitHubSearch/releases{/id}",
+        "deployments_url": "https://api.github.com/repos/kwmt/GitHubSearch/deployments"
+      },
+      "score": 0.64332175,
+      "text_matches": [
+        {
+          "object_url": "https://api.github.com/repositories/64045445/contents/app/build.gradle?ref=31891e745747c1d318bed4e85c94ded69ef08e83",
+          "object_type": "FileContent",
+          "property": "content",
+          "fragment": ":rxjava:1.1.7'\n    compile 'io.reactivex:rxandroid:1.2.0'\n    compile \"com.squareup.retrofit2",
+          "matches": [
+            {
+              "text": "rxjava",
+              "indices": [
+                1,
+                7
+              ]
+            }
+          ]
+        },
+        {
+          "object_url": "https://api.github.com/repositories/64045445/contents/app/build.gradle?ref=31891e745747c1d318bed4e85c94ded69ef08e83",
+          "object_type": "FileContent",
+          "property": "content",
+          "fragment": "}\"\n    compile \"com.squareup.retrofit2:adapter-rxjava:${RETROFIT_VERSION}\"\n    compile 'com.google.firebase",
+          "matches": [
+            {
+              "text": "rxjava",
+              "indices": [
+                47,
+                53
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SearchRepositoryModel.java",
+      "path": "app/src/main/java/net/kwmt27/codesearch/model/SearchRepositoryModel.java",
+      "sha": "c246e02902b258b3a80d252fc36652b36d2e4453",
+      "url": "https://api.github.com/repositories/64045445/contents/app/src/main/java/net/kwmt27/codesearch/model/SearchRepositoryModel.java?ref=e0bba0d3212b5efab778aaade8e12ac56aeefafa",
+      "git_url": "https://api.github.com/repositories/64045445/git/blobs/c246e02902b258b3a80d252fc36652b36d2e4453",
+      "html_url": "https://github.com/kwmt/GitHubSearch/blob/e0bba0d3212b5efab778aaade8e12ac56aeefafa/app/src/main/java/net/kwmt27/codesearch/model/SearchRepositoryModel.java",
+      "repository": {
+        "id": 64045445,
+        "name": "GitHubSearch",
+        "full_name": "kwmt/GitHubSearch",
+        "owner": {
+          "login": "kwmt",
+          "id": 1450486,
+          "avatar_url": "https://avatars.githubusercontent.com/u/1450486?v=3",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/kwmt",
+          "html_url": "https://github.com/kwmt",
+          "followers_url": "https://api.github.com/users/kwmt/followers",
+          "following_url": "https://api.github.com/users/kwmt/following{/other_user}",
+          "gists_url": "https://api.github.com/users/kwmt/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/kwmt/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/kwmt/subscriptions",
+          "organizations_url": "https://api.github.com/users/kwmt/orgs",
+          "repos_url": "https://api.github.com/users/kwmt/repos",
+          "events_url": "https://api.github.com/users/kwmt/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/kwmt/received_events",
+          "type": "User",
+          "site_admin": false
+        },
+        "private": false,
+        "html_url": "https://github.com/kwmt/GitHubSearch",
+        "description": null,
+        "fork": false,
+        "url": "https://api.github.com/repos/kwmt/GitHubSearch",
+        "forks_url": "https://api.github.com/repos/kwmt/GitHubSearch/forks",
+        "keys_url": "https://api.github.com/repos/kwmt/GitHubSearch/keys{/key_id}",
+        "collaborators_url": "https://api.github.com/repos/kwmt/GitHubSearch/collaborators{/collaborator}",
+        "teams_url": "https://api.github.com/repos/kwmt/GitHubSearch/teams",
+        "hooks_url": "https://api.github.com/repos/kwmt/GitHubSearch/hooks",
+        "issue_events_url": "https://api.github.com/repos/kwmt/GitHubSearch/issues/events{/number}",
+        "events_url": "https://api.github.com/repos/kwmt/GitHubSearch/events",
+        "assignees_url": "https://api.github.com/repos/kwmt/GitHubSearch/assignees{/user}",
+        "branches_url": "https://api.github.com/repos/kwmt/GitHubSearch/branches{/branch}",
+        "tags_url": "https://api.github.com/repos/kwmt/GitHubSearch/tags",
+        "blobs_url": "https://api.github.com/repos/kwmt/GitHubSearch/git/blobs{/sha}",
+        "git_tags_url": "https://api.github.com/repos/kwmt/GitHubSearch/git/tags{/sha}",
+        "git_refs_url": "https://api.github.com/repos/kwmt/GitHubSearch/git/refs{/sha}",
+        "trees_url": "https://api.github.com/repos/kwmt/GitHubSearch/git/trees{/sha}",
+        "statuses_url": "https://api.github.com/repos/kwmt/GitHubSearch/statuses/{sha}",
+        "languages_url": "https://api.github.com/repos/kwmt/GitHubSearch/languages",
+        "stargazers_url": "https://api.github.com/repos/kwmt/GitHubSearch/stargazers",
+        "contributors_url": "https://api.github.com/repos/kwmt/GitHubSearch/contributors",
+        "subscribers_url": "https://api.github.com/repos/kwmt/GitHubSearch/subscribers",
+        "subscription_url": "https://api.github.com/repos/kwmt/GitHubSearch/subscription",
+        "commits_url": "https://api.github.com/repos/kwmt/GitHubSearch/commits{/sha}",
+        "git_commits_url": "https://api.github.com/repos/kwmt/GitHubSearch/git/commits{/sha}",
+        "comments_url": "https://api.github.com/repos/kwmt/GitHubSearch/comments{/number}",
+        "issue_comment_url": "https://api.github.com/repos/kwmt/GitHubSearch/issues/comments{/number}",
+        "contents_url": "https://api.github.com/repos/kwmt/GitHubSearch/contents/{+path}",
+        "compare_url": "https://api.github.com/repos/kwmt/GitHubSearch/compare/{base}...{head}",
+        "merges_url": "https://api.github.com/repos/kwmt/GitHubSearch/merges",
+        "archive_url": "https://api.github.com/repos/kwmt/GitHubSearch/{archive_format}{/ref}",
+        "downloads_url": "https://api.github.com/repos/kwmt/GitHubSearch/downloads",
+        "issues_url": "https://api.github.com/repos/kwmt/GitHubSearch/issues{/number}",
+        "pulls_url": "https://api.github.com/repos/kwmt/GitHubSearch/pulls{/number}",
+        "milestones_url": "https://api.github.com/repos/kwmt/GitHubSearch/milestones{/number}",
+        "notifications_url": "https://api.github.com/repos/kwmt/GitHubSearch/notifications{?since,all,participating}",
+        "labels_url": "https://api.github.com/repos/kwmt/GitHubSearch/labels{/name}",
+        "releases_url": "https://api.github.com/repos/kwmt/GitHubSearch/releases{/id}",
+        "deployments_url": "https://api.github.com/repos/kwmt/GitHubSearch/deployments"
+      },
+      "score": 0.45489714,
+      "text_matches": [
+        {
+          "object_url": "https://api.github.com/repositories/64045445/contents/app/src/main/java/net/kwmt27/codesearch/model/SearchRepositoryModel.java?ref=e0bba0d3212b5efab778aaade8e12ac56aeefafa",
+          "object_type": "FileContent",
+          "property": "content",
+          "fragment": " java.util.List;\nimport java.util.Map;\n\nimport retrofit2.Response;\nimport retrofit2.adapter.rxjava",
+          "matches": [
+            {
+              "text": "rxjava",
+              "indices": [
+                92,
+                98
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
