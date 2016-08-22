@@ -14,6 +14,12 @@ build:
         name: run gradle assembleDebug
         code: |
           ./gradlew assembleDebug
+    - setup-android-emulator:
+            target: android-24
+    - script:
+        name: run gradle assembleDebug
+        code: |
+          ./gradlew connectedAndroidTest
   after-steps:
     - raizyr/ultimate-slack-notify@1.0.6:
         webhook_url: $SLACK_URL
