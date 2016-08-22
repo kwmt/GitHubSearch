@@ -10,18 +10,18 @@ build:
           echo $ANDROID_SDK_VERSION
           echo $ANDROID_BUILD_TOOLS
           echo $ANDROID_UPDATE_FILTER      
-    - script:
-        name: run gradle assembleDebug
-        code: |
-          ./gradlew assembleDebug
     - android-sdk-update:
-        filter: sys-img-armeabi-v7a-android-21
+        filter: sys-img-armeabi-v7a-android-24
     - setup-android-emulator:
-        target: android-21
+        target: android-24
     - script:
         name: run gradle connectedCheck
         code: |
           gradle --project-cache-dir=$WERCKER_CACHE_DIR connectedCheck
+    - script:
+        name: run gradle assembleDebug
+        code: |
+          ./gradlew assembleDebug
   after-steps:
     - raizyr/ultimate-slack-notify@1.0.6:
         webhook_url: $SLACK_URL
