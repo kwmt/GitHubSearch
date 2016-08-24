@@ -41,7 +41,7 @@ release-build:
     - script:
         name: fetch release.keystore file
         code: |
-          wget $RELEASE_KEYSTORE_URL -P app/
+          wget $RELEASE_KEYSTORE_URL
     - script:
         name: run gradle assembleRelease
         code: |
