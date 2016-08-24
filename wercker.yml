@@ -39,7 +39,6 @@ build:
 release-build:
   steps:
     - script:
-    - script:
         name: fetch release.keystore file
         code: |
           wget $RELEASE_KEYSTORE_URL -P app/
