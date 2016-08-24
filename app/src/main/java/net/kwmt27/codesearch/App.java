@@ -23,4 +23,7 @@ public class App extends Application {
         return sInstance;
     }
 
+    public static ModelLocator getModelLocator() {
+        return sModelLocator;
+    }
 }

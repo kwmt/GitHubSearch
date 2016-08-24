@@ -25,7 +25,7 @@ public class ApiClient {
     public final GitHubLoginService login;
     public final Retrofit mRetrofit;
 
-    public ApiClient() {
+    public ApiClient(String baseApiUrl) {
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -40,7 +40,7 @@ public class ApiClient {
 
 
         mRetrofit = new Retrofit.Builder()
-                .baseUrl(BuildConfig.BASE_API_URL)
+                .baseUrl(baseApiUrl)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(GsonFactory.create()))
                 .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create())

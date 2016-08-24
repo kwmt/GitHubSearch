@@ -3,7 +3,6 @@ package net.kwmt27.codesearch.model;
 import android.content.Context;
 
 import net.kwmt27.codesearch.BuildConfig;
-import net.kwmt27.codesearch.ModelLocator;
 import net.kwmt27.codesearch.entity.TokenEntity;
 import net.kwmt27.codesearch.model.rx.ReusableCompositeSubscription;
 import net.kwmt27.codesearch.util.PrefUtil;
@@ -13,7 +12,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class LoginModel {
+public class LoginModel extends BaseModel {
 
     private static final String OAUTH_URL = "https://github.com/login/oauth/authorize";
     private static final String SCOPE = "read:org";
@@ -26,7 +25,7 @@ public class LoginModel {
     }
 
     public Subscription fetchAccessToken(String code, Subscriber<TokenEntity> subscriber) {
-        Subscription subscription = ModelLocator.getApiClient().login.fetchAccessToken(code, BuildConfig.GITHUB_CLIENT_ID, BuildConfig.GITHUB_CLIENT_SECRET)
+        Subscription subscription = mApiClient.login.fetchAccessToken(code, BuildConfig.GITHUB_CLIENT_ID, BuildConfig.GITHUB_CLIENT_SECRET)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);

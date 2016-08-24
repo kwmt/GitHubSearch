@@ -1,6 +1,5 @@
 package net.kwmt27.codesearch.model;
 
-import net.kwmt27.codesearch.ModelLocator;
 import net.kwmt27.codesearch.entity.GithubRepoEntity;
 import net.kwmt27.codesearch.entity.SearchRepositoryResultEntity;
 import net.kwmt27.codesearch.model.rx.RetrofitException;
@@ -22,7 +21,7 @@ import rx.schedulers.Schedulers;
 
 import static net.kwmt27.codesearch.util.GitHubHeaderUtil.extractLink;
 
-public class SearchRepositoryModel implements ISearchModel {
+public class SearchRepositoryModel extends BaseModel implements ISearchModel {
 
     private Map<String, List<String>> mHeadersMapOfRepoList;
 
@@ -47,7 +46,7 @@ public class SearchRepositoryModel implements ISearchModel {
     }
 
     public Subscription fetchUserRepository(Integer page, final Subscriber<List<GithubRepoEntity>> subscriber) {
-        Subscription listReposSubscription = ModelLocator.getApiClient().api.fetchUserRepository(page)
+        Subscription listReposSubscription = mApiClient.api.fetchUserRepository(page)
                 .subscribeOn(Schedulers.newThread())
                 .flatMap(new Func1<Response<List<GithubRepoEntity>>, Observable<List<GithubRepoEntity>>>() {
                     @Override
@@ -55,7 +54,7 @@ public class SearchRepositoryModel implements ISearchModel {
                         // TODO: 他にいい方法がありそう RxErrorHandlingCallAdapterFactory 側でなんとかしたい
                         if (!response.isSuccessful()) {
                             if(response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                                throw RetrofitException.unauthorizedError("", response, new HttpException(response), ModelLocator.getApiClient().mRetrofit);
+                                throw RetrofitException.unauthorizedError("", response, new HttpException(response), mApiClient.mRetrofit);
                             }
                             // TODO: 401以外のエラー対応
                         }
@@ -82,7 +81,7 @@ public class SearchRepositoryModel implements ISearchModel {
 
     public Subscription searchRepositories(String keyword, Integer page, final Subscriber<List<GithubRepoEntity>> subscriber) {
         mKeyword = keyword;
-        Subscription subscription = ModelLocator.getApiClient().api.searchRepositories(keyword, page)
+        Subscription subscription = mApiClient.api.searchRepositories(keyword, page)
                 .subscribeOn(Schedulers.newThread())
                 .flatMap(new Func1<Response<SearchRepositoryResultEntity>, Observable<List<GithubRepoEntity>>>() {
                     @Override

@@ -1,6 +1,5 @@
 package net.kwmt27.codesearch.model;
 
-import net.kwmt27.codesearch.ModelLocator;
 import net.kwmt27.codesearch.entity.ItemEntity;
 import net.kwmt27.codesearch.entity.SearchCodeResultEntity;
 import net.kwmt27.codesearch.model.rx.ReusableCompositeSubscription;
@@ -19,7 +18,7 @@ import rx.schedulers.Schedulers;
 
 import static net.kwmt27.codesearch.util.GitHubHeaderUtil.extractLink;
 
-public class SearchCodeModel implements ISearchModel {
+public class SearchCodeModel extends BaseModel implements ISearchModel {
 
     private List<ItemEntity> mItemEntityList = new ArrayList<>();
     private Map<String, List<String>> mHeadersMap;
@@ -28,6 +27,16 @@ public class SearchCodeModel implements ISearchModel {
     private String mRepository;
 
     private ReusableCompositeSubscription mCompositeSubscription = new ReusableCompositeSubscription();
+
+
+    public SearchCodeModel() {
+        super();
+    }
+
+    public SearchCodeModel(ApiClient apiClient) {
+        super(apiClient);
+    }
+
 
     public void unsubscribe() {
         if(mCompositeSubscription != null) {
@@ -47,7 +56,7 @@ public class SearchCodeModel implements ISearchModel {
         mRepository = repo;
         keyword += "+repo:" + repo;
 
-        Subscription subscription = ModelLocator.getApiClient().api.searchCode(keyword, page)
+        Subscription subscription = mApiClient.api.searchCode(keyword, page)
                 .subscribeOn(Schedulers.newThread())
                 .flatMap(new Func1<Response<SearchCodeResultEntity>, Observable<List<ItemEntity>>>() {
                     @Override

@@ -1,5 +1,6 @@
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
 
 def versionMajor = 0
 def versionMinor = 0
@@ -80,6 +81,7 @@ android {
 final SUPPORT_LIB_VERSION = '24.1.1'
 final OKHTTP_VERSION = '3.4.1'
 final RETROFIT_VERSION = '2.1.0'
+final DAGGER_VERSION = '2.6'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -98,6 +100,11 @@ dependencies {
     compile 'com.google.firebase:firebase-ads:9.0.0'
 
     compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0'
+
+    // dagger
+    compile "com.google.dagger:dagger:${DAGGER_VERSION}"
+    apt "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
+    provided 'javax.annotation:jsr250-api:1.0'
 
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'

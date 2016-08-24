@@ -9,7 +9,20 @@ build:
           echo $ANDROID_HOME
           echo $ANDROID_SDK_VERSION
           echo $ANDROID_BUILD_TOOLS
-          echo $ANDROID_UPDATE_FILTER      
+          echo $ANDROID_UPDATE_FILTER
+#    - script:
+#        name: create AVD
+#        code: |
+#          DEPS="$ANDROID_HOME/installed-dependencies"
+#          if [ ! -e $DEPS ]; then echo no | android create avd -n testAVD -f -t android-24 --abi armeabi-v7a && touch $DEPS; fi;
+#    - script:
+#        name: start AVD
+#        code: |
+#          emulator -avd testAVD -no-audio -no-window
+#    - script:
+#        name: run gradle connectedCheck
+#        code: |
+#          ./gradlew --project-cache-dir=$WERCKER_CACHE_DIR connectedCheck
     - script:
         name: run gradle assembleDebug
         code: |
