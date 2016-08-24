@@ -35,3 +35,15 @@ build:
     - raizyr/ultimate-slack-notify@1.0.6:
         webhook_url: $SLACK_URL
         channel: pj-githubviewer
+
+release-build:
+  steps:
+    - script:
+    - script:
+        name: fetch release.keystore file
+        code: |
+          wget $RELEASE_KEYSTORE_URL -P app/
+    - script:
+        name: run gradle assembleRelease
+        code: |
+          ./gradlew assembleRelease

@@ -5,3 +5,4 @@
 /build
 *.iml
 google-services.json
+release.keystore
