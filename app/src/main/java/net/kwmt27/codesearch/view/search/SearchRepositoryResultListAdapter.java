@@ -68,7 +68,7 @@ public class SearchRepositoryResultListAdapter extends RecyclerView.Adapter<Sear
     @Override
     public SearchRepositoryResultListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
-        ItemType itemType = ItemType.valueOf(viewType);
+        final ItemType itemType = ItemType.valueOf(viewType);
         switch (itemType) {
             case Progress:
                 view = mLayoutInflater.inflate(R.layout.recyclerview_progress_layout, parent, false);
@@ -92,7 +92,7 @@ public class SearchRepositoryResultListAdapter extends RecyclerView.Adapter<Sear
                     int position = viewHolder.getAdapterPosition();
                     Logger.d("click position:" + position);
                     GithubRepoEntity entity = mSearchResultList.get(position);
-                    mListener.onItemClick(SearchRepositoryResultListAdapter.this, position, entity);
+                    mListener.onItemClick(SearchRepositoryResultListAdapter.this, position, entity, itemType);
                 }
 
             }

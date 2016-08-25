@@ -18,6 +18,7 @@ import net.kwmt27.codesearch.entity.ItemEntity;
 import net.kwmt27.codesearch.entity.ItemType;
 import net.kwmt27.codesearch.entity.MatchEntity;
 import net.kwmt27.codesearch.entity.TextMatchEntity;
+import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.util.RoundedBackgroundSpan;
 import net.kwmt27.codesearch.view.parts.DividerItemDecoration;
 import net.kwmt27.codesearch.view.parts.OnItemClickListener;
@@ -95,7 +96,7 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<RecyclerVi
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
-        ItemType itemType = ItemType.valueOf(viewType);
+        final ItemType itemType = ItemType.valueOf(viewType);
         switch (itemType) {
             case Progress:
                 view = mLayoutInflater.inflate(R.layout.recyclerview_progress_layout, parent, false);
@@ -108,7 +109,19 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<RecyclerVi
                 return new AdViewHolder(view);
             default:
                 view = mLayoutInflater.inflate(R.layout.recyclerview_search_code_result_list_item, parent, false);
-                return new SearchCodeResultListAdapter.ViewHolder(view);
+                final SearchCodeResultListAdapter.ViewHolder viewHolder = new SearchCodeResultListAdapter.ViewHolder(view);
+                viewHolder.pathTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (mListener != null) {
+                            int position = viewHolder.getAdapterPosition();
+                            Logger.d("click position:" + position);
+                            ItemEntity entity = mSearchResultList.get(position);
+                            mListener.onItemClick(SearchCodeResultListAdapter.this, position, entity, itemType);
+                        }
+                    }
+                });
+                return viewHolder;
         }
     }
 
@@ -127,14 +140,6 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<RecyclerVi
         if (item.getItemType() == null) {
             viewHolder.nameTextView.setText(item.getName());
             viewHolder.pathTextView.setText(item.getPath());
-            viewHolder.pathTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mListener != null) {
-                        mListener.onItemClick(SearchCodeResultListAdapter.this, position, item);
-                    }
-                }
-            });
             viewHolder.mChildAdapter.setSearchResultList(item.getTextMatchEntityList());
             viewHolder.textMatchRecyclerView.setAdapter(viewHolder.mChildAdapter);
         }

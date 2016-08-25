@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import net.kwmt27.codesearch.R;
+import net.kwmt27.codesearch.analytics.AnalyticsManager;
 import net.kwmt27.codesearch.view.login.LoginActivity;
 import net.kwmt27.codesearch.view.search.SearchActivity;
 
@@ -28,6 +29,7 @@ public class TopFragment extends Fragment { //implements TopPresenter.ITopView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AnalyticsManager.getInstance(getActivity().getApplicationContext()).sendScreen(AnalyticsManager.Param.Screen.TOP);
         //mPresenter = new RepositoryListPresenter(this);
     }
 
@@ -48,6 +50,8 @@ public class TopFragment extends Fragment { //implements TopPresenter.ITopView {
         searchGithub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AnalyticsManager.getInstance(getActivity().getApplicationContext())
+                        .sendClickButton(AnalyticsManager.Param.Screen.TOP, AnalyticsManager.Param.Widget.SEARCH_BUTTON);
                 SearchActivity.startActivity(getActivity(), false, null, searchGithub, "search_bar");
             }
         });
@@ -56,6 +60,8 @@ public class TopFragment extends Fragment { //implements TopPresenter.ITopView {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AnalyticsManager.getInstance(getActivity().getApplicationContext())
+                        .sendClickButton(AnalyticsManager.Param.Screen.TOP, AnalyticsManager.Param.Widget.LOGIN_WITH_GITHUB_BUTTON);
                 Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
                 startActivityForResult(intent, 0);
             }

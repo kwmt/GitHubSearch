@@ -15,8 +15,10 @@ import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 
 import net.kwmt27.codesearch.ModelLocator;
 import net.kwmt27.codesearch.R;
+import net.kwmt27.codesearch.analytics.AnalyticsManager;
 import net.kwmt27.codesearch.entity.GithubRepoEntity;
 import net.kwmt27.codesearch.entity.ItemEntity;
+import net.kwmt27.codesearch.entity.ItemType;
 import net.kwmt27.codesearch.presenter.search.ISearchResultListPresenter;
 import net.kwmt27.codesearch.presenter.search.SearchCodeResultListPresenter;
 import net.kwmt27.codesearch.util.Logger;
@@ -94,9 +96,16 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
         mRecyclerView.setLayoutManager(mLayoutManager);
         mSearchCodeResultListAdapter = new SearchCodeResultListAdapter(getActivity().getApplicationContext(), new OnItemClickListener<SearchCodeResultListAdapter, ItemEntity>() {
             @Override
-            public void onItemClick(SearchCodeResultListAdapter adapter, int position, ItemEntity item) {
-                Logger.d("onItemClick");
-                DetailActivity.startActivity(getActivity(), item.getName(), item.getHtmlUrl(), item.getRepository());
+            public void onItemClick(SearchCodeResultListAdapter adapter, int position, ItemEntity item, ItemType type) {
+                if(type == ItemType.Normal) {
+                    AnalyticsManager.getInstance(getActivity().getApplicationContext())
+                            .sendClickItem(AnalyticsManager.Param.Screen.SEARCH_CODE_RESULT_LIST, AnalyticsManager.Param.Category.CODE, item.getHtmlUrl());
+                    DetailActivity.startActivity(getActivity(), item.getName(), item.getHtmlUrl(), item.getRepository());
+                }
+                if(type == ItemType.Ad) {
+                    AnalyticsManager.getInstance(getActivity().getApplicationContext())
+                            .sendClickItem(AnalyticsManager.Param.Screen.SEARCH_CODE_RESULT_LIST, AnalyticsManager.Param.Category.Ads);
+                }
             }
         });
         mRecyclerView.setAdapter(mSearchCodeResultListAdapter);
@@ -142,12 +151,15 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
 
     @Override
     public void showError() {
+        AnalyticsManager.getInstance(getActivity().getApplicationContext()).sendScreen(AnalyticsManager.Param.Screen.ERROR_PAGE);
         mErrorLayout.setVisibility(View.VISIBLE);
 
         Button button = (Button) mErrorLayout.findViewById(R.id.reload_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AnalyticsManager.getInstance(getActivity().getApplicationContext())
+                        .sendClickItem(AnalyticsManager.Param.Screen.ERROR_PAGE, AnalyticsManager.Param.Category.ERROR_PAGE, AnalyticsManager.Param.Widget.RELOAD_BUTTON);
                 mErrorLayout.setVisibility(View.GONE);
                 mPresenter.onClickReloadButton();
             }

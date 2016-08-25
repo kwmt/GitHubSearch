@@ -16,7 +16,9 @@ import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 
 import net.kwmt27.codesearch.ModelLocator;
 import net.kwmt27.codesearch.R;
+import net.kwmt27.codesearch.analytics.AnalyticsManager;
 import net.kwmt27.codesearch.entity.GithubRepoEntity;
+import net.kwmt27.codesearch.entity.ItemType;
 import net.kwmt27.codesearch.presenter.search.ISearchResultListPresenter;
 import net.kwmt27.codesearch.presenter.search.SearchRepositoryResultListPresenter;
 import net.kwmt27.codesearch.util.Logger;
@@ -94,8 +96,16 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
         mRecyclerView.setLayoutManager(mLayoutManager);
         mSearchRepositoryResultListAdapter = new SearchRepositoryResultListAdapter(getActivity().getApplicationContext(), new OnItemClickListener<SearchRepositoryResultListAdapter, GithubRepoEntity>() {
             @Override
-            public void onItemClick(SearchRepositoryResultListAdapter adapter, int position, GithubRepoEntity repo) {
-                DetailActivity.startActivity(getActivity(), repo.getName(), repo.getHtmlUrl(), repo);
+            public void onItemClick(SearchRepositoryResultListAdapter adapter, int position, GithubRepoEntity repo, ItemType type) {
+                if(type == ItemType.Normal) {
+                    AnalyticsManager.getInstance(getActivity().getApplicationContext())
+                            .sendClickItem(AnalyticsManager.Param.Screen.SEARCH_REPOSITORY_RESULT_LIST, AnalyticsManager.Param.Category.REPOSITORY, repo.getName());
+                    DetailActivity.startActivity(getActivity(), repo.getName(), repo.getHtmlUrl(), repo);
+                }
+                if(type == ItemType.Ad) {
+                    AnalyticsManager.getInstance(getActivity().getApplicationContext())
+                            .sendClickItem(AnalyticsManager.Param.Screen.SEARCH_REPOSITORY_RESULT_LIST, AnalyticsManager.Param.Category.Ads);
+                }
             }
         });
         mRecyclerView.setAdapter(mSearchRepositoryResultListAdapter);

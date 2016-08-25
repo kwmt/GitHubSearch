@@ -13,7 +13,9 @@ import com.jakewharton.rxbinding.support.v7.widget.RecyclerViewScrollEvent;
 import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 
 import net.kwmt27.codesearch.R;
+import net.kwmt27.codesearch.analytics.AnalyticsManager;
 import net.kwmt27.codesearch.entity.GithubRepoEntity;
+import net.kwmt27.codesearch.entity.ItemType;
 import net.kwmt27.codesearch.presenter.repolist.IRepositoryListPresenter;
 import net.kwmt27.codesearch.presenter.repolist.RepositoryListPresenter;
 import net.kwmt27.codesearch.util.Logger;
@@ -54,6 +56,7 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AnalyticsManager.getInstance(getActivity().getApplicationContext()).sendScreen(AnalyticsManager.Param.Screen.REPOSITORY_LIST);
         mPresenter = new RepositoryListPresenter(this);
     }
 
@@ -90,8 +93,16 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRepositoryListAdapter = new RepositoryListAdapter(getActivity().getApplicationContext(), new OnItemClickListener<RepositoryListAdapter, GithubRepoEntity>() {
             @Override
-            public void onItemClick(RepositoryListAdapter adapter, int position, GithubRepoEntity repo) {
-                DetailActivity.startActivity(getActivity(), repo.getName(), repo.getHtmlUrl(), repo);
+            public void onItemClick(RepositoryListAdapter adapter, int position, GithubRepoEntity repo, ItemType type) {
+                if(type == ItemType.Normal) {
+                    AnalyticsManager.getInstance(getActivity().getApplicationContext())
+                            .sendClickItem(AnalyticsManager.Param.Screen.REPOSITORY_LIST, AnalyticsManager.Param.Category.REPOSITORY, repo.getName());
+                    DetailActivity.startActivity(getActivity(), repo.getName(), repo.getHtmlUrl(), repo);
+                }
+                if (type == ItemType.Ad) {
+                    AnalyticsManager.getInstance(getActivity().getApplicationContext())
+                            .sendClickItem(AnalyticsManager.Param.Screen.REPOSITORY_LIST, AnalyticsManager.Param.Category.Ads);
+                }
             }
         });
         mRecyclerView.setAdapter(mRepositoryListAdapter);
