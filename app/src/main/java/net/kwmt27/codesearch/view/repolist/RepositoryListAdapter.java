@@ -69,7 +69,7 @@ public class RepositoryListAdapter extends RecyclerView.Adapter<RepositoryListAd
     @Override
     public RepositoryListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
-        ItemType itemType = ItemType.valueOf(viewType);
+        final ItemType itemType = ItemType.valueOf(viewType);
         switch (itemType) {
             case Progress:
                 view = mLayoutInflater.inflate(R.layout.recyclerview_progress_layout, parent, false);
@@ -87,20 +87,18 @@ public class RepositoryListAdapter extends RecyclerView.Adapter<RepositoryListAd
 
 
         final RepositoryListAdapter.ViewHolder viewHolder = new RepositoryListAdapter.ViewHolder(view);
-        if(itemType == ItemType.Normal) {
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mListener != null) {
-                        int position = viewHolder.getAdapterPosition();
-                        Logger.d("click position:" + position);
-                        GithubRepoEntity entity = mGithubRepoEntityList.get(position);
-                        mListener.onItemClick(RepositoryListAdapter.this, position, entity);
-                    }
-
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) {
+                    int position = viewHolder.getAdapterPosition();
+                    Logger.d("click position:" + position);
+                    GithubRepoEntity entity = mGithubRepoEntityList.get(position);
+                    mListener.onItemClick(RepositoryListAdapter.this, position, entity, itemType);
                 }
-            });
-        }
+
+            }
+        });
         return viewHolder;
     }
 

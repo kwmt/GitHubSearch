@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import net.kwmt27.codesearch.R;
+import net.kwmt27.codesearch.analytics.AnalyticsManager;
 import net.kwmt27.codesearch.view.search.SearchActivity;
 
 /**

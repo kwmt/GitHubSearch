@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.kwmt27.codesearch.R;
+import net.kwmt27.codesearch.analytics.AnalyticsManager;
 import net.kwmt27.codesearch.entity.GithubRepoEntity;
 import net.kwmt27.codesearch.model.ISearchModel;
 import net.kwmt27.codesearch.presenter.search.ISearchPresenter;
@@ -79,8 +80,12 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_clear:
+                AnalyticsManager.getInstance(this).sendClickButton(AnalyticsManager.Param.Screen.SEARCH, AnalyticsManager.Param.Widget.CLEAR);
                 mSearchEditText.getText().clear();
                 return true;
+            case R.id.action_search:
+                AnalyticsManager.getInstance(this).sendClickButton(AnalyticsManager.Param.Screen.SEARCH, AnalyticsManager.Param.Widget.SEARCH);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -117,13 +122,16 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
                     if(v.getText().toString().length() <= 0) {
                         return false;
                     }
+                    String keyword = v.getText().toString();
                     GithubRepoEntity repo = (GithubRepoEntity) getIntent().getSerializableExtra(ISearchPresenter.REPO_ENTITY_KEY);
                     if (canSearchCode) {
+                        AnalyticsManager.getInstance(SearchActivity.this).sendSearch(AnalyticsManager.Param.Screen.SEARCH_CODE_RESULT_LIST, keyword);
                         SearchCodeResultListFragment fragment = (SearchCodeResultListFragment) manager.findFragmentByTag(SearchCodeResultListFragment.TAG);
-                        fragment.onEditorActionSearch(v.getText().toString(), repo);
+                        fragment.onEditorActionSearch(keyword, repo);
                     } else {
+                        AnalyticsManager.getInstance(SearchActivity.this).sendSearch(AnalyticsManager.Param.Screen.SEARCH_REPOSITORY_RESULT_LIST, keyword);
                         SearchRepositoryResultListFragment fragment = (SearchRepositoryResultListFragment) manager.findFragmentByTag(SearchRepositoryResultListFragment.TAG);
-                        fragment.onEditorActionSearch(v.getText().toString(), repo);
+                        fragment.onEditorActionSearch(keyword, repo);
                     }
                 }
                 return handled;
@@ -166,7 +174,9 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
         ((TextView)notFoundLayout.findViewById(R.id.keyword)).setText(model.getKeyword());
         int visibility = show ? View.GONE : View.VISIBLE;
         notFoundLayout.setVisibility(visibility);
-
+        if(visibility == View.VISIBLE) {
+            AnalyticsManager.getInstance(this).sendScreen(AnalyticsManager.Param.Screen.NOT_FOUND_PAGE);
+        }
     }
 
 }
