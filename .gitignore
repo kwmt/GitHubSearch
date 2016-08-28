@@ -6,3 +6,4 @@
 *.iml
 google-services.json
 release.keystore
+android-publisher-key.json
