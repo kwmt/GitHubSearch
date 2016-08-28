@@ -54,3 +54,8 @@ release-build:
         name: run gradle publishProductionRelease
         code: |
           ./gradlew publishProductionRelease
+  after-steps:
+    - raizyr/ultimate-slack-notify@1.0.6:
+        webhook_url: $SLACK_URL
+        channel: pj-githubviewer
+        username: Wercker(Release)
