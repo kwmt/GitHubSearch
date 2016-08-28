@@ -1,5 +1,4 @@
-fixed some below bugs
-- fixed ads was gone  when search again.
-- fixed progress was not shown when search again.
-- fixed not found view was over wrapped when search again
-- fixed error view could be click.
+- clean code
+- add analytics
+- add dagger2
+- auto apk upload with Google Play Developer API
