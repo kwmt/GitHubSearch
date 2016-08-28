@@ -5,6 +5,7 @@ apply plugin: 'com.github.triplet.play'
 def versionMajor = 0
 def versionMinor = 0
 def versionPatch = 3
+def version = "${versionMajor}.${versionMinor}.${versionPatch}"
 
 android {
     compileSdkVersion 24
@@ -15,7 +16,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 24
         versionCode versionMajor * 100 + versionMinor * 10 + versionPatch
-        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+        versionName version
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -121,6 +122,12 @@ play {
     track = 'alpha'    // GooglePlayのベータ版へのアップ。製品版は 'production' 、アルファ版は 'alpha'
     serviceAccountEmail = System.getenv("SERVICE_ACCOUNT_EMAIL")
     jsonFile = file('android-publisher-key.json')
+}
+
+task addGitTagAndPush << {
+    def tag = 'v' + version
+    "git tag -a ${tag} -m ${tag}".execute()
+    "git push origin ${tag}".execute()
 }
 
 apply plugin: 'com.google.gms.google-services'
