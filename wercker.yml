@@ -54,10 +54,11 @@ release-build:
         name: run gradle publishProductionRelease
         code: |
           ./gradlew publishProductionRelease
-    - script:
-        name: add git tag and push
-        code: |
-          ./gradlew addGitTagAndPush
+    # TODO: I want to run git on wercker.
+#    - script:
+#        name: add git tag and push
+#        code: |
+#          ./gradlew addGitTagAndPush
   after-steps:
     - raizyr/ultimate-slack-notify@1.0.6:
         webhook_url: $SLACK_URL
