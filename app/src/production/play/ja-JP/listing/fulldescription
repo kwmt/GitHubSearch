@@ -1,0 +1,9 @@
+GitHubレポジトリ内のコード検索を可能にします。
+
+もともとはRxJava(+RxAndroid)のサンプルを書いていたのですが、なにかアプリ作ったほうが実用的かと思い、なにか作りました。
+
+こちらはオープンソースです。
+https://github.com/kwmt/GitHubSearch
+フィードバックお待ちしております。
+https://github.com/kwmt/GitHubSearch/issues
+プルリクエストはウェルカムです。
