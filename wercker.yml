@@ -46,3 +46,11 @@ release-build:
         name: run gradle assembleRelease
         code: |
           ./gradlew assembleRelease
+    - script:
+        name: fetch android-publisher-key.json file
+        code: |
+          wget $ANDROID_PUBLISEHR_KEY_JSON_URL -P app/
+    - script:
+        name: run gradle publishProductionRelease
+        code: |
+          ./gradlew publishProductionRelease
