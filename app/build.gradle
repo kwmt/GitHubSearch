@@ -82,7 +82,7 @@ android {
 final SUPPORT_LIB_VERSION = '24.2.0'
 // https://github.com/square/okhttp/releases
 final OKHTTP_VERSION = '3.4.1'
-http://square.github.io/retrofit/
+// http://square.github.io/retrofit/
 final RETROFIT_VERSION = '2.1.0'
 // https://github.com/google/dagger/releases
 final DAGGER_VERSION = '2.6.1'
