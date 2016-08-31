@@ -78,12 +78,16 @@ android {
 
 }
 
-
-final SUPPORT_LIB_VERSION = '24.1.1'
+// https://developer.android.com/topic/libraries/support-library/revisions.html
+final SUPPORT_LIB_VERSION = '24.2.0'
+// https://github.com/square/okhttp/releases
 final OKHTTP_VERSION = '3.4.1'
+// http://square.github.io/retrofit/
 final RETROFIT_VERSION = '2.1.0'
-final DAGGER_VERSION = '2.6'
-final FIREBASE_VERSION = '9.4.0'
+// https://github.com/google/dagger/releases
+final DAGGER_VERSION = '2.6.1'
+// https://developers.google.com/android/guides/releases
+final GOOGLE_PLAY_SERVICES_VERSION = '9.4.0'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -91,21 +95,25 @@ dependencies {
     compile "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
     compile "com.android.support:recyclerview-v7:${SUPPORT_LIB_VERSION}"
 
-    compile 'com.google.code.gson:gson:2.4'
+    // https://github.com/google/gson
+    compile 'com.google.code.gson:gson:2.7'
     compile "com.squareup.okhttp3:okhttp:${OKHTTP_VERSION}"
     compile "com.squareup.okhttp3:logging-interceptor:${OKHTTP_VERSION}"
-    compile 'io.reactivex:rxjava:1.1.7'
-    compile 'io.reactivex:rxandroid:1.2.0'
+    // https://github.com/ReactiveX/RxJava/releases
+    compile 'io.reactivex:rxjava:1.1.9'
+    // https://github.com/ReactiveX/RxAndroid
+    compile 'io.reactivex:rxandroid:1.2.1'
     compile "com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}"
     compile "com.squareup.retrofit2:converter-gson:${RETROFIT_VERSION}"
     compile "com.squareup.retrofit2:adapter-rxjava:${RETROFIT_VERSION}"
-    compile "com.google.firebase:firebase-core:${FIREBASE_VERSION}"
-    compile "com.google.firebase:firebase-ads:${FIREBASE_VERSION}"
-    compile "com.google.firebase:firebase-crash:${FIREBASE_VERSION}"
+    compile "com.google.firebase:firebase-core:${GOOGLE_PLAY_SERVICES_VERSION}"
+    compile "com.google.firebase:firebase-ads:${GOOGLE_PLAY_SERVICES_VERSION}"
+    compile "com.google.firebase:firebase-crash:${GOOGLE_PLAY_SERVICES_VERSION}"
 
+    // https://github.com/JakeWharton/RxBinding
     compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0'
 
-    // dagger
+    // dagger2
     compile "com.google.dagger:dagger:${DAGGER_VERSION}"
     apt "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
     provided 'javax.annotation:jsr250-api:1.0'
