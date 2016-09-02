@@ -13,6 +13,7 @@ https://play.google.com/store/apps/details?id=net.kwmt27.codesearch
 
 ## Technologies used in the project
 
+* MVP
 * Okhttp3
 * Okhttp Mockwebserver
 * RxJava

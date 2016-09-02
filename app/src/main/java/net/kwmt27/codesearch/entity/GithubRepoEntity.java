@@ -5,6 +5,8 @@ import android.text.format.DateFormat;
 
 import com.google.gson.annotations.SerializedName;
 
+import net.kwmt27.codesearch.BuildConfig;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -34,6 +36,14 @@ public class GithubRepoEntity implements Serializable{
 
     public GithubRepoEntity(ItemType type) {
         mItemType = type;
+    }
+
+    public GithubRepoEntity(String name, String ownerLogin) {
+        mName = name;
+        mOwner = new OwnerEntity(ownerLogin);
+        mFullName = ownerLogin + "/" + name;
+        mHtmlUrl = BuildConfig.BASE_WEBVIEW_URL + "/" + mFullName;
+        mUrl = BuildConfig.BASE_API_URL + "/repos/" + mFullName;
     }
 
     public String getName() {

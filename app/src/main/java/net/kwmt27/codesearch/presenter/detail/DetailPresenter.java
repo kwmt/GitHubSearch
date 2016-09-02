@@ -1,17 +1,26 @@
 package net.kwmt27.codesearch.presenter.detail;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 
+import net.kwmt27.codesearch.App;
 import net.kwmt27.codesearch.ModelLocator;
+import net.kwmt27.codesearch.R;
 import net.kwmt27.codesearch.entity.GithubRepoEntity;
+import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.view.detail.DetailActivity;
 import net.kwmt27.codesearch.view.search.SearchActivity;
+
+import java.io.Serializable;
+import java.util.List;
 
 public class DetailPresenter implements IDetailPresenter {
 
 
     private IDetailView mDetailView;
+    private GithubRepoEntity mGithubRepoEntity;
 
     public DetailPresenter(IDetailView detailView) {
         mDetailView = detailView;
@@ -21,7 +30,31 @@ public class DetailPresenter implements IDetailPresenter {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Intent intent = mDetailView.getIntent();
-        mDetailView.setupComponents(intent.getStringExtra(URL_KEY));
+
+        Serializable serializableRepoEntity = intent.getSerializableExtra(REPO_ENTITY_KEY);
+        if(serializableRepoEntity != null) {
+            mGithubRepoEntity = (GithubRepoEntity)serializableRepoEntity;
+        }
+
+        if (TextUtils.equals(intent.getAction(), Intent.ACTION_SEND)) {
+            Bundle extras = intent.getExtras();
+            CharSequence extraText = extras.getCharSequence(Intent.EXTRA_TEXT);
+            if (!TextUtils.isEmpty(extraText)) {
+                String url = (String) extraText;
+                List<String> segments = Uri.parse(url).getPathSegments();
+                if (segments.size() > 2) {
+                    mGithubRepoEntity = new GithubRepoEntity(segments.get(1), segments.get(0));
+                }
+                mDetailView.setupComponents(url, mGithubRepoEntity.getName());
+            } else {
+                Logger.e("url is empty.");
+                mDetailView.showError(App.getInstance().getString(R.string.failed_display));
+            }
+        } else {
+            String url = intent.getStringExtra(URL_KEY);
+            mDetailView.setupComponents(url, null);
+        }
+
     }
 
     @Override
@@ -36,16 +69,17 @@ public class DetailPresenter implements IDetailPresenter {
     }
 
     private GithubRepoEntity getGitHubRepoEntityFromIntent() {
-        Intent intent = mDetailView.getIntent();
-        return (GithubRepoEntity) intent.getSerializableExtra(REPO_ENTITY_KEY);
+            return mGithubRepoEntity;
     }
 
     public interface IDetailView {
         void setupComponents();
 
-        void setupComponents(String url);
+        void setupComponents(String url, String title);
 
         Intent getIntent();
+
+        void showError(String message);
     }
 
 }

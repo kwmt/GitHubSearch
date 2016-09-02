@@ -2,6 +2,8 @@ package net.kwmt27.codesearch.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import net.kwmt27.codesearch.BuildConfig;
+
 import java.io.Serializable;
 
 public class OwnerEntity implements Serializable {
@@ -16,6 +18,8 @@ public class OwnerEntity implements Serializable {
 
     public OwnerEntity(String name) {
         mLogin = name;
+        mHtmlUrl = BuildConfig.BASE_WEBVIEW_URL + "/" + mLogin;
+        mUrl = BuildConfig.BASE_API_URL + "/users/" + mLogin;
     }
 
     public String getLogin() {
