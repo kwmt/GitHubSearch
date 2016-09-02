@@ -1,4 +1,2 @@
-- clean code
-- add analytics
-- add dagger2
-- auto apk upload with Google Play Developer API
+- Google ChromeでGitHubページを見ていた場合、メニューの「共有」からアプリでGitHubページを開くことができるようになりました。
+これによりアプリで検索をして頂けます。

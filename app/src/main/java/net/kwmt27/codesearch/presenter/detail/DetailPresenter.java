@@ -41,6 +41,11 @@ public class DetailPresenter implements IDetailPresenter {
             CharSequence extraText = extras.getCharSequence(Intent.EXTRA_TEXT);
             if (!TextUtils.isEmpty(extraText)) {
                 String url = (String) extraText;
+                if(!Uri.parse(url).getHost().equals("github.com")) {
+                    mDetailView.showError(App.getInstance().getString(R.string.failed_not_from_github_page));
+                    mDetailView.finish();
+                    return;
+                }
                 List<String> segments = Uri.parse(url).getPathSegments();
                 if (segments.size() > 2) {
                     mGithubRepoEntity = new GithubRepoEntity(segments.get(1), segments.get(0));
@@ -80,6 +85,8 @@ public class DetailPresenter implements IDetailPresenter {
         Intent getIntent();
 
         void showError(String message);
+
+        void finish();
     }
 
 }
