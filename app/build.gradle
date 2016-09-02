@@ -3,8 +3,8 @@ apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.github.triplet.play'
 
 def versionMajor = 0
-def versionMinor = 1
-def versionPatch = 0
+def versionMinor = 0
+def versionPatch = 6
 def version = "${versionMajor}.${versionMinor}.${versionPatch}"
 
 android {
