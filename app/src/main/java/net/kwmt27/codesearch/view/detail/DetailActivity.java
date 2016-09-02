@@ -21,6 +21,7 @@ import net.kwmt27.codesearch.entity.GithubRepoEntity;
 import net.kwmt27.codesearch.presenter.detail.DetailPresenter;
 import net.kwmt27.codesearch.presenter.detail.IDetailPresenter;
 import net.kwmt27.codesearch.util.Logger;
+import net.kwmt27.codesearch.util.ToastUtil;
 import net.kwmt27.codesearch.view.BaseActivity;
 
 public class DetailActivity extends BaseActivity implements DetailPresenter.IDetailView {
@@ -98,8 +99,10 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
     }
 
     @Override
-    public void setupComponents(String url) {
+    public void setupComponents(String url, String title) {
         setUpActionBar();
+
+        setTitle(title);
         final WebView webView = (WebView)findViewById(R.id.webview);
         webView.setWebViewClient(new WebViewClient() {
 
@@ -193,6 +196,11 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setDisplayZoomControls(false);
         webView.loadUrl(url);
+    }
+
+    @Override
+    public void showError(String message) {
+        ToastUtil.show(this, message);
     }
 
 }

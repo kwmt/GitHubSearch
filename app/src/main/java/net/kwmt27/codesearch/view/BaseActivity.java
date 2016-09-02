@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import net.kwmt27.codesearch.R;
-import net.kwmt27.codesearch.analytics.AnalyticsManager;
 import net.kwmt27.codesearch.view.search.SearchActivity;
 
 /**
@@ -35,9 +34,13 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void setTitle(String title) {
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(title);
+        if (actionBar == null) {
+            return;
         }
+        if (title == null) {
+            return;
+        }
+        actionBar.setTitle(title);
     }
 
     protected void setDisplayHomeAsUpEnabled(boolean showHomeAsUp) {
