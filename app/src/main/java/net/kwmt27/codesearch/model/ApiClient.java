@@ -49,7 +49,7 @@ public class ApiClient {
         api = mRetrofit.create(GitHubService.class);
 
         Retrofit retrofitForLogin = new Retrofit.Builder()
-                .baseUrl("https://github.com")
+                .baseUrl(BuildConfig.BASE_WEBVIEW_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(GsonFactory.create()))
                 .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create())
