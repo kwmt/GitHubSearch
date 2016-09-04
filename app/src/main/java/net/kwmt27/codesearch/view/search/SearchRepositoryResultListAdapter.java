@@ -85,17 +85,14 @@ public class SearchRepositoryResultListAdapter extends RecyclerView.Adapter<Sear
         }
 
         final SearchRepositoryResultListAdapter.ViewHolder viewHolder = new SearchRepositoryResultListAdapter.ViewHolder(view);
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mListener != null) {
-                    int position = viewHolder.getAdapterPosition();
-                    Logger.d("click position:" + position);
-                    GithubRepoEntity entity = mSearchResultList.get(position);
-                    mListener.onItemClick(SearchRepositoryResultListAdapter.this, position, entity, itemType);
-                }
-
+        viewHolder.itemView.setOnClickListener(v -> {
+            if (mListener != null) {
+                int position = viewHolder.getAdapterPosition();
+                Logger.d("click position:" + position);
+                GithubRepoEntity entity = mSearchResultList.get(position);
+                mListener.onItemClick(SearchRepositoryResultListAdapter.this, position, entity, itemType);
             }
+
         });
         return viewHolder;
     }
