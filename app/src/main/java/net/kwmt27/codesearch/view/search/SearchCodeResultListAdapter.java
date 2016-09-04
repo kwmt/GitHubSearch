@@ -95,30 +95,27 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view;
+        View itemView;
         final ItemType itemType = ItemType.valueOf(viewType);
         switch (itemType) {
             case Progress:
-                view = mLayoutInflater.inflate(R.layout.recyclerview_progress_layout, parent, false);
-                return new ProgressViewHolder(view);
+                itemView = mLayoutInflater.inflate(R.layout.recyclerview_progress_layout, parent, false);
+                return new ProgressViewHolder(itemView);
             case Ad:
-                view = mLayoutInflater.inflate(R.layout.recyclerview_ad_layout, parent, false);
-                AdView adView = (AdView) view.findViewById(R.id.adView);
+                itemView = mLayoutInflater.inflate(R.layout.recyclerview_ad_layout, parent, false);
+                AdView adView = (AdView) itemView.findViewById(R.id.adView);
                 AdRequest adRequest = new AdRequest.Builder().build();
                 adView.loadAd(adRequest);
-                return new AdViewHolder(view);
+                return new AdViewHolder(itemView);
             default:
-                view = mLayoutInflater.inflate(R.layout.recyclerview_search_code_result_list_item, parent, false);
-                final SearchCodeResultListAdapter.ViewHolder viewHolder = new SearchCodeResultListAdapter.ViewHolder(view);
-                viewHolder.pathTextView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (mListener != null) {
-                            int position = viewHolder.getAdapterPosition();
-                            Logger.d("click position:" + position);
-                            ItemEntity entity = mSearchResultList.get(position);
-                            mListener.onItemClick(SearchCodeResultListAdapter.this, position, entity, itemType);
-                        }
+                itemView = mLayoutInflater.inflate(R.layout.recyclerview_search_code_result_list_item, parent, false);
+                final SearchCodeResultListAdapter.ViewHolder viewHolder = new SearchCodeResultListAdapter.ViewHolder(itemView);
+                viewHolder.pathTextView.setOnClickListener(view -> {
+                    if (mListener != null) {
+                        int position = viewHolder.getAdapterPosition();
+                        Logger.d("click position:" + position);
+                        ItemEntity entity = mSearchResultList.get(position);
+                        mListener.onItemClick(SearchCodeResultListAdapter.this, position, entity, itemType);
                     }
                 });
                 return viewHolder;

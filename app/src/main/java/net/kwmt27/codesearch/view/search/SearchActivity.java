@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -112,31 +111,28 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
         }
         transaction.commit();
 
-        mSearchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                // http://developer.android.com/reference/android/widget/TextView.OnEditorActionListener.html#onEditorAction(android.widget.TextView, int, android.view.KeyEvent)
-                boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    KeyboardUtil.hideKeyboard(SearchActivity.this);
-                    if(v.getText().toString().length() <= 0) {
-                        return false;
-                    }
-                    String keyword = v.getText().toString();
-                    GithubRepoEntity repo = (GithubRepoEntity) getIntent().getSerializableExtra(ISearchPresenter.REPO_ENTITY_KEY);
-                    if (canSearchCode) {
-                        AnalyticsManager.getInstance(SearchActivity.this).sendSearch(AnalyticsManager.Param.Screen.SEARCH_CODE_RESULT_LIST, keyword);
-                        SearchCodeResultListFragment fragment = (SearchCodeResultListFragment) manager.findFragmentByTag(SearchCodeResultListFragment.TAG);
-                        fragment.onEditorActionSearch(keyword, repo);
-                    } else {
-                        AnalyticsManager.getInstance(SearchActivity.this).sendSearch(AnalyticsManager.Param.Screen.SEARCH_REPOSITORY_RESULT_LIST, keyword);
-                        SearchRepositoryResultListFragment fragment = (SearchRepositoryResultListFragment) manager.findFragmentByTag(SearchRepositoryResultListFragment.TAG);
-                        fragment.onEditorActionSearch(keyword, repo);
-                    }
+        mSearchEditText.setOnEditorActionListener(((v, actionId, event) -> {
+            // http://developer.android.com/reference/android/widget/TextView.OnEditorActionListener.html#onEditorAction(android.widget.TextView, int, android.view.KeyEvent)
+            boolean handled = false;
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                KeyboardUtil.hideKeyboard(SearchActivity.this);
+                if(v.getText().toString().length() <= 0) {
+                    return false;
                 }
-                return handled;
+                String keyword = v.getText().toString();
+                GithubRepoEntity repo = (GithubRepoEntity) getIntent().getSerializableExtra(ISearchPresenter.REPO_ENTITY_KEY);
+                if (canSearchCode) {
+                    AnalyticsManager.getInstance(SearchActivity.this).sendSearch(AnalyticsManager.Param.Screen.SEARCH_CODE_RESULT_LIST, keyword);
+                    SearchCodeResultListFragment fragment = (SearchCodeResultListFragment) manager.findFragmentByTag(SearchCodeResultListFragment.TAG);
+                    fragment.onEditorActionSearch(keyword, repo);
+                } else {
+                    AnalyticsManager.getInstance(SearchActivity.this).sendSearch(AnalyticsManager.Param.Screen.SEARCH_REPOSITORY_RESULT_LIST, keyword);
+                    SearchRepositoryResultListFragment fragment = (SearchRepositoryResultListFragment) manager.findFragmentByTag(SearchRepositoryResultListFragment.TAG);
+                    fragment.onEditorActionSearch(keyword, repo);
+                }
             }
-        });
+            return handled;
+        }));
         mSearchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

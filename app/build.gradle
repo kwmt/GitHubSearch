@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.github.triplet.play'
 
 def versionMajor = 0
@@ -18,7 +17,16 @@ android {
         versionCode versionMajor * 100 + versionMinor * 10 + versionPatch
         versionName version
 
+        jackOptions {
+            enabled true
+        }
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    // https://developer.android.com/guide/platform/j8-jack.html?hl=ja#configuration
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     signingConfigs {
@@ -115,8 +123,9 @@ dependencies {
 
     // dagger2
     compile "com.google.dagger:dagger:${DAGGER_VERSION}"
-    apt "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
-    provided 'javax.annotation:jsr250-api:1.0'
+    annotationProcessor "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+
 
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
