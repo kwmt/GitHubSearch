@@ -8,11 +8,11 @@ import android.webkit.WebView;
 import net.kwmt27.codesearch.ModelLocator;
 import net.kwmt27.codesearch.R;
 import net.kwmt27.codesearch.entity.TokenEntity;
+import net.kwmt27.codesearch.model.rx.ApiSubscriber;
 import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.util.PrefUtil;
 import net.kwmt27.codesearch.view.GitHubSearchWebViewClient;
 
-import rx.Subscriber;
 import rx.Subscription;
 
 public class LoginActivity extends Activity {
@@ -41,15 +41,10 @@ public class LoginActivity extends Activity {
                     authComplete = true;
 
                     Logger.d("accessCode=" + accessCode);
-                    mSubscription = ModelLocator.getLoginModel().fetchAccessToken(accessCode, new Subscriber<TokenEntity>() {
+                    mSubscription = ModelLocator.getLoginModel().fetchAccessToken(accessCode, new ApiSubscriber<TokenEntity>(getApplicationContext()) {
                         @Override
                         public void onCompleted() {
                             Logger.d("onCompleted");
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Logger.d("onError:" + e);
                         }
 
                         @Override
