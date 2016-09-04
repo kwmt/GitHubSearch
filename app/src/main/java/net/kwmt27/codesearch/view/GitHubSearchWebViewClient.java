@@ -2,9 +2,7 @@ package net.kwmt27.codesearch.view;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.view.View;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -15,7 +13,7 @@ import android.widget.Button;
 import net.kwmt27.codesearch.R;
 import net.kwmt27.codesearch.util.Logger;
 
-public class GitHubSearchWebViewClient extends WebViewClient {
+public abstract class GitHubSearchWebViewClient extends WebViewClient {
     private final Activity mActivity;
     private final WebView mWebView;
     private boolean mIsFailure = false;
@@ -92,12 +90,13 @@ public class GitHubSearchWebViewClient extends WebViewClient {
             return false;
         }
 
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        mActivity.startActivity(intent);
+        startActivityOnTouch(url);
 
         return true;
 
     }
+
+    protected abstract void startActivityOnTouch(String url);
 
     // http://stackoverflow.com/a/33419123/2520998
     @TargetApi(android.os.Build.VERSION_CODES.M)

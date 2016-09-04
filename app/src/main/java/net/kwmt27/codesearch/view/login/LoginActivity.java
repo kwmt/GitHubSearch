@@ -57,6 +57,11 @@ public class LoginActivity extends Activity {
                     });
                 }
             }
+
+            @Override
+            protected void startActivityOnTouch(String url) {
+                // no-op
+            }
         });
         webview.loadUrl(ModelLocator.getLoginModel().getAuthorizeUrl());
 

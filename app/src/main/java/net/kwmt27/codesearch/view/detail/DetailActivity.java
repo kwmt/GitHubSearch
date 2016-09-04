@@ -2,6 +2,7 @@ package net.kwmt27.codesearch.view.detail;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -96,7 +97,13 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
 
         setTitle(title);
         final WebView webView = (WebView)findViewById(R.id.webview);
-        webView.setWebViewClient(new GitHubSearchWebViewClient(this, webView));
+        webView.setWebViewClient(new GitHubSearchWebViewClient(this, webView){
+            @Override
+            protected void startActivityOnTouch(String url) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
+            }
+        });
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setDisplayZoomControls(false);
