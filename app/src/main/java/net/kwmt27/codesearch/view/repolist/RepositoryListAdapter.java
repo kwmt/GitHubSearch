@@ -87,17 +87,14 @@ public class RepositoryListAdapter extends RecyclerView.Adapter<RepositoryListAd
 
 
         final RepositoryListAdapter.ViewHolder viewHolder = new RepositoryListAdapter.ViewHolder(view);
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mListener != null) {
-                    int position = viewHolder.getAdapterPosition();
-                    Logger.d("click position:" + position);
-                    GithubRepoEntity entity = mGithubRepoEntityList.get(position);
-                    mListener.onItemClick(RepositoryListAdapter.this, position, entity, itemType);
-                }
-
+        viewHolder.itemView.setOnClickListener(v -> {
+            if (mListener != null) {
+                int position = viewHolder.getAdapterPosition();
+                Logger.d("click position:" + position);
+                GithubRepoEntity entity = mGithubRepoEntityList.get(position);
+                mListener.onItemClick(RepositoryListAdapter.this, position, entity, itemType);
             }
+
         });
         return viewHolder;
     }

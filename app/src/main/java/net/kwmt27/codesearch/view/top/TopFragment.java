@@ -47,24 +47,18 @@ public class TopFragment extends Fragment { //implements TopPresenter.ITopView {
         //mPresenter.onViewCreated(view, savedInstanceState);
 
         final Button searchGithub = (Button)view.findViewById(R.id.search_github);
-        searchGithub.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AnalyticsManager.getInstance(getActivity().getApplicationContext())
-                        .sendClickButton(AnalyticsManager.Param.Screen.TOP, AnalyticsManager.Param.Widget.SEARCH_BUTTON);
-                SearchActivity.startActivity(getActivity(), false, null, searchGithub, "search_bar");
-            }
+        searchGithub.setOnClickListener(view1 -> {
+            AnalyticsManager.getInstance(getActivity().getApplicationContext())
+                    .sendClickButton(AnalyticsManager.Param.Screen.TOP, AnalyticsManager.Param.Widget.SEARCH_BUTTON);
+            SearchActivity.startActivity(getActivity(), false, null, searchGithub, "search_bar");
         });
 
         Button button = (Button) view.findViewById(R.id.login_with_github);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AnalyticsManager.getInstance(getActivity().getApplicationContext())
-                        .sendClickButton(AnalyticsManager.Param.Screen.TOP, AnalyticsManager.Param.Widget.LOGIN_WITH_GITHUB_BUTTON);
-                Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
-                startActivityForResult(intent, 0);
-            }
+        button.setOnClickListener(view2 -> {
+            AnalyticsManager.getInstance(getActivity().getApplicationContext())
+                    .sendClickButton(AnalyticsManager.Param.Screen.TOP, AnalyticsManager.Param.Widget.LOGIN_WITH_GITHUB_BUTTON);
+            Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
+            startActivityForResult(intent, 0);
         });
 
     }
