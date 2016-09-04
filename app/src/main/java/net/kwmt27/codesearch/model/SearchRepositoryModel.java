@@ -42,8 +42,8 @@ public class SearchRepositoryModel extends BaseModel implements ISearchModel {
         mGitHubRepoEntityList = new ArrayList<>();
     }
 
-    public Subscription fetchUserRepository(Integer page, final Subscriber<List<GithubRepoEntity>> subscriber) {
-        Subscription listReposSubscription = mApiClient.api.fetchUserRepository(page)
+    public Subscription fetchUserRepository(Integer page, SortType type, final Subscriber<List<GithubRepoEntity>> subscriber) {
+        Subscription listReposSubscription = mApiClient.api.fetchUserRepository(page, type)
                 .subscribeOn(Schedulers.newThread())
                 .flatMap(response -> {
                     // TODO: 他にいい方法がありそう RxErrorHandlingCallAdapterFactory 側でなんとかしたい

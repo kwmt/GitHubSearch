@@ -5,6 +5,7 @@ import android.view.View;
 
 import net.kwmt27.codesearch.ModelLocator;
 import net.kwmt27.codesearch.entity.GithubRepoEntity;
+import net.kwmt27.codesearch.model.SortType;
 import net.kwmt27.codesearch.model.rx.ApiSubscriber;
 import net.kwmt27.codesearch.view.repolist.RepositoryListFragment;
 
@@ -46,7 +47,7 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
 
     private void fetchRepositoryList(Integer page) {
         mMainView.showProgress();
-        ModelLocator.getSearchRepositoryModel().fetchUserRepository(page, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment)mMainView).getActivity()) {
+        ModelLocator.getSearchRepositoryModel().fetchUserRepository(page, SortType.Pushed, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment)mMainView).getActivity()) {
             @Override
             public void onCompleted() {
                 mMainView.hideProgress();
@@ -68,7 +69,7 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
 
     private void fetchRepositoryListOnScroll(Integer page) {
         mMainView.showProgressOnScroll();
-        ModelLocator.getSearchRepositoryModel().fetchUserRepository(page, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment)mMainView).getActivity()) {
+        ModelLocator.getSearchRepositoryModel().fetchUserRepository(page, SortType.Pushed, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment)mMainView).getActivity()) {
             @Override
             public void onCompleted() {
                 mMainView.hideProgressOnScroll();
