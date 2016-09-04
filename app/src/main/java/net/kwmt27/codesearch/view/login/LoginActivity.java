@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import net.kwmt27.codesearch.ModelLocator;
 import net.kwmt27.codesearch.R;
 import net.kwmt27.codesearch.entity.TokenEntity;
 import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.util.PrefUtil;
+import net.kwmt27.codesearch.view.GitHubSearchWebViewClient;
 
 import rx.Subscriber;
 import rx.Subscription;
@@ -26,11 +26,12 @@ public class LoginActivity extends Activity {
 
         WebView webview = (WebView) findViewById(R.id.webview);
         webview.getSettings().setJavaScriptEnabled(true);
-        webview.setWebViewClient(new WebViewClient() {
+        webview.setWebViewClient(new GitHubSearchWebViewClient(this, webview) {
 
             boolean authComplete = false;
 
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
                 // TODO move to Presenter
                 String accessCodeFragment = "code=";
 
