@@ -37,8 +37,7 @@ public class GitHubSearchWebViewClient extends WebViewClient {
         int visibility = show ? View.VISIBLE : View.GONE;
         View progressLayout = mActivity.findViewById(R.id.progress_layout);
         if(progressLayout == null) {
-            Logger.w("@+id/progress_layout is not found");
-            return;
+            throw new IllegalStateException("@+id/progress_layout is not found");
         }
         progressLayout.setVisibility(visibility);
     }
@@ -64,8 +63,7 @@ public class GitHubSearchWebViewClient extends WebViewClient {
         }
         final View errorLayout = mActivity.findViewById(R.id.error_layout);
         if(errorLayout == null) {
-            Logger.w("@+id/error_layout is not found.");
-            return;
+            throw new IllegalStateException("@+id/error_layout is not found.");
         }
         errorLayout.setVisibility(errorVisibility);
         Button reloadButton = (Button)errorLayout.findViewById(R.id.reload_button);
