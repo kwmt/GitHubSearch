@@ -33,7 +33,7 @@ public class LoginActivity extends Activity {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
                 // TODO move to Presenter
-                String accessCodeFragment = "code=";
+                final String accessCodeFragment = "code=";
 
                 if (url.contains(accessCodeFragment) && !authComplete) {
                     // the GET request contains an authorization code
