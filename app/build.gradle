@@ -96,6 +96,7 @@ final RETROFIT_VERSION = '2.1.0'
 final DAGGER_VERSION = '2.6.1'
 // https://developers.google.com/android/guides/releases
 final GOOGLE_PLAY_SERVICES_VERSION = '9.4.0'
+final LEAKCANARY_VERSION = '1.4-beta2'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -133,6 +134,9 @@ dependencies {
     // http://stackoverflow.com/a/36835268
     androidTestCompile "com.android.support:support-annotations:${SUPPORT_LIB_VERSION}"
 
+    debugCompile "com.squareup.leakcanary:leakcanary-android:${LEAKCANARY_VERSION}"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY_VERSION}"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY_VERSION}"
 }
 
 play {
