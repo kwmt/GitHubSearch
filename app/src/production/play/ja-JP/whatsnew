@@ -1,2 +1,3 @@
-- Google ChromeでGitHubページを見ていた場合、メニューの「共有」からアプリでGitHubページを開くことができるようになりました。
-これによりアプリで検索をして頂けます。
+- use java8
+- change repository list order to pushed order
+- fix bug sign in error
