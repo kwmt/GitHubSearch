@@ -3,7 +3,7 @@ apply plugin: 'com.github.triplet.play'
 
 def versionMajor = 0
 def versionMinor = 0
-def versionPatch = 6
+def versionPatch = 7
 def version = "${versionMajor}.${versionMinor}.${versionPatch}"
 
 android {
@@ -136,7 +136,7 @@ dependencies {
 }
 
 play {
-    track = 'alpha'    // GooglePlayのベータ版へのアップ。製品版は 'production' 、アルファ版は 'alpha'
+    track = 'beta'    // GooglePlayのベータ版へのアップ。製品版は 'production' 、アルファ版は 'alpha'
     serviceAccountEmail = System.getenv("SERVICE_ACCOUNT_EMAIL")
     jsonFile = file('android-publisher-key.json')
 }
