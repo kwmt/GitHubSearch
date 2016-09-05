@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.jakewharton.rxbinding.support.v7.widget.RecyclerViewScrollEvent;
 import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 
 import net.kwmt27.codesearch.ModelLocator;
@@ -25,12 +24,10 @@ import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.util.ToastUtil;
 import net.kwmt27.codesearch.view.detail.DetailActivity;
 import net.kwmt27.codesearch.view.parts.DividerItemDecoration;
-import net.kwmt27.codesearch.view.parts.OnItemClickListener;
 
 import java.util.List;
 
 import rx.Subscription;
-import rx.functions.Action1;
 
 
 /**
@@ -94,18 +91,15 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mSearchRepositoryResultListAdapter = new SearchRepositoryResultListAdapter(getActivity().getApplicationContext(), new OnItemClickListener<SearchRepositoryResultListAdapter, GithubRepoEntity>() {
-            @Override
-            public void onItemClick(SearchRepositoryResultListAdapter adapter, int position, GithubRepoEntity repo, ItemType type) {
-                if(type == ItemType.Normal) {
-                    AnalyticsManager.getInstance(getActivity().getApplicationContext())
-                            .sendClickItem(AnalyticsManager.Param.Screen.SEARCH_REPOSITORY_RESULT_LIST, AnalyticsManager.Param.Category.REPOSITORY, repo.getName());
-                    DetailActivity.startActivity(getActivity(), repo.getName(), repo.getHtmlUrl(), repo);
-                }
-                if(type == ItemType.Ad) {
-                    AnalyticsManager.getInstance(getActivity().getApplicationContext())
-                            .sendClickItem(AnalyticsManager.Param.Screen.SEARCH_REPOSITORY_RESULT_LIST, AnalyticsManager.Param.Category.Ads);
-                }
+        mSearchRepositoryResultListAdapter = new SearchRepositoryResultListAdapter(getActivity().getApplicationContext(), (adapter, position, repo, type) -> {
+            if(type == ItemType.Normal) {
+                AnalyticsManager.getInstance(getActivity().getApplicationContext())
+                        .sendClickItem(AnalyticsManager.Param.Screen.SEARCH_REPOSITORY_RESULT_LIST, AnalyticsManager.Param.Category.REPOSITORY, repo.getName());
+                DetailActivity.startActivity(getActivity(), repo.getName(), repo.getHtmlUrl(), repo);
+            }
+            if(type == ItemType.Ad) {
+                AnalyticsManager.getInstance(getActivity().getApplicationContext())
+                        .sendClickItem(AnalyticsManager.Param.Screen.SEARCH_REPOSITORY_RESULT_LIST, AnalyticsManager.Param.Category.Ads);
             }
         });
         mRecyclerView.setAdapter(mSearchRepositoryResultListAdapter);
@@ -183,21 +177,17 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
 
 
     private void rxRecyclerViewScrollSubscribe() {
-        mSubscription = RxRecyclerView.scrollEvents(mRecyclerView).subscribe(
-                new Action1<RecyclerViewScrollEvent>() {
-                    @Override
-                    public void call(RecyclerViewScrollEvent event) {
-                        int totalItemCount = mLayoutManager.getItemCount();
-                        int lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
-                        if (totalItemCount - 1 <= lastVisibleItemPosition) {
-                            if(mIsCalled){
-                                return;
-                            }
-                            mIsCalled = true;
-                            Logger.d("onLastVisible");
-                            mSubscription.unsubscribe();
-                            mPresenter.onScrollToBottom();
+        mSubscription = RxRecyclerView.scrollEvents(mRecyclerView).subscribe(event -> {
+                    int totalItemCount = mLayoutManager.getItemCount();
+                    int lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
+                    if (totalItemCount - 1 <= lastVisibleItemPosition) {
+                        if (mIsCalled) {
+                            return;
                         }
+                        mIsCalled = true;
+                        Logger.d("onLastVisible");
+                        mSubscription.unsubscribe();
+                        mPresenter.onScrollToBottom();
                     }
                 }
         );

@@ -4,15 +4,15 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import net.kwmt27.codesearch.ModelLocator;
 import net.kwmt27.codesearch.R;
 import net.kwmt27.codesearch.entity.TokenEntity;
+import net.kwmt27.codesearch.model.rx.ApiSubscriber;
 import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.util.PrefUtil;
+import net.kwmt27.codesearch.view.GitHubSearchWebViewClient;
 
-import rx.Subscriber;
 import rx.Subscription;
 
 public class LoginActivity extends Activity {
@@ -26,13 +26,14 @@ public class LoginActivity extends Activity {
 
         WebView webview = (WebView) findViewById(R.id.webview);
         webview.getSettings().setJavaScriptEnabled(true);
-        webview.setWebViewClient(new WebViewClient() {
+        webview.setWebViewClient(new GitHubSearchWebViewClient(this, webview) {
 
             boolean authComplete = false;
 
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
                 // TODO move to Presenter
-                String accessCodeFragment = "code=";
+                final String accessCodeFragment = "code=";
 
                 if (url.contains(accessCodeFragment) && !authComplete) {
                     // the GET request contains an authorization code
@@ -40,15 +41,10 @@ public class LoginActivity extends Activity {
                     authComplete = true;
 
                     Logger.d("accessCode=" + accessCode);
-                    mSubscription = ModelLocator.getLoginModel().fetchAccessToken(accessCode, new Subscriber<TokenEntity>() {
+                    mSubscription = ModelLocator.getLoginModel().fetchAccessToken(accessCode, new ApiSubscriber<TokenEntity>(getApplicationContext()) {
                         @Override
                         public void onCompleted() {
                             Logger.d("onCompleted");
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Logger.d("onError:" + e);
                         }
 
                         @Override
@@ -60,6 +56,11 @@ public class LoginActivity extends Activity {
                         }
                     });
                 }
+            }
+
+            @Override
+            protected void startActivityOnTouch(String url) {
+                // no-op
             }
         });
         webview.loadUrl(ModelLocator.getLoginModel().getAuthorizeUrl());

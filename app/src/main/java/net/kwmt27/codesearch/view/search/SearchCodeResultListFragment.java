@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.jakewharton.rxbinding.support.v7.widget.RecyclerViewScrollEvent;
 import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 
 import net.kwmt27.codesearch.ModelLocator;
@@ -30,7 +29,6 @@ import net.kwmt27.codesearch.view.parts.OnItemClickListener;
 import java.util.List;
 
 import rx.Subscription;
-import rx.functions.Action1;
 
 
 /**
@@ -155,14 +153,11 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
         mErrorLayout.setVisibility(View.VISIBLE);
 
         Button button = (Button) mErrorLayout.findViewById(R.id.reload_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AnalyticsManager.getInstance(getActivity().getApplicationContext())
-                        .sendClickItem(AnalyticsManager.Param.Screen.ERROR_PAGE, AnalyticsManager.Param.Category.ERROR_PAGE, AnalyticsManager.Param.Widget.RELOAD_BUTTON);
-                mErrorLayout.setVisibility(View.GONE);
-                mPresenter.onClickReloadButton();
-            }
+        button.setOnClickListener(view -> {
+            AnalyticsManager.getInstance(getActivity().getApplicationContext())
+                    .sendClickItem(AnalyticsManager.Param.Screen.ERROR_PAGE, AnalyticsManager.Param.Category.ERROR_PAGE, AnalyticsManager.Param.Widget.RELOAD_BUTTON);
+            mErrorLayout.setVisibility(View.GONE);
+            mPresenter.onClickReloadButton();
         });
 
     }
@@ -182,21 +177,17 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
     }
 
     private void rxRecyclerViewScrollSubscribe() {
-        mSubscription = RxRecyclerView.scrollEvents(mRecyclerView).subscribe(
-                new Action1<RecyclerViewScrollEvent>() {
-                    @Override
-                    public void call(RecyclerViewScrollEvent event) {
-                        int totalItemCount = mLayoutManager.getItemCount();
-                        int lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
-                        if (totalItemCount - 1 <= lastVisibleItemPosition) {
-                            if(mIsCalled){
-                                return;
-                            }
-                            mIsCalled = true;
-                            Logger.d("onLastVisible");
-                            mSubscription.unsubscribe();
-                            mPresenter.onScrollToBottom();
+        mSubscription = RxRecyclerView.scrollEvents(mRecyclerView).subscribe(event -> {
+                    int totalItemCount = mLayoutManager.getItemCount();
+                    int lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
+                    if (totalItemCount - 1 <= lastVisibleItemPosition) {
+                        if (mIsCalled) {
+                            return;
                         }
+                        mIsCalled = true;
+                        Logger.d("onLastVisible");
+                        mSubscription.unsubscribe();
+                        mPresenter.onScrollToBottom();
                     }
                 }
         );

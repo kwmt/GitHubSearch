@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.jakewharton.rxbinding.support.v7.widget.RecyclerViewScrollEvent;
 import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 
 import net.kwmt27.codesearch.R;
@@ -20,14 +19,12 @@ import net.kwmt27.codesearch.presenter.repolist.IRepositoryListPresenter;
 import net.kwmt27.codesearch.presenter.repolist.RepositoryListPresenter;
 import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.util.ToastUtil;
-import net.kwmt27.codesearch.view.parts.DividerItemDecoration;
-import net.kwmt27.codesearch.view.parts.OnItemClickListener;
 import net.kwmt27.codesearch.view.detail.DetailActivity;
+import net.kwmt27.codesearch.view.parts.DividerItemDecoration;
 
 import java.util.List;
 
 import rx.Subscription;
-import rx.functions.Action1;
 
 
 /**
@@ -91,18 +88,15 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRepositoryListAdapter = new RepositoryListAdapter(getActivity().getApplicationContext(), new OnItemClickListener<RepositoryListAdapter, GithubRepoEntity>() {
-            @Override
-            public void onItemClick(RepositoryListAdapter adapter, int position, GithubRepoEntity repo, ItemType type) {
-                if(type == ItemType.Normal) {
-                    AnalyticsManager.getInstance(getActivity().getApplicationContext())
-                            .sendClickItem(AnalyticsManager.Param.Screen.REPOSITORY_LIST, AnalyticsManager.Param.Category.REPOSITORY, repo.getName());
-                    DetailActivity.startActivity(getActivity(), repo.getName(), repo.getHtmlUrl(), repo);
-                }
-                if (type == ItemType.Ad) {
-                    AnalyticsManager.getInstance(getActivity().getApplicationContext())
-                            .sendClickItem(AnalyticsManager.Param.Screen.REPOSITORY_LIST, AnalyticsManager.Param.Category.Ads);
-                }
+        mRepositoryListAdapter = new RepositoryListAdapter(getActivity().getApplicationContext(), (adapter, position, repo, type) -> {
+            if(type == ItemType.Normal) {
+                AnalyticsManager.getInstance(getActivity().getApplicationContext())
+                        .sendClickItem(AnalyticsManager.Param.Screen.REPOSITORY_LIST, AnalyticsManager.Param.Category.REPOSITORY, repo.getName());
+                DetailActivity.startActivity(getActivity(), repo.getName(), repo.getHtmlUrl(), repo);
+            }
+            if (type == ItemType.Ad) {
+                AnalyticsManager.getInstance(getActivity().getApplicationContext())
+                        .sendClickItem(AnalyticsManager.Param.Screen.REPOSITORY_LIST, AnalyticsManager.Param.Category.Ads);
             }
         });
         mRecyclerView.setAdapter(mRepositoryListAdapter);
@@ -113,22 +107,18 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
 
 
     private void rxRecyclerViewScrollSubscribe() {
-        mSubscription = RxRecyclerView.scrollEvents(mRecyclerView).subscribe(
-                new Action1<RecyclerViewScrollEvent>() {
-                    @Override
-                    public void call(RecyclerViewScrollEvent event) {
-                        int totalItemCount = mLayoutManager.getItemCount();
-                        int lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
-                        if (totalItemCount - 1 <= lastVisibleItemPosition) {
-                            if(mIsCalled){
-                                return;
-                            }
-                            mIsCalled = true;
-                            Logger.d("onLastVisible");
-                            mSubscription.unsubscribe();
-
-                            mPresenter.onScrollToBottom();
+        mSubscription = RxRecyclerView.scrollEvents(mRecyclerView).subscribe(event -> {
+                    int totalItemCount = mLayoutManager.getItemCount();
+                    int lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
+                    if (totalItemCount - 1 <= lastVisibleItemPosition) {
+                        if(mIsCalled){
+                            return;
                         }
+                        mIsCalled = true;
+                        Logger.d("onLastVisible");
+                        mSubscription.unsubscribe();
+
+                        mPresenter.onScrollToBottom();
                     }
                 }
         );
@@ -164,12 +154,9 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
         mErrorLayout.setVisibility(View.VISIBLE);
 
         Button button = (Button) mErrorLayout.findViewById(R.id.reload_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mErrorLayout.setVisibility(View.GONE);
-                mPresenter.onClickReloadButton();
-            }
+        button.setOnClickListener(view -> {
+            mErrorLayout.setVisibility(View.GONE);
+            mPresenter.onClickReloadButton();
         });
 
     }

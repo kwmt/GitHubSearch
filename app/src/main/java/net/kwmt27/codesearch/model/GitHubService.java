@@ -15,7 +15,7 @@ import rx.Observable;
 
 public interface GitHubService {
     @GET("user/repos")
-    Observable<Response<List<GithubRepoEntity>>> fetchUserRepository(@Query(value = "page") Integer page);
+    Observable<Response<List<GithubRepoEntity>>> fetchUserRepository(@Query(value = "page") Integer page, @Query(value = "sort") SortType type);
 
     @GET("repos/{owner}/{repo}")
     Observable<GithubRepoEntity> fetchRepo(@Path("owner") String user, @Path("repo") String repo);
