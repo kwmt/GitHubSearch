@@ -150,12 +150,9 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
         mErrorLayout.setVisibility(View.VISIBLE);
 
         Button button = (Button) mErrorLayout.findViewById(R.id.reload_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mErrorLayout.setVisibility(View.GONE);
-                mPresenter.onClickReloadButton();
-            }
+        button.setOnClickListener(view -> {
+            mErrorLayout.setVisibility(View.GONE);
+            mPresenter.onClickReloadButton();
         });
 
     }

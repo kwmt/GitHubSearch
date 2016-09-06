@@ -47,10 +47,12 @@ public class DetailPresenter implements IDetailPresenter {
                     return;
                 }
                 List<String> segments = Uri.parse(url).getPathSegments();
-                if (segments.size() > 2) {
+                String title = "GitHub";
+                if (segments.size() >= 2) {
                     mGithubRepoEntity = new GithubRepoEntity(segments.get(1), segments.get(0));
+                    title = mGithubRepoEntity.getName();
                 }
-                mDetailView.setupComponents(url, mGithubRepoEntity.getName());
+                mDetailView.setupComponents(url, title);
             } else {
                 Logger.e("url is empty.");
                 mDetailView.showError(App.getInstance().getString(R.string.failed_display));

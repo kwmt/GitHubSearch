@@ -1,3 +1,1 @@
-- use java8
-- change repository list order to pushed order
-- fix bug sign in error
+- 共有でアプリが落ちる不具合修正
