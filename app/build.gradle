@@ -103,6 +103,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
     compile "com.android.support:recyclerview-v7:${SUPPORT_LIB_VERSION}"
+    compile "com.android.support:design:${SUPPORT_LIB_VERSION}"
 
     // https://github.com/google/gson
     compile 'com.google.code.gson:gson:2.7'
@@ -121,6 +122,8 @@ dependencies {
 
     // https://github.com/JakeWharton/RxBinding
     compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0'
+
+    compile 'com.roughike:bottom-bar:2.0.2'
 
     // dagger2
     compile "com.google.dagger:dagger:${DAGGER_VERSION}"

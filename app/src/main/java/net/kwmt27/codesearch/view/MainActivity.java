@@ -10,10 +10,10 @@ import android.view.View;
 import net.kwmt27.codesearch.ModelLocator;
 import net.kwmt27.codesearch.R;
 import net.kwmt27.codesearch.util.Logger;
-import net.kwmt27.codesearch.view.repolist.RepositoryListFragment;
+import net.kwmt27.codesearch.view.events.EventListFragment;
 import net.kwmt27.codesearch.view.top.TopFragment;
 
-public class                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity {
 
     private boolean mSignedIn = false;
 
@@ -32,7 +32,7 @@ public class                                                                    
         String token = ModelLocator.getLoginModel().getAccessToken();
         if (!TextUtils.isEmpty(token)) {
             Logger.d("signed_in:" +token);
-            replaceFragment(RepositoryListFragment.newInstance(), true, R.string.title_repository_list);
+            replaceFragment(EventListFragment.newInstance(), true, R.string.title_repository_list);
             mSignedIn = true;
         } else {
             Logger.d("signed_out");
