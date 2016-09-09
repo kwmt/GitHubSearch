@@ -1,5 +1,6 @@
 package net.kwmt27.codesearch.model;
 
+import net.kwmt27.codesearch.entity.EventEntity;
 import net.kwmt27.codesearch.entity.GithubRepoEntity;
 import net.kwmt27.codesearch.entity.SearchCodeResultEntity;
 import net.kwmt27.codesearch.entity.SearchRepositoryResultEntity;
@@ -16,6 +17,9 @@ import rx.Observable;
 public interface GitHubService {
     @GET("user/repos")
     Observable<Response<List<GithubRepoEntity>>> fetchUserRepository(@Query(value = "page") Integer page, @Query(value = "sort") SortType type);
+
+    @GET("users/{user}/received_events")
+    Observable<Response<List<EventEntity>>> fetchEvent(@Path("user") String user, @Query(value = "page") Integer page);
 
     @GET("repos/{owner}/{repo}")
     Observable<GithubRepoEntity> fetchRepo(@Path("owner") String user, @Path("repo") String repo);

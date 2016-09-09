@@ -1,4 +1,4 @@
-package net.kwmt27.codesearch.view.repolist;
+package net.kwmt27.codesearch.view.events;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,13 +13,11 @@ import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 
 import net.kwmt27.codesearch.R;
 import net.kwmt27.codesearch.analytics.AnalyticsManager;
-import net.kwmt27.codesearch.entity.GithubRepoEntity;
-import net.kwmt27.codesearch.entity.ItemType;
-import net.kwmt27.codesearch.presenter.repolist.IRepositoryListPresenter;
-import net.kwmt27.codesearch.presenter.repolist.RepositoryListPresenter;
+import net.kwmt27.codesearch.entity.EventEntity;
+import net.kwmt27.codesearch.presenter.events.EventListPresenter;
+import net.kwmt27.codesearch.presenter.events.IEventListPresenter;
 import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.util.ToastUtil;
-import net.kwmt27.codesearch.view.detail.DetailActivity;
 import net.kwmt27.codesearch.view.parts.DividerItemDecoration;
 
 import java.util.List;
@@ -30,12 +28,12 @@ import rx.Subscription;
 /**
  * レポジトリ一覧
  */
-public class RepositoryListFragment extends Fragment implements RepositoryListPresenter.IRepositoryListView {
+public class EventListFragment extends Fragment implements EventListPresenter.IEventListView {
 
-    public static final String TAG = RepositoryListFragment.class.getSimpleName();
-    private static RepositoryListFragment sInstance;
-    private IRepositoryListPresenter mPresenter;
-    private RepositoryListAdapter mRepositoryListAdapter;
+    public static final String TAG = EventListFragment.class.getSimpleName();
+    private static EventListFragment sInstance;
+    private IEventListPresenter mPresenter;
+    private EventListAdapter mEventListAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private Subscription mSubscription;
@@ -45,28 +43,28 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
     private View mErrorLayout;
     private View mProgressLayout;
 
-    public static RepositoryListFragment newInstance() {
+    public static EventListFragment newInstance() {
         if(sInstance == null) {
-            sInstance = new RepositoryListFragment();
+            sInstance = new EventListFragment();
         }
         return sInstance;
     }
 
-    public RepositoryListFragment() {
+    public EventListFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AnalyticsManager.getInstance(getActivity().getApplicationContext()).sendScreen(AnalyticsManager.Param.Screen.REPOSITORY_LIST);
-        mPresenter = new RepositoryListPresenter(this);
+        mPresenter = new EventListPresenter(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_repository_list, container, false);
+        return inflater.inflate(R.layout.fragment_event_list, container, false);
     }
 
     @Override
@@ -88,23 +86,23 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
         mProgressLayout = view.findViewById(R.id.progress_layout);
         mErrorLayout = view.findViewById(R.id.error_layout);
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.github_repo_list);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.event_list);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity().getApplicationContext(), R.drawable.divider));
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRepositoryListAdapter = new RepositoryListAdapter(getActivity().getApplicationContext(), (adapter, position, repo, type) -> {
-            if(type == ItemType.Normal) {
-                AnalyticsManager.getInstance(getActivity().getApplicationContext())
-                        .sendClickItem(AnalyticsManager.Param.Screen.REPOSITORY_LIST, AnalyticsManager.Param.Category.REPOSITORY, repo.getName());
-                DetailActivity.startActivity(getActivity(), repo.getName(), repo.getHtmlUrl(), repo);
-            }
-            if (type == ItemType.Ad) {
-                AnalyticsManager.getInstance(getActivity().getApplicationContext())
-                        .sendClickItem(AnalyticsManager.Param.Screen.REPOSITORY_LIST, AnalyticsManager.Param.Category.Ads);
-            }
+        mEventListAdapter = new EventListAdapter(getActivity().getApplicationContext(), (adapter, position, repo, type) -> {
+//            if(type == ItemType.Normal) {
+//                AnalyticsManager.getInstance(getActivity().getApplicationContext())
+//                        .sendClickItem(AnalyticsManager.Param.Screen.REPOSITORY_LIST, AnalyticsManager.Param.Category.REPOSITORY, repo.getName());
+//                DetailActivity.startActivity(getActivity(), repo.getName(), repo.getDisplayLogin(), repo);
+//            }
+//            if (type == ItemType.Ad) {
+//                AnalyticsManager.getInstance(getActivity().getApplicationContext())
+//                        .sendClickItem(AnalyticsManager.Param.Screen.REPOSITORY_LIST, AnalyticsManager.Param.Category.Ads);
+//            }
         });
-        mRecyclerView.setAdapter(mRepositoryListAdapter);
+        mRecyclerView.setAdapter(mEventListAdapter);
 
         rxRecyclerViewScrollSubscribe();
     }
@@ -131,14 +129,14 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
 
 
     @Override
-    public void updateGitHubRepoListView(List<GithubRepoEntity> githubRepoEntities) {
+    public void updateEventListView(List<EventEntity> entityList) {
         mIsCalled = false;
         rxRecyclerViewScrollSubscribe();
-        mRepositoryListAdapter.setGithubRepoEntityList(githubRepoEntities);
-        mRepositoryListAdapter.notifyDataSetChanged();
+        mEventListAdapter.setEventEntityList(entityList);
+        mEventListAdapter.notifyDataSetChanged();
 
         if(!mAddedAd) {
-            mRepositoryListAdapter.addAdItemTypeThenNotify();
+            mEventListAdapter.addAdItemTypeThenNotify();
             mAddedAd = true;
         }
 
@@ -167,17 +165,24 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
     }
     @Override
     public void showProgressOnScroll() {
-        mRepositoryListAdapter.addProgressItemTypeThenNotify();
+        mEventListAdapter.addProgressItemTypeThenNotify();
     }
 
     @Override
     public void hideProgressOnScroll() {
-        mRepositoryListAdapter.removeProgressItemTypeThenNotify();
+        mEventListAdapter.removeProgressItemTypeThenNotify();
     }
 
     @Override
     public void showErrorOnScroll() {
         ToastUtil.show(getActivity().getApplicationContext(), "データ取得に失敗しました。");
+    }
+
+    public void moveToTop() {
+        if(mRecyclerView == null) {
+            return;
+        }
+        mRecyclerView.smoothScrollToPosition(0);
     }
 
 }

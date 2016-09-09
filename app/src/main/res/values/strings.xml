@@ -7,6 +7,8 @@
     <string name="close_detail_activity">詳細画面を閉じる</string>
     <string name="github_login">Sign in to GitHub</string>
     <string name="title_repository_list">レポジトリ一覧</string>
+    <string name="title_timeline_list">タイムライン</string>
+    <string name="title_favorite_list">お気に入り</string>
     <string name="failed_display">表示に失敗しました。</string>
     <string name="search_app">CodeSearchで検索</string>
     <string name="failed_not_from_github_page">GitHubページから共有してください。</string>

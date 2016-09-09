@@ -29,7 +29,7 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
     @Override
     public void onStop() {
         ModelLocator.getSearchRepositoryModel().unsubscribe();
-        ModelLocator.getSearchRepositoryModel().clear();
+        //ModelLocator.getSearchRepositoryModel().clear();
     }
 
 
@@ -46,6 +46,11 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
     }
 
     private void fetchRepositoryList(Integer page) {
+        if(ModelLocator.getSearchRepositoryModel().hasGitHubRepoEntityList()){
+            mMainView.updateGitHubRepoListView(ModelLocator.getSearchRepositoryModel().getGitHubRepoEntityList());
+            return;
+        }
+
         mMainView.showProgress();
         ModelLocator.getSearchRepositoryModel().fetchUserRepository(page, SortType.Pushed, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment)mMainView).getActivity()) {
             @Override
