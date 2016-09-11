@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.kwmt27.codesearch.entity.EventEntity;
-import net.kwmt27.codesearch.entity.events.CommentEvent;
 import net.kwmt27.codesearch.entity.events.CommitCommentEvent;
 import net.kwmt27.codesearch.entity.events.CreateEvent;
 import net.kwmt27.codesearch.entity.events.DeleteEvent;
@@ -54,7 +53,6 @@ public class GsonFactory {
     private static List<Class<? extends EventEntity>> getEventClassList() {
         // net.kwmt27.codesearch.entity.events's classes
         List<Class<? extends EventEntity>> list = new ArrayList<>();
-        list.add(CommentEvent.class);
         list.add(CommitCommentEvent.class);
         list.add(CreateEvent.class);
         list.add(DeleteEvent.class);
