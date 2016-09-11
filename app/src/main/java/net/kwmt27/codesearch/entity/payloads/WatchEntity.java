@@ -6,4 +6,9 @@ public class WatchEntity {
 
     @SerializedName("action")
     private String mAction;
+
+    public String getAction() {
+        if(mAction == null) { return ""; }
+        return mAction;
+    }
 }

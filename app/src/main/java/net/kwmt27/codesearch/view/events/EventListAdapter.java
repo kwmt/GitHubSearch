@@ -2,18 +2,20 @@ package net.kwmt27.codesearch.view.events;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
 import net.kwmt27.codesearch.R;
 import net.kwmt27.codesearch.entity.EventEntity;
 import net.kwmt27.codesearch.entity.ItemType;
-import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.view.parts.OnItemClickListener;
 
 import java.util.ArrayList;
@@ -22,28 +24,28 @@ import java.util.List;
 
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder> {
 
+    private final Context mContext;
     private OnItemClickListener<EventListAdapter, EventEntity> mListener;
 
     private List<EventEntity> mEventEntityList = new ArrayList<>();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView nameTextView;
-        TextView descriptionTextView;
-        TextView favoriteCountTextView;
-        TextView languageTextView;
-        TextView pushedAtTextView;
+        ImageView avatarImageView;
+        TextView displayLoginTextView;
+        TextView dateTextView;
+        TextView eventTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-//            nameTextView = (TextView) itemView.findViewById(R.id.name);
-//            descriptionTextView = (TextView) itemView.findViewById(R.id.description);
-//            favoriteCountTextView = (TextView) itemView.findViewById(R.id.favorite_count);
-//            languageTextView = (TextView) itemView.findViewById(R.id.language_text);
-//            pushedAtTextView = (TextView) itemView.findViewById(R.id.pushed_at);
+            avatarImageView = (ImageView) itemView.findViewById(R.id.avatar);
+            displayLoginTextView = (TextView) itemView.findViewById(R.id.display_login);
+            dateTextView = (TextView) itemView.findViewById(R.id.date);
+            eventTextView = (TextView) itemView.findViewById(R.id.event);
         }
     }
 
     public EventListAdapter(Context context, OnItemClickListener<EventListAdapter, EventEntity> listener) {
+        mContext = context.getApplicationContext();
         mListener = listener;
     }
 
@@ -80,21 +82,21 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
                 adView.loadAd(adRequest);
                 break;
             default:
-                view = inflater.inflate(R.layout.recyclerview_repo_list_item, parent, false);
+                view = inflater.inflate(R.layout.recyclerview_event_list_item, parent, false);
                 break;
         }
 
 
         final EventListAdapter.ViewHolder viewHolder = new EventListAdapter.ViewHolder(view);
-        viewHolder.itemView.setOnClickListener(v -> {
-            if (mListener != null) {
-                int position = viewHolder.getAdapterPosition();
-                Logger.d("click position:" + position);
-                EventEntity entity = mEventEntityList.get(position);
-                mListener.onItemClick(EventListAdapter.this, position, entity, itemType);
-            }
-
-        });
+//        viewHolder.itemView.setOnClickListener(v -> {
+//            if (mListener != null) {
+//                int position = viewHolder.getAdapterPosition();
+//                Logger.d("click position:" + position);
+//                EventEntity entity = mEventEntityList.get(position);
+//                mListener.onItemClick(EventListAdapter.this, position, entity, itemType);
+//            }
+//
+//        });
         return viewHolder;
     }
 
@@ -105,11 +107,18 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         }
         EventEntity item = mEventEntityList.get(position);
         if (item.getItemType() == null) {
-//            holder.nameTextView.setText(item.getFullName());
-//            holder.descriptionTextView.setText(item.getDescription());
-//            holder.favoriteCountTextView.setText(item.getStargazersCount());
-//            holder.languageTextView.setText(item.getLanguage());
-//            holder.pushedAtTextView.setText(item.getFormattedPushedAt());
+            Glide.with(mContext).load(item.getActor().getAvatarUrl()).into(holder.avatarImageView);
+            holder.displayLoginTextView.setText(item.getActor().getDisplayLogin());
+            holder.dateTextView.setText(item.getFormattedCreatedAt());
+
+            item.action(holder.eventTextView, new ClickableSpan() {
+                @Override
+                public void onClick(View view) {
+                    if(mListener != null) {
+                        mListener.onItemClick(EventListAdapter.this, position, item, ItemType.Normal);
+                    }
+                }
+            });
         }
     }
 

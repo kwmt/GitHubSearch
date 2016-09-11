@@ -18,6 +18,7 @@ import net.kwmt27.codesearch.presenter.events.EventListPresenter;
 import net.kwmt27.codesearch.presenter.events.IEventListPresenter;
 import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.util.ToastUtil;
+import net.kwmt27.codesearch.view.detail.DetailActivity;
 import net.kwmt27.codesearch.view.parts.DividerItemDecoration;
 
 import java.util.List;
@@ -91,7 +92,8 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mEventListAdapter = new EventListAdapter(getActivity().getApplicationContext(), (adapter, position, repo, type) -> {
+        mEventListAdapter = new EventListAdapter(getActivity().getApplicationContext(), (adapter, position, eventEntity, type) -> {
+            DetailActivity.startActivity(getActivity(), eventEntity.getRepo().getName(), eventEntity.getRepo().getHtmlUrl(), eventEntity.getRepo());
 //            if(type == ItemType.Normal) {
 //                AnalyticsManager.getInstance(getActivity().getApplicationContext())
 //                        .sendClickItem(AnalyticsManager.Param.Screen.REPOSITORY_LIST, AnalyticsManager.Param.Category.REPOSITORY, repo.getName());

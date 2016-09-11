@@ -51,6 +51,11 @@ public class GithubRepoEntity implements Serializable{
     }
 
     public String getFullName() {
+        if(mFullName == null) {
+            if(mName != null && mName.contains("/")) {
+                return mName;
+            }
+        }
         return mFullName;
     }
 
@@ -59,6 +64,14 @@ public class GithubRepoEntity implements Serializable{
     }
 
     public String getHtmlUrl() {
+        if(mHtmlUrl == null) {
+            if(mFullName != null) {
+                return BuildConfig.BASE_WEBVIEW_URL + "/" + mFullName;
+            }
+            if(mName != null && mName.contains("/")) {
+                return BuildConfig.BASE_WEBVIEW_URL + "/" + mName;
+            }
+        }
         return mHtmlUrl;
     }
 
