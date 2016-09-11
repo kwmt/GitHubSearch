@@ -1,6 +1,9 @@
 package net.kwmt27.codesearch.view.events;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.RecyclerView;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
@@ -10,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -38,6 +42,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         public ViewHolder(View itemView) {
             super(itemView);
             avatarImageView = (ImageView) itemView.findViewById(R.id.avatar);
+
             displayLoginTextView = (TextView) itemView.findViewById(R.id.display_login);
             dateTextView = (TextView) itemView.findViewById(R.id.date);
             eventTextView = (TextView) itemView.findViewById(R.id.event);
@@ -107,7 +112,15 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         }
         EventEntity item = mEventEntityList.get(position);
         if (item.getItemType() == null) {
-            Glide.with(mContext).load(item.getActor().getAvatarUrl()).into(holder.avatarImageView);
+            Glide.with(mContext).load(item.getActor().getAvatarUrl()).asBitmap().centerCrop().into(new BitmapImageViewTarget(holder.avatarImageView) {
+                @Override
+                protected void setResource(Bitmap resource) {
+                    RoundedBitmapDrawable circularBitmapDrawable =
+                            RoundedBitmapDrawableFactory.create(mContext.getResources(), resource);
+                    circularBitmapDrawable.setCircular(true);
+                    holder.avatarImageView.setImageDrawable(circularBitmapDrawable);
+                }
+            });
             holder.displayLoginTextView.setText(item.getActor().getDisplayLogin());
             holder.dateTextView.setText(item.getFormattedCreatedAt());
 
