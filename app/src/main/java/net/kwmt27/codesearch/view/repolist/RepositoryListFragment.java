@@ -19,6 +19,7 @@ import net.kwmt27.codesearch.presenter.repolist.IRepositoryListPresenter;
 import net.kwmt27.codesearch.presenter.repolist.RepositoryListPresenter;
 import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.util.ToastUtil;
+import net.kwmt27.codesearch.view.MainFragment;
 import net.kwmt27.codesearch.view.detail.DetailActivity;
 import net.kwmt27.codesearch.view.parts.DividerItemDecoration;
 
@@ -30,26 +31,25 @@ import rx.Subscription;
 /**
  * レポジトリ一覧
  */
-public class RepositoryListFragment extends Fragment implements RepositoryListPresenter.IRepositoryListView {
+public class RepositoryListFragment extends Fragment implements RepositoryListPresenter.IRepositoryListView, MainFragment {
 
     public static final String TAG = RepositoryListFragment.class.getSimpleName();
-    private static RepositoryListFragment sInstance;
     private IRepositoryListPresenter mPresenter;
     private RepositoryListAdapter mRepositoryListAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private Subscription mSubscription;
     private boolean mIsCalled = false;
-    private boolean mAddedAd = false;
 
     private View mErrorLayout;
     private View mProgressLayout;
 
-    public static RepositoryListFragment newInstance() {
-        if(sInstance == null) {
-            sInstance = new RepositoryListFragment();
-        }
-        return sInstance;
+    public static RepositoryListFragment newInstance(boolean isAddedAd) {
+        RepositoryListFragment fragment = new RepositoryListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(MainFragment.IS_ADDED_AD, isAddedAd);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     public RepositoryListFragment() {
@@ -137,9 +137,9 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
         mRepositoryListAdapter.setGithubRepoEntityList(githubRepoEntities);
         mRepositoryListAdapter.notifyDataSetChanged();
 
-        if(!mAddedAd) {
+        boolean isAddedAd = getArguments().getBoolean(MainFragment.IS_ADDED_AD);
+        if(!isAddedAd) {
             mRepositoryListAdapter.addAdItemTypeThenNotify();
-            mAddedAd = true;
         }
 
     }
@@ -180,4 +180,12 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
         ToastUtil.show(getActivity().getApplicationContext(), "データ取得に失敗しました。");
     }
 
+    @Override
+    public void moveToTop() {
+        if(mRecyclerView == null) {
+            return;
+        }
+        mRecyclerView.smoothScrollToPosition(0);
+
+    }
 }

@@ -18,6 +18,7 @@ import net.kwmt27.codesearch.presenter.events.EventListPresenter;
 import net.kwmt27.codesearch.presenter.events.IEventListPresenter;
 import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.util.ToastUtil;
+import net.kwmt27.codesearch.view.MainFragment;
 import net.kwmt27.codesearch.view.detail.DetailActivity;
 import net.kwmt27.codesearch.view.parts.DividerItemDecoration;
 
@@ -29,26 +30,25 @@ import rx.Subscription;
 /**
  * レポジトリ一覧
  */
-public class EventListFragment extends Fragment implements EventListPresenter.IEventListView {
+public class EventListFragment extends Fragment implements EventListPresenter.IEventListView, MainFragment {
 
     public static final String TAG = EventListFragment.class.getSimpleName();
-    private static EventListFragment sInstance;
     private IEventListPresenter mPresenter;
     private EventListAdapter mEventListAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private Subscription mSubscription;
     private boolean mIsCalled = false;
-    private boolean mAddedAd = false;
 
     private View mErrorLayout;
     private View mProgressLayout;
 
-    public static EventListFragment newInstance() {
-        if(sInstance == null) {
-            sInstance = new EventListFragment();
-        }
-        return sInstance;
+    public static EventListFragment newInstance(boolean isAddedAd) {
+        EventListFragment fragment = new EventListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(MainFragment.IS_ADDED_AD, isAddedAd);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     public EventListFragment() {
@@ -137,11 +137,10 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
         mEventListAdapter.setEventEntityList(entityList);
         mEventListAdapter.notifyDataSetChanged();
 
-        if(!mAddedAd) {
+        boolean isAddedAd = getArguments().getBoolean(MainFragment.IS_ADDED_AD);
+        if(!isAddedAd) {
             mEventListAdapter.addAdItemTypeThenNotify();
-            mAddedAd = true;
         }
-
     }
 
     @Override
@@ -180,6 +179,7 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
         ToastUtil.show(getActivity().getApplicationContext(), "データ取得に失敗しました。");
     }
 
+    @Override
     public void moveToTop() {
         if(mRecyclerView == null) {
             return;

@@ -19,6 +19,8 @@ import net.kwmt27.codesearch.view.top.TopFragment;
 public class MainActivity extends BaseActivity {
 
     private boolean mSignedIn = false;
+    private boolean isAddedAdOfEvent = false;
+    private boolean isAddedAdOfRepository = false;
 
 
     @Override
@@ -44,17 +46,32 @@ public class MainActivity extends BaseActivity {
             bottomBar.setVisibility(View.GONE);
         }
 
-        final EventListFragment eventListFragment = EventListFragment.newInstance();
-        final RepositoryListFragment repositoryListFragment = RepositoryListFragment.newInstance();
         bottomBar.setOnTabSelectListener(tabId -> {
             switch (tabId) {
-                case R.id.tab_timeline:
-                    replaceFragmentWithAnimate(eventListFragment, true, R.string.title_timeline_list, EventListFragment.TAG);
-                    eventListFragment.moveToTop();
-                    break;
-                case R.id.tab_repository:
-                    replaceFragmentWithAnimate(repositoryListFragment, true, R.string.title_repository_list, RepositoryListFragment.TAG);
-                    break;
+                case R.id.tab_timeline: {
+                    // FIXME: findFragmentByTagがnullになるので、常にnewInstanceされる
+                    Fragment fragment = getSupportFragmentManager().findFragmentByTag(EventListFragment.TAG);
+                    getSupportFragmentManager().executePendingTransactions();
+                    if (fragment == null) {
+                        fragment = EventListFragment.newInstance(isAddedAdOfEvent);
+                    }
+                    replaceFragmentWithAnimate(fragment, true, R.string.title_timeline_list, EventListFragment.TAG);
+                    ((MainFragment) fragment).moveToTop();
+                    isAddedAdOfEvent = true;
+                }
+                break;
+
+                case R.id.tab_repository: {
+                    Fragment fragment = getSupportFragmentManager().findFragmentByTag(RepositoryListFragment.TAG);
+                    getSupportFragmentManager().executePendingTransactions();
+                    if (fragment == null) {
+                        fragment = RepositoryListFragment.newInstance(isAddedAdOfRepository);
+                    }
+                    replaceFragmentWithAnimate(fragment, true, R.string.title_repository_list, RepositoryListFragment.TAG);
+                    ((MainFragment) fragment).moveToTop();
+                    isAddedAdOfRepository = true;
+                }
+                break;
 //                case R.id.tab_favorites:
 //                    replaceFragmentWithAnimate(eventListFragment, true, R.string.title_favorite_list);
 //                    break;
@@ -74,23 +91,11 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-//    private void switchScreen() {
-//        String token = ModelLocator.getLoginModel().getAccessToken();
-//        if (!TextUtils.isEmpty(token)) {
-//            Logger.d("signed_in:" +token);
-//            replaceFragment(RepositoryListFragment.newInstance(), true, R.string.title_repository_list);
-//            mSignedIn = true;
-//        } else {
-//            Logger.d("signed_out");
-//            replaceFragment(TopFragment.newInstance(), false, 0);
-//        }
-//    }
-
     @Override
     protected void onResume() {
         super.onResume();
         Logger.d("onResume");
-        if(mSignedIn) {
+        if (mSignedIn) {
             return;
         }
         switchScreen();
@@ -100,15 +105,17 @@ public class MainActivity extends BaseActivity {
     private void replaceFragment(Fragment fragment, boolean showToolBar, int titleResId) {
         replaceFragment(fragment, showToolBar, titleResId, false, null);
     }
+
     private void replaceFragmentWithAnimate(Fragment fragment, boolean showToolBar, int titleResId, String tag) {
         replaceFragment(fragment, showToolBar, titleResId, true, tag);
     }
+
     private void replaceFragment(Fragment fragment, boolean showToolBar, int titleResId, boolean animate, String tag) {
         int visibility = showToolBar ? View.VISIBLE : View.GONE;
         findViewById(R.id.toolbar).setVisibility(visibility);
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null) {
-            if(titleResId != 0) {
+        if (actionBar != null) {
+            if (titleResId != 0) {
                 actionBar.setTitle(titleResId);
             }
         }
