@@ -104,6 +104,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        isAddedAdOfEvent = false;
+        isAddedAdOfRepository = false;
         ModelLocator.getEventModel().clear();
         ModelLocator.getSearchRepositoryModel().clear();
     }
