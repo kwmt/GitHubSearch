@@ -45,7 +45,7 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
     private View mProgressLayout;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private boolean isAddedAd;
-    private boolean mOnRereshing;
+    private boolean mOnRefreshing;
 
     public static EventListFragment newInstance(boolean isAddedAd) {
         EventListFragment fragment = new EventListFragment();
@@ -118,7 +118,7 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
-            mOnRereshing = true;
+            mOnRefreshing = true;
             mPresenter.onRefresh();
         });
     }
@@ -151,11 +151,11 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
         mEventListAdapter.setEventEntityList(entityList);
         mEventListAdapter.notifyDataSetChanged();
 
-        if(!isAddedAd || mOnRereshing) {
+        if(!isAddedAd || mOnRefreshing) {
             mEventListAdapter.addAdItemTypeThenNotify();
             isAddedAd = true;
         }
-        mOnRereshing = false;
+        mOnRefreshing = false;
     }
 
     @Override
