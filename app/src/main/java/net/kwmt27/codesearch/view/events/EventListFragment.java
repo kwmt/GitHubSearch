@@ -153,7 +153,7 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
 
         if(!isAddedAd || mOnRereshing) {
             mEventListAdapter.addAdItemTypeThenNotify();
-            //isAddedAd = true;
+            isAddedAd = true;
         }
         mOnRereshing = false;
     }
