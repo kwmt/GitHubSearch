@@ -22,7 +22,7 @@ public class EventListPresenter implements IEventListPresenter {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mEventListView.setupComponents(view, savedInstanceState);
-        fetchEventList(null);
+        fetchEventList(null, true);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class EventListPresenter implements IEventListPresenter {
 
     @Override
     public void onClickReloadButton() {
-        fetchEventList(null);
+        fetchEventList(null, true);
     }
 
     @Override
@@ -44,25 +44,35 @@ public class EventListPresenter implements IEventListPresenter {
         }
     }
 
-    private void fetchEventList(Integer page) {
+    @Override
+    public void onRefresh() {
+        ModelLocator.getEventModel().clear();
+        fetchEventList(null, false);
+    }
+
+    private void fetchEventList(Integer page, boolean show) {
         if(ModelLocator.getEventModel().hasEventList()) {
             mEventListView.updateEventListView(ModelLocator.getEventModel().getEventList());
             return;
         }
 
+        if(show) {
+            mEventListView.showProgress();
+        }
 
-        mEventListView.showProgress();
         String user = "kwmt"; // TODO
         ModelLocator.getEventModel().fetchEvent(user, page, new ApiSubscriber<List<EventEntity>>(((EventListFragment) mEventListView).getActivity()) {
             @Override
             public void onCompleted() {
                 mEventListView.hideProgress();
+                mEventListView.hideSwipeRefreshLayout();
             }
 
             @Override
             public void onError(Throwable throwable) {
                 super.onError(throwable);
                 mEventListView.hideProgress();
+                mEventListView.hideSwipeRefreshLayout();
                 mEventListView.showError();
             }
 
@@ -114,6 +124,7 @@ public class EventListPresenter implements IEventListPresenter {
 
         void showErrorOnScroll();
 
+        void hideSwipeRefreshLayout();
     }
 
 }

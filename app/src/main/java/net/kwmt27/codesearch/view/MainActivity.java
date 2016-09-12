@@ -101,6 +101,12 @@ public class MainActivity extends BaseActivity {
         switchScreen();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        ModelLocator.getEventModel().clear();
+        ModelLocator.getSearchRepositoryModel().clear();
+    }
 
     private void replaceFragment(Fragment fragment, boolean showToolBar, int titleResId) {
         replaceFragment(fragment, showToolBar, titleResId, false, null);

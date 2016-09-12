@@ -7,4 +7,5 @@ public interface IEventListPresenter extends IBaseFragmentPresenter {
 
     void onScrollToBottom();
 
+    void onRefresh();
 }

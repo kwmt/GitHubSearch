@@ -2,6 +2,7 @@ package net.kwmt27.codesearch.view.events;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,6 +43,9 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
 
     private View mErrorLayout;
     private View mProgressLayout;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private boolean isAddedAd;
+    private boolean mOnRereshing;
 
     public static EventListFragment newInstance(boolean isAddedAd) {
         EventListFragment fragment = new EventListFragment();
@@ -73,6 +77,7 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
         super.onViewCreated(view, savedInstanceState);
 
         mPresenter.onViewCreated(view, savedInstanceState);
+
     }
 
     @Override
@@ -84,6 +89,8 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
 
     @Override
     public void setupComponents(View view, Bundle savedInstanceState) {
+        isAddedAd = getArguments().getBoolean(MainFragment.IS_ADDED_AD);
+
         mProgressLayout = view.findViewById(R.id.progress_layout);
         mErrorLayout = view.findViewById(R.id.error_layout);
 
@@ -107,6 +114,13 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
         mRecyclerView.setAdapter(mEventListAdapter);
 
         rxRecyclerViewScrollSubscribe();
+
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            mOnRereshing = true;
+            mPresenter.onRefresh();
+        });
     }
 
 
@@ -137,10 +151,11 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
         mEventListAdapter.setEventEntityList(entityList);
         mEventListAdapter.notifyDataSetChanged();
 
-        boolean isAddedAd = getArguments().getBoolean(MainFragment.IS_ADDED_AD);
-        if(!isAddedAd) {
+        if(!isAddedAd || mOnRereshing) {
             mEventListAdapter.addAdItemTypeThenNotify();
+            //isAddedAd = true;
         }
+        mOnRereshing = false;
     }
 
     @Override
@@ -177,6 +192,13 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
     @Override
     public void showErrorOnScroll() {
         ToastUtil.show(getActivity().getApplicationContext(), "データ取得に失敗しました。");
+    }
+
+    @Override
+    public void hideSwipeRefreshLayout() {
+        if(mSwipeRefreshLayout.isRefreshing()){
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override
