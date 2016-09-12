@@ -2,6 +2,7 @@ package net.kwmt27.codesearch.view.repolist;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -43,6 +44,9 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
 
     private View mErrorLayout;
     private View mProgressLayout;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private boolean mOnRefreshing = false;
+    private boolean mIsAddedAd = false;
 
     public static RepositoryListFragment newInstance(boolean isAddedAd) {
         RepositoryListFragment fragment = new RepositoryListFragment();
@@ -85,6 +89,9 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
 
     @Override
     public void setupComponents(View view, Bundle savedInstanceState) {
+        // bottom navigationを切り替えるたびにFragmentがnewされるのでmIsAddedAdが初期化(false)され、広告が追加され増え続けるための対策
+        mIsAddedAd = getArguments().getBoolean(MainFragment.IS_ADDED_AD);
+
         mProgressLayout = view.findViewById(R.id.progress_layout);
         mErrorLayout = view.findViewById(R.id.error_layout);
 
@@ -107,6 +114,13 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
         mRecyclerView.setAdapter(mRepositoryListAdapter);
 
         rxRecyclerViewScrollSubscribe();
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            mOnRefreshing = true;
+            mPresenter.onRefresh();
+        });
+
     }
 
 
@@ -137,11 +151,12 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
         mRepositoryListAdapter.setGithubRepoEntityList(githubRepoEntities);
         mRepositoryListAdapter.notifyDataSetChanged();
 
-        boolean isAddedAd = getArguments().getBoolean(MainFragment.IS_ADDED_AD);
-        if(!isAddedAd) {
-            mRepositoryListAdapter.addAdItemTypeThenNotify();
-        }
 
+        if(!mIsAddedAd || mOnRefreshing) {
+            mRepositoryListAdapter.addAdItemTypeThenNotify();
+            mIsAddedAd = true;
+        }
+        mOnRefreshing = false;
     }
 
     @Override
@@ -178,6 +193,13 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
     @Override
     public void showErrorOnScroll() {
         ToastUtil.show(getActivity().getApplicationContext(), "データ取得に失敗しました。");
+    }
+
+    @Override
+    public void hideSwipeRefreshLayout() {
+        if(mSwipeRefreshLayout.isRefreshing()){
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override

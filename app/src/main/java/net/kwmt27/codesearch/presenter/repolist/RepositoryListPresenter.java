@@ -23,7 +23,7 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mMainView.setupComponents(view, savedInstanceState);
-        fetchRepositoryList(null);
+        fetchRepositoryList(null, true);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
 
     @Override
     public void onClickReloadButton() {
-        fetchRepositoryList(null);
+        fetchRepositoryList(null, true);
     }
 
     @Override
@@ -45,23 +45,33 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
         }
     }
 
-    private void fetchRepositoryList(Integer page) {
+    @Override
+    public void onRefresh() {
+        ModelLocator.getSearchRepositoryModel().clear();
+        fetchRepositoryList(null, false);
+    }
+
+    private void fetchRepositoryList(Integer page, boolean show) {
         if(ModelLocator.getSearchRepositoryModel().hasGitHubRepoEntityList()){
             mMainView.updateGitHubRepoListView(ModelLocator.getSearchRepositoryModel().getGitHubRepoEntityList());
             return;
         }
 
-        mMainView.showProgress();
+        if(show) {
+            mMainView.showProgress();
+        }
         ModelLocator.getSearchRepositoryModel().fetchUserRepository(page, SortType.Pushed, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment)mMainView).getActivity()) {
             @Override
             public void onCompleted() {
                 mMainView.hideProgress();
+                mMainView.hideSwipeRefreshLayout();
             }
 
             @Override
             public void onError(Throwable throwable) {
                 super.onError(throwable);
                 mMainView.hideProgress();
+                mMainView.hideSwipeRefreshLayout();
                 mMainView.showError();
             }
 
@@ -112,6 +122,7 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
 
         void showErrorOnScroll();
 
+        void hideSwipeRefreshLayout();
     }
 
 }

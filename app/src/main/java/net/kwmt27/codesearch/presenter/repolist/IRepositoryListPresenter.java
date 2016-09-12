@@ -7,4 +7,5 @@ public interface IRepositoryListPresenter extends IBaseFragmentPresenter {
 
     void onScrollToBottom();
 
+    void onRefresh();
 }
