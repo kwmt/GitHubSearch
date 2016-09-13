@@ -37,14 +37,15 @@ public class MainActivity extends BaseActivity {
         BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
 
         String token = ModelLocator.getLoginModel().getAccessToken();
-        if (!TextUtils.isEmpty(token)) {
-            bottomBar.setVisibility(View.VISIBLE);
-            bottomBar.selectTabWithId(R.id.tab_repository);
-            mSignedIn = true;
-        } else {
+        if (TextUtils.isEmpty(token)) {
             replaceFragment(TopFragment.newInstance(), false, 0);
             bottomBar.setVisibility(View.GONE);
+            return;
         }
+
+        bottomBar.setVisibility(View.VISIBLE);
+        bottomBar.selectTabWithId(R.id.tab_repository);
+        mSignedIn = true;
 
         bottomBar.setOnTabSelectListener(tabId -> {
             switch (tabId) {
