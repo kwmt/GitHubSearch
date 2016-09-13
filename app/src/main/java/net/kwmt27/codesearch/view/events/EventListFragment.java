@@ -118,6 +118,7 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
 
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
             mOnRefreshing = true;
             mPresenter.onRefresh();
