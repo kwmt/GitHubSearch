@@ -31,6 +31,16 @@ build:
         name: run gradle assembleDebug
         code: |
           ./gradlew assembleDebug
+    - script:
+        name: Ready DeployGate(Install dg command)
+        code: |
+          curl -sSL https://deploygate.com/cli/install/f94f6b22 | bash
+          dg --version
+    - script:
+        name: Upload to DeployGate
+        code: |
+          dg config --name $DEPLOYGATE_USER_NAME  --token $DEPLOYGATE_API_TOKEN
+          dg app/build/outputs/apk/app-develop-debug.apk
   after-steps:
     - raizyr/ultimate-slack-notify@1.0.6:
         webhook_url: $SLACK_URL
