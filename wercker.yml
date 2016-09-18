@@ -34,7 +34,7 @@ build:
     - script:
         name: Ready DeployGate(Install dg command)
         code: |
-          curl -sSL https://deploygate.com/cli/install/f94f6b22 | bash
+          curl -sSL https://deploygate.com/cli/install | bash
           dg --version
     - script:
         name: Upload to DeployGate
