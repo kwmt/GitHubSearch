@@ -1,5 +1,6 @@
 package net.kwmt27.codesearch.model;
 
+import net.kwmt27.codesearch.ModelLocator;
 import net.kwmt27.codesearch.entity.EventEntity;
 import net.kwmt27.codesearch.model.rx.RetrofitException;
 import net.kwmt27.codesearch.model.rx.ReusableCompositeSubscription;
@@ -38,7 +39,14 @@ public class EventModel extends BaseModel implements Listable {
         mEventList = new ArrayList<>();
     }
 
-    public Subscription fetchEvent(String user, Integer page, final Subscriber<List<EventEntity>> subscriber) {
+    /**
+     * イベントリストを取得する
+     */
+    public Subscription fetchEvent(Integer page, final Subscriber<List<EventEntity>> subscriber) {
+        return fetchEvent(ModelLocator.getLoginModel().getLoginId(), page, subscriber);
+    }
+
+    private Subscription fetchEvent(String user, Integer page, final Subscriber<List<EventEntity>> subscriber) {
         Subscription subscription = mApiClient.api.fetchEvent(user, page)
                 .subscribeOn(Schedulers.newThread())
                 .flatMap(response -> {

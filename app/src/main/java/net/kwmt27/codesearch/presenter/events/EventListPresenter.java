@@ -60,8 +60,7 @@ public class EventListPresenter implements IEventListPresenter {
             mEventListView.showProgress();
         }
 
-        String user = "kwmt"; // TODO
-        ModelLocator.getEventModel().fetchEvent(user, page, new ApiSubscriber<List<EventEntity>>(((EventListFragment) mEventListView).getActivity()) {
+        ModelLocator.getEventModel().fetchEvent(page, new ApiSubscriber<List<EventEntity>>(((EventListFragment) mEventListView).getActivity()) {
             @Override
             public void onCompleted() {
                 mEventListView.hideProgress();
@@ -85,8 +84,7 @@ public class EventListPresenter implements IEventListPresenter {
 
     private void fetchEventListOnScroll(Integer page) {
         mEventListView.showProgressOnScroll();
-        String user = "kwmt"; // TODO
-        ModelLocator.getEventModel().fetchEvent(user, page, new ApiSubscriber<List<EventEntity>>(((EventListFragment) mEventListView).getActivity()) {
+        ModelLocator.getEventModel().fetchEvent(page, new ApiSubscriber<List<EventEntity>>(((EventListFragment) mEventListView).getActivity()) {
             @Override
             public void onCompleted() {
                 mEventListView.hideProgressOnScroll();
