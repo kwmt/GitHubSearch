@@ -15,7 +15,7 @@ public class WatchEvent extends EventEntity {
     private WatchEntity mWatchEntity;
 
     @Override
-    public void action(TextView view, ClickableSpan repoClickableSpan, ClickableSpan actorClickableSpan) {
+    public void action(TextView view, ClickableSpan repoClickableSpan) {
         if(mWatchEntity != null) {
             String repoName = getRepo().getName(); // full_name
             String action = mWatchEntity.getAction() + " " + repoName;
