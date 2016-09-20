@@ -18,10 +18,13 @@ public class ActorEntity implements Serializable {
     @SerializedName("avatar_url")
     private String mAvatarUrl;
 
+    private String mHtmlUrl;
+
     public ActorEntity(String name) {
         mLogin = name;
-        mDisplayLogin = BuildConfig.BASE_WEBVIEW_URL + "/" + mLogin;
+        mDisplayLogin = name;
         mUrl = BuildConfig.BASE_API_URL + "/users/" + mLogin;
+        mHtmlUrl = BuildConfig.BASE_WEBVIEW_URL + "/" + mLogin;;
     }
 
     public String getLogin() {
@@ -39,4 +42,9 @@ public class ActorEntity implements Serializable {
     public String getAvatarUrl() {
         return mAvatarUrl;
     }
+
+    public String getHtmlUrl() {
+        return mHtmlUrl;
+    }
+
 }

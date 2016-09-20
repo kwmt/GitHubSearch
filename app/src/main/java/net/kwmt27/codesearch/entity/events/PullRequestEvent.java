@@ -15,11 +15,16 @@ public class PullRequestEvent extends EventEntity {
     private PullRequestEntity mPullRequestEntity;
 
     @Override
-    public void action(TextView view, ClickableSpan clickableSpan) {
+    public void action(TextView view, ClickableSpan repoClickableSpann) {
+        if(mPullRequestEntity == null) {
+            return;
+        }
         String repoName = getRepo().getName();
-        String action = "pull request " + repoName; // TODO
+        // TODO
+        //String pullRequest = repoName + "#" + mPullRequestEntity.getNumber();
+        String action = mPullRequestEntity.getAction() + " pull request at " + repoName;
         view.setText(action);
-        TextViewUtil.addLink(view, repoName, clickableSpan);
+        TextViewUtil.addLink(view, repoName, repoClickableSpann);
     }
 
 }

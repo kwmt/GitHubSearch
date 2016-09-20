@@ -15,11 +15,20 @@ public class MemberEvent extends EventEntity {
     private MemberEntity mMemberEntity;
 
     @Override
-    public void action(TextView view, ClickableSpan clickableSpan) {
+    public void action(TextView view, ClickableSpan repoClickableSpan) {
+        if(mMemberEntity == null) {
+            return;
+        }
+
         String repoName = getRepo().getName();
-        String action = "membered " + repoName; // TODO
+
+        // who actioned repo
+        // TODO: add link to mMemberEntity.getUser().getLogin()
+        String action = mMemberEntity.getAction() + " " + mMemberEntity.getUser().getLogin() + " to " + repoName;
+
         view.setText(action);
-        TextViewUtil.addLink(view, repoName, clickableSpan);
+        //TextViewUtil.addLink(view, repoName, clickableSpan);
+        TextViewUtil.addLink(view, repoName, repoClickableSpan);
     }
 
 }

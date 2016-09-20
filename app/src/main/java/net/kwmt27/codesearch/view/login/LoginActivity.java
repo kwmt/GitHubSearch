@@ -123,7 +123,7 @@ public class LoginActivity extends Activity {
         super.onStop();
     }
 
-    // FIXME 
+    // FIXME
     private void setupAuthListener() {
         mAuthListener = firebaseAuth -> {
             FirebaseUser user = firebaseAuth.getCurrentUser();

@@ -127,7 +127,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
             item.action(holder.eventTextView, new ClickableSpan() {
                 @Override
                 public void onClick(View view) {
-                    if(mListener != null) {
+                    if (mListener != null) {
                         mListener.onItemClick(EventListAdapter.this, position, item, ItemType.Normal);
                     }
                 }

@@ -26,6 +26,8 @@ import net.kwmt27.codesearch.presenter.search.SearchPresenter;
 import net.kwmt27.codesearch.util.KeyboardUtil;
 import net.kwmt27.codesearch.view.BaseActivity;
 
+import java.io.Serializable;
+
 public class SearchActivity extends BaseActivity implements SearchPresenter.ISearchView, FragmentProgressCallback {
 
 
@@ -120,15 +122,18 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
                     return false;
                 }
                 String keyword = v.getText().toString();
-                GithubRepoEntity repo = (GithubRepoEntity) getIntent().getSerializableExtra(ISearchPresenter.REPO_ENTITY_KEY);
-                if (canSearchCode) {
-                    AnalyticsManager.getInstance(SearchActivity.this).sendSearch(AnalyticsManager.Param.Screen.SEARCH_CODE_RESULT_LIST, keyword);
-                    SearchCodeResultListFragment fragment = (SearchCodeResultListFragment) manager.findFragmentByTag(SearchCodeResultListFragment.TAG);
-                    fragment.onEditorActionSearch(keyword, repo);
-                } else {
-                    AnalyticsManager.getInstance(SearchActivity.this).sendSearch(AnalyticsManager.Param.Screen.SEARCH_REPOSITORY_RESULT_LIST, keyword);
-                    SearchRepositoryResultListFragment fragment = (SearchRepositoryResultListFragment) manager.findFragmentByTag(SearchRepositoryResultListFragment.TAG);
-                    fragment.onEditorActionSearch(keyword, repo);
+                Serializable serializableRepo = getIntent().getSerializableExtra(ISearchPresenter.REPO_ENTITY_KEY);
+                if(serializableRepo != null) {
+                    GithubRepoEntity repo = (GithubRepoEntity) serializableRepo;
+                    if (canSearchCode) {
+                        AnalyticsManager.getInstance(SearchActivity.this).sendSearch(AnalyticsManager.Param.Screen.SEARCH_CODE_RESULT_LIST, keyword);
+                        SearchCodeResultListFragment fragment = (SearchCodeResultListFragment) manager.findFragmentByTag(SearchCodeResultListFragment.TAG);
+                        fragment.onEditorActionSearch(keyword, repo);
+                    } else {
+                        AnalyticsManager.getInstance(SearchActivity.this).sendSearch(AnalyticsManager.Param.Screen.SEARCH_REPOSITORY_RESULT_LIST, keyword);
+                        SearchRepositoryResultListFragment fragment = (SearchRepositoryResultListFragment) manager.findFragmentByTag(SearchRepositoryResultListFragment.TAG);
+                        fragment.onEditorActionSearch(keyword, repo);
+                    }
                 }
             }
             return handled;

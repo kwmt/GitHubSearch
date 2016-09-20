@@ -102,15 +102,9 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
         mRecyclerView.setLayoutManager(mLayoutManager);
         mEventListAdapter = new EventListAdapter(getActivity().getApplicationContext(), (adapter, position, eventEntity, type) -> {
             DetailActivity.startActivity(getActivity(), eventEntity.getRepo().getName(), eventEntity.getRepo().getHtmlUrl(), eventEntity.getRepo());
-//            if(type == ItemType.Normal) {
-//                AnalyticsManager.getInstance(getActivity().getApplicationContext())
-//                        .sendClickItem(AnalyticsManager.Param.Screen.REPOSITORY_LIST, AnalyticsManager.Param.Category.REPOSITORY, repo.getName());
-//                DetailActivity.startActivity(getActivity(), repo.getName(), repo.getDisplayLogin(), repo);
-//            }
-//            if (type == ItemType.Ad) {
-//                AnalyticsManager.getInstance(getActivity().getApplicationContext())
-//                        .sendClickItem(AnalyticsManager.Param.Screen.REPOSITORY_LIST, AnalyticsManager.Param.Category.Ads);
-//            }
+        });
+        mEventListAdapter.setUserListener((adapter, position, entity, type) -> {
+            DetailActivity.startActivity(getActivity(), entity.getActor().getDisplayLogin(), entity.getActor().getHtmlUrl(), entity.getRepo());
         });
         mRecyclerView.setAdapter(mEventListAdapter);
 
