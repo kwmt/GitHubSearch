@@ -25,8 +25,8 @@ public class SearchRepositoryModel extends BaseModel implements ISearchModel {
     private String mKeyword;
 
     private ReusableCompositeSubscription mCompositeSubscription = new ReusableCompositeSubscription();
-    private List<GithubRepoEntity> mRepositoryResultList;
 
+    private List<GithubRepoEntity> mRepositoryResultList = new ArrayList<>();
     private List<GithubRepoEntity> mGitHubRepoEntityList = new ArrayList<>();
 
 
@@ -108,5 +108,14 @@ public class SearchRepositoryModel extends BaseModel implements ISearchModel {
     @Override
     public boolean hasNextPage() {
         return  getNextPage() > 0;
+    }
+
+
+    public List<GithubRepoEntity> getGitHubRepoEntityList() {
+        return mGitHubRepoEntityList;
+    }
+
+    public boolean hasGitHubRepoEntityList() {
+        return mGitHubRepoEntityList.size() > 0;
     }
 }

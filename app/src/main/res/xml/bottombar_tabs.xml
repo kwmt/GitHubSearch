@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/tab_timeline"
+        icon="@drawable/ic_timeline_white_24dp"
+        title="Timeline" />
+    <tab
+        id="@+id/tab_repository"
+        icon="@drawable/ic_list_white_24dp"
+        title="Repository" />
+    <!--<tab-->
+        <!--id="@+id/tab_favorites"-->
+        <!--icon="@drawable/ic_grade_white_24dp"-->
+        <!--title="Favorites" />-->
+</tabs>

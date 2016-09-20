@@ -2,6 +2,7 @@ package net.kwmt27.codesearch.model;
 
 import android.content.Context;
 
+import net.kwmt27.codesearch.App;
 import net.kwmt27.codesearch.BuildConfig;
 import net.kwmt27.codesearch.entity.TokenEntity;
 import net.kwmt27.codesearch.model.rx.ReusableCompositeSubscription;
@@ -19,6 +20,7 @@ public class LoginModel extends BaseModel {
 
     private ReusableCompositeSubscription mCompositeSubscription = new ReusableCompositeSubscription();
     private Context mContext;
+    private String mLoginId;
 
     public LoginModel(Context context) {
         mContext = context.getApplicationContext();
@@ -44,4 +46,19 @@ public class LoginModel extends BaseModel {
     public String getAuthorizeUrl() {
         return OAUTH_URL  + "?client_id=" + BuildConfig.GITHUB_CLIENT_ID + "&scope=" + SCOPE;
     }
+
+    public String getLoginId() {
+        if(mLoginId == null) {
+            mLoginId = PrefUtil.getGithubLoginId();
+        }
+        return mLoginId;
+    }
+
+    public void setAccessToken(String accessToken) {
+        PrefUtil.setAccessToken(App.getInstance().getApplicationContext(), accessToken);
+    }
+    public void setGithubLoginId(String githubLoginId) {
+        PrefUtil.setGithubLoginId(App.getInstance().getApplicationContext(), githubLoginId);
+    }
+
 }
