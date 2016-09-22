@@ -5,10 +5,10 @@ import android.graphics.Bitmap;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.RecyclerView;
-import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +20,6 @@ import com.google.android.gms.ads.AdView;
 import net.kwmt27.codesearch.R;
 import net.kwmt27.codesearch.entity.EventEntity;
 import net.kwmt27.codesearch.entity.ItemType;
-import net.kwmt27.codesearch.view.parts.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,15 +28,16 @@ import java.util.List;
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder> {
 
     private final Context mContext;
-    private OnItemClickListener<EventListAdapter, EventEntity> mListener;
+    private EventListFragment.OnLinkClickListener mListener;
 
     private List<EventEntity> mEventEntityList = new ArrayList<>();
+    private LayoutInflater mLayoutInflater;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView avatarImageView;
         TextView displayLoginTextView;
         TextView dateTextView;
-        TextView eventTextView;
+        FrameLayout container;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -45,11 +45,11 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
 
             displayLoginTextView = (TextView) itemView.findViewById(R.id.display_login);
             dateTextView = (TextView) itemView.findViewById(R.id.date);
-            eventTextView = (TextView) itemView.findViewById(R.id.event);
+            container = (FrameLayout) itemView.findViewById(R.id.container);
         }
     }
 
-    public EventListAdapter(Context context, OnItemClickListener<EventListAdapter, EventEntity> listener) {
+    public EventListAdapter(Context context, EventListFragment.OnLinkClickListener listener) {
         mContext = context.getApplicationContext();
         mListener = listener;
     }
@@ -73,21 +73,22 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
 
     @Override
     public EventListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        mLayoutInflater = LayoutInflater.from(parent.getContext());
+
         View view;
         final ItemType itemType = ItemType.valueOf(viewType);
         switch (itemType) {
             case Progress:
-                view = inflater.inflate(R.layout.recyclerview_progress_layout, parent, false);
+                view = mLayoutInflater.inflate(R.layout.recyclerview_progress_layout, parent, false);
                 break;
             case Ad:
-                view = inflater.inflate(R.layout.recyclerview_ad_layout, parent, false);
+                view = mLayoutInflater.inflate(R.layout.recyclerview_ad_layout, parent, false);
                 AdView adView = (AdView) view.findViewById(R.id.adView);
                 AdRequest adRequest = new AdRequest.Builder().build();
                 adView.loadAd(adRequest);
                 break;
             default:
-                view = inflater.inflate(R.layout.recyclerview_event_list_item, parent, false);
+                view = mLayoutInflater.inflate(R.layout.recyclerview_event_list_item, parent, false);
                 break;
         }
 
@@ -124,14 +125,8 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
             holder.displayLoginTextView.setText(item.getActor().getDisplayLogin());
             holder.dateTextView.setText(item.getFormattedCreatedAt());
 
-            item.action(holder.eventTextView, new ClickableSpan() {
-                @Override
-                public void onClick(View view) {
-                    if (mListener != null) {
-                        mListener.onItemClick(EventListAdapter.this, position, item, ItemType.Normal);
-                    }
-                }
-            });
+            holder.container.removeAllViews();
+            holder.container.addView(item.createView(mLayoutInflater.getContext(), mListener));
         }
     }
 

@@ -15,6 +15,7 @@ import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 import net.kwmt27.codesearch.R;
 import net.kwmt27.codesearch.analytics.AnalyticsManager;
 import net.kwmt27.codesearch.entity.EventEntity;
+import net.kwmt27.codesearch.entity.GithubRepoEntity;
 import net.kwmt27.codesearch.presenter.events.EventListPresenter;
 import net.kwmt27.codesearch.presenter.events.IEventListPresenter;
 import net.kwmt27.codesearch.util.Logger;
@@ -32,6 +33,11 @@ import rx.Subscription;
  * レポジトリ一覧
  */
 public class EventListFragment extends Fragment implements EventListPresenter.IEventListView, MainFragment {
+
+    public interface OnLinkClickListener {
+
+        void onLinkClick(String title, String url, GithubRepoEntity githubRepoEntity);
+    }
 
     public static final String TAG = EventListFragment.class.getSimpleName();
     private IEventListPresenter mPresenter;
@@ -100,9 +106,15 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mEventListAdapter = new EventListAdapter(getActivity().getApplicationContext(), (adapter, position, eventEntity, type) -> {
-            DetailActivity.startActivity(getActivity(), eventEntity.getRepo().getName(), eventEntity.getRepo().getHtmlUrl(), eventEntity.getRepo());
+        mEventListAdapter = new EventListAdapter(getActivity().getApplicationContext(), new OnLinkClickListener() {
+            @Override
+            public void onLinkClick(String title, String url, GithubRepoEntity githubRepoEntity) {
+                DetailActivity.startActivity(EventListFragment.this.getActivity(), title, url, githubRepoEntity);
+            }
         });
+
+
+
         mRecyclerView.setAdapter(mEventListAdapter);
 
         rxRecyclerViewScrollSubscribe();
