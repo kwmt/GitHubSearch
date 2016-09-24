@@ -135,4 +135,24 @@ public class EventEntity {
                 LinearLayout.LayoutParams.WRAP_CONTENT));
         return textView;
     }
+
+    /**
+     * リンクをクリックしたときの処理を返す
+     * @param listener {@link EventListFragment} に返すためのリスナー
+     * @param title {@link net.kwmt27.codesearch.view.detail.DetailActivity}のタイトル
+     * @param url {@link net.kwmt27.codesearch.view.detail.DetailActivity}に表示するためのURL
+     * @param githubRepoEntity {@link net.kwmt27.codesearch.view.search.SearchActivity}でレポジトリ検索するために必要なレポジトリ情報
+     * @return
+     */
+    
+    protected ClickableSpan newOnLinkClickClickableSpan(EventListFragment.OnLinkClickListener listener, String title, String url, GithubRepoEntity githubRepoEntity){
+        return new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) {
+                    listener.onLinkClick(title, url, githubRepoEntity);
+                }
+            }
+        };
+    }
 }
