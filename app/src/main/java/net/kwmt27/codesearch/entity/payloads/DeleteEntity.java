@@ -8,4 +8,12 @@ public class DeleteEntity {
     private String mRefType;
     @SerializedName("ref")
     private String mRef;
+
+    public String getRefType() {
+        return mRefType;
+    }
+
+    public String getRef() {
+        return mRef;
+    }
 }
