@@ -11,6 +11,11 @@ import net.kwmt27.codesearch.entity.EventEntity;
 import net.kwmt27.codesearch.entity.payloads.FollowEventEntity;
 import net.kwmt27.codesearch.view.events.EventListFragment;
 
+/**
+ * https://developer.github.com/v3/activity/events/types/#followevent
+ *
+ * Events of this type are no longer created, but it's possible that they exist in timelines of some users.
+ */
 public class FollowEvent extends EventEntity {
 
     @SerializedName("payload")
