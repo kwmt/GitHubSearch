@@ -1,7 +1,6 @@
 package net.kwmt27.codesearch.entity.events;
 
 import android.content.Context;
-import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.TextView;
 
@@ -28,14 +27,7 @@ public class PullRequestEvent extends EventEntity {
         flexboxLayout.addView(actionTextView);
 
         String pullRequest = getRepo().getName() + "#" + mPullRequestEventEntity.getNumber();
-        TextView pullRequestTextView = newTextView(context, pullRequest, false, new ClickableSpan() {
-            @Override
-            public void onClick(View view) {
-                if (listener != null) {
-                    listener.onLinkClick(pullRequest, mPullRequestEventEntity.getPullRequestEntity().getHtmlUrl(), getRepo());
-                }
-            }
-        });
+        TextView pullRequestTextView = newTextView(context, pullRequest, false, newOnLinkClickClickableSpan(listener, pullRequest, mPullRequestEventEntity.getPullRequestEntity().getHtmlUrl(), getRepo()));
         flexboxLayout.addView(pullRequestTextView);
 
         return flexboxLayout;
