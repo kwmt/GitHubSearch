@@ -16,6 +16,7 @@ import net.kwmt27.codesearch.view.events.EventListFragment;
  *
  * @deprecated Events of this type are no longer created, but it's possible that they exist in timelines of some users.
  */
+@Deprecated
 public class GistEvent extends EventEntity {
 
     @SerializedName("payload")
