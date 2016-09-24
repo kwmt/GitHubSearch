@@ -7,5 +7,9 @@ import net.kwmt27.codesearch.entity.GithubRepoEntity;
 public class ForkEntity {
 
     @SerializedName("forkee")
-    private GithubRepoEntity mForkee;
+    private GithubRepoEntity mRepository;
+
+    public GithubRepoEntity getRepository() {
+        return mRepository;
+    }
 }
