@@ -1,6 +1,13 @@
 package net.kwmt27.codesearch.entity.payloads;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ForkApplyEntity {
-    // TODO
-    // https://developer.github.com/v3/activity/events/types/#forkapplyevent
+    @SerializedName("head")
+    private String mHead;
+    @SerializedName("before")
+    private String mBefore;
+    @SerializedName("after")
+    private String mAfter;
+
 }
