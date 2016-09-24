@@ -8,7 +8,7 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.google.gson.annotations.SerializedName;
 
 import net.kwmt27.codesearch.entity.EventEntity;
-import net.kwmt27.codesearch.entity.payloads.DownloadEntity;
+import net.kwmt27.codesearch.entity.payloads.DownloadEventEntity;
 import net.kwmt27.codesearch.view.events.EventListFragment;
 
 /**
@@ -19,19 +19,19 @@ import net.kwmt27.codesearch.view.events.EventListFragment;
 public class DownloadEvent extends EventEntity {
 
     @SerializedName("payload")
-    private DownloadEntity mDownloadEntity;
+    private DownloadEventEntity mDownloadEventEntity;
 
     @Override
     public View createView(Context context, EventListFragment.OnLinkClickListener listener) {
-        if (mDownloadEntity == null) {
+        if (mDownloadEventEntity == null) {
             return newTextView(context, "data empty", false, null);
         }
         FlexboxLayout flexboxLayout = newFlexboxLayout(context);
         TextView actionTextView = newTextView(context, "downloaded ", true, null);
         flexboxLayout.addView(actionTextView);
 
-        TextView repoTextView = newTextView(context, mDownloadEntity.getName(), false,
-                newOnLinkClickClickableSpan(listener, mDownloadEntity.getName(), mDownloadEntity.getHtmlUrl(), getRepo()));
+        TextView repoTextView = newTextView(context, mDownloadEventEntity.getDownload().getName(), false,
+                newOnLinkClickClickableSpan(listener, mDownloadEventEntity.getDownload().getName(), mDownloadEventEntity.getDownload().getHtmlUrl(), getRepo()));
         flexboxLayout.addView(repoTextView);
         return flexboxLayout;
     }

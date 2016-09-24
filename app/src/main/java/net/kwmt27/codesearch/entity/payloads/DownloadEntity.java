@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
  */
 @Deprecated
 public class DownloadEntity {
+
     @SerializedName("name")
     private String mName;
     @SerializedName("html_url")
