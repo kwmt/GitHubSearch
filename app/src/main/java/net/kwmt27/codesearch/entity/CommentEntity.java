@@ -1,4 +1,4 @@
-package net.kwmt27.codesearch.entity.payloads;
+package net.kwmt27.codesearch.entity;
 
 import com.google.gson.annotations.SerializedName;
 

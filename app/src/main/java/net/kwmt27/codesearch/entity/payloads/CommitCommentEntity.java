@@ -2,6 +2,7 @@ package net.kwmt27.codesearch.entity.payloads;
 
 import com.google.gson.annotations.SerializedName;
 
+import net.kwmt27.codesearch.entity.CommentEntity;
 import net.kwmt27.codesearch.entity.GithubRepoEntity;
 
 public class CommitCommentEntity {
