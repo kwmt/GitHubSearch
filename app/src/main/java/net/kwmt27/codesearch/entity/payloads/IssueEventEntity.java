@@ -10,4 +10,11 @@ public class IssueEventEntity {
     @SerializedName("issue")
     private IssueEntity mIssueEntity;
 
+    public int getAction() {
+        return mAction;
+    }
+
+    public IssueEntity getIssueEntity() {
+        return mIssueEntity;
+    }
 }
