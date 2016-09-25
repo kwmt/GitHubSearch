@@ -12,4 +12,19 @@ public class CommentEntity {
     @SerializedName("path")
     private String mPath;
 
+    public String getHtmlUrl() {
+        return mHtmlUrl;
+    }
+
+    public String getUrl() {
+        return mUrl;
+    }
+
+    public String getBody() {
+        return mBody;
+    }
+
+    public String getPath() {
+        return mPath;
+    }
 }
