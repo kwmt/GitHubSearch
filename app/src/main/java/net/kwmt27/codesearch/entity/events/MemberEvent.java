@@ -11,6 +11,9 @@ import net.kwmt27.codesearch.entity.EventEntity;
 import net.kwmt27.codesearch.entity.payloads.MemberEntity;
 import net.kwmt27.codesearch.view.events.EventListFragment;
 
+/**
+ * https://developer.github.com/v3/activity/events/types/#memberevent
+ */
 public class MemberEvent extends EventEntity {
 
     @SerializedName("payload")
