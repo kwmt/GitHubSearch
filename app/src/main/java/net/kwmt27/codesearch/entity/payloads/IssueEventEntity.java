@@ -6,11 +6,11 @@ import net.kwmt27.codesearch.entity.IssueEntity;
 
 public class IssueEventEntity {
     @SerializedName("action")
-    private int mAction;
+    private String mAction;
     @SerializedName("issue")
     private IssueEntity mIssueEntity;
 
-    public int getAction() {
+    public String getAction() {
         return mAction;
     }
 
