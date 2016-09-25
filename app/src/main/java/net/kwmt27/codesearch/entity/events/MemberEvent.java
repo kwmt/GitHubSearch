@@ -8,7 +8,7 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.google.gson.annotations.SerializedName;
 
 import net.kwmt27.codesearch.entity.EventEntity;
-import net.kwmt27.codesearch.entity.payloads.MemberEntity;
+import net.kwmt27.codesearch.entity.payloads.MemberEventEntity;
 import net.kwmt27.codesearch.view.events.EventListFragment;
 
 /**
@@ -17,20 +17,20 @@ import net.kwmt27.codesearch.view.events.EventListFragment;
 public class MemberEvent extends EventEntity {
 
     @SerializedName("payload")
-    private MemberEntity mMemberEntity;
+    private MemberEventEntity mMemberEventEntity;
 
 
     @Override
     public View createView(Context context, EventListFragment.OnLinkClickListener listener) {
-        if (mMemberEntity == null) {
+        if (mMemberEventEntity == null) {
             return newTextView(context, "data empty", false, null);
         }
         FlexboxLayout flexboxLayout = newFlexboxLayout(context);
-        TextView actionTextView = newTextView(context, mMemberEntity.getAction(), true, null);
+        TextView actionTextView = newTextView(context, mMemberEventEntity.getAction(), true, null);
         flexboxLayout.addView(actionTextView);
 
-        TextView userTextView = newTextView(context, mMemberEntity.getUser().getLogin(), true,
-                newOnLinkClickClickableSpan(listener, mMemberEntity.getUser().getLogin(), mMemberEntity.getUser().getHtmlUrl(), getRepo()));
+        TextView userTextView = newTextView(context, mMemberEventEntity.getUser().getLogin(), true,
+                newOnLinkClickClickableSpan(listener, mMemberEventEntity.getUser().getLogin(), mMemberEventEntity.getUser().getHtmlUrl(), getRepo()));
         flexboxLayout.addView(userTextView);
 
         TextView toTextView = newTextView(context, "to", true, null);
