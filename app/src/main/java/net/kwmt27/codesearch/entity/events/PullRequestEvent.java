@@ -11,6 +11,9 @@ import net.kwmt27.codesearch.entity.EventEntity;
 import net.kwmt27.codesearch.entity.payloads.PullRequestEventEntity;
 import net.kwmt27.codesearch.view.events.EventListFragment;
 
+/**
+ * https://developer.github.com/v3/activity/events/types/#pullrequestevent
+ */
 public class PullRequestEvent extends EventEntity {
 
     @SerializedName("payload")
