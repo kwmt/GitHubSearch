@@ -11,6 +11,9 @@ import net.kwmt27.codesearch.entity.EventEntity;
 import net.kwmt27.codesearch.entity.payloads.PullRequestReviewCommentEntity;
 import net.kwmt27.codesearch.view.events.EventListFragment;
 
+/**
+ * https://developer.github.com/v3/activity/events/types/#pullrequestreviewcommentevent
+ */
 public class PullRequestReviewCommentEvent extends EventEntity {
 
     @SerializedName("payload")
