@@ -26,7 +26,7 @@ public class PullRequestReviewCommentEvent extends EventEntity {
         }
 
         FlexboxLayout flexboxLayout = newFlexboxLayout(context);
-        TextView actionTextView = newTextView(context, mPullRequestReviewCommentEntity.getAction()+ " pull request", true, null);
+        TextView actionTextView = newTextView(context, mPullRequestReviewCommentEntity.getAction(), true, null);
         flexboxLayout.addView(actionTextView);
 
         String pullRequest = getRepo().getName() + "#" + mPullRequestReviewCommentEntity.getPullRequestEntity().getNumber();

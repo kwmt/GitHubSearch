@@ -23,7 +23,7 @@ public class RepositoryEvent extends EventEntity {
         }
 
         FlexboxLayout flexboxLayout = newFlexboxLayout(context);
-        TextView actionTextView = newTextView(context, mRepositoryEventEntity.getAction()+ " pull request", true, null);
+        TextView actionTextView = newTextView(context, mRepositoryEventEntity.getAction(), true, null);
         flexboxLayout.addView(actionTextView);
 
         TextView pullRequestTextView = newTextView(context, getRepo().getFullName(), false, newOnLinkClickClickableSpan(listener, getRepo().getFullName(), getRepo().getHtmlUrl(), getRepo()));
