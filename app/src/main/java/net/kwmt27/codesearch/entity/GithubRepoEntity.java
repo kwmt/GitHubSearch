@@ -45,6 +45,16 @@ public class GithubRepoEntity implements Serializable{
         mHtmlUrl = BuildConfig.BASE_WEBVIEW_URL + "/" + mFullName;
         mUrl = BuildConfig.BASE_API_URL + "/repos/" + mFullName;
     }
+    public GithubRepoEntity(String fullName) {
+        String[] splitFullName = fullName.split("/");
+        if(splitFullName.length == 2){
+            mName = splitFullName[1];
+            mOwner = new OwnerEntity(splitFullName[0]);
+        }
+        mFullName = fullName;
+        mHtmlUrl = BuildConfig.BASE_WEBVIEW_URL + "/" + mFullName;
+        mUrl = BuildConfig.BASE_API_URL + "/repos/" + mFullName;
+    }
 
     public String getName() {
         return mName;
