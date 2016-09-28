@@ -148,7 +148,7 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
     public void updateEventListView(List<EventEntity> entityList) {
         mIsCalled = false;
         rxRecyclerViewScrollSubscribe();
-        mEventListAdapter.setEventEntityList(entityList);
+        mEventListAdapter.setEntityList(entityList);
         mEventListAdapter.notifyDataSetChanged();
     }
 
@@ -175,7 +175,7 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
     }
     @Override
     public void showProgressOnScroll() {
-        mEventListAdapter.addProgressItemTypeThenNotify();
+        mEventListAdapter.addProgressItemTypeThenNotify(new EventEntity());
     }
 
     @Override

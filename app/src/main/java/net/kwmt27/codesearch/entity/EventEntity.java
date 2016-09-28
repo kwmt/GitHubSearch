@@ -16,7 +16,7 @@ import net.kwmt27.codesearch.view.events.EventListFragment;
 
 import java.util.Date;
 
-public class EventEntity {
+public class EventEntity extends BaseEntity{
     @SerializedName("type")
     private String mType;
     @SerializedName("public")
@@ -31,18 +31,11 @@ public class EventEntity {
     @SerializedName("id")
     private String mId;
 
-
-    private ItemType mItemType;
-
-    public ItemType getItemType() {
-        return mItemType;
-    }
-
     public EventEntity() {
     }
 
     public EventEntity(ItemType itemType) {
-        mItemType = itemType;
+        super(itemType);
     }
 
 

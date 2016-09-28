@@ -149,15 +149,15 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
     public void updateGitHubRepoListView(List<GithubRepoEntity> githubRepoEntities) {
         mIsCalled = false;
         rxRecyclerViewScrollSubscribe();
-        mRepositoryListAdapter.setGithubRepoEntityList(githubRepoEntities);
+        mRepositoryListAdapter.setEntityList(githubRepoEntities);
         mRepositoryListAdapter.notifyDataSetChanged();
 
 
-        if(!mIsAddedAd || mOnRefreshing) {
-            mRepositoryListAdapter.addAdItemTypeThenNotify();
-            mIsAddedAd = true;
-        }
-        mOnRefreshing = false;
+//        if(!mIsAddedAd || mOnRefreshing) {
+//            mRepositoryListAdapter.addAdItemTypeThenNotify();
+//            mIsAddedAd = true;
+//        }
+//        mOnRefreshing = false;
     }
 
     @Override
@@ -183,7 +183,7 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
     }
     @Override
     public void showProgressOnScroll() {
-        mRepositoryListAdapter.addProgressItemTypeThenNotify();
+        mRepositoryListAdapter.addProgressItemTypeThenNotify(new GithubRepoEntity());
     }
 
     @Override

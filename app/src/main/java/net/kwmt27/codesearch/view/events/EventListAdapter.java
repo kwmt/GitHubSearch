@@ -20,21 +20,16 @@ import com.google.android.gms.ads.AdView;
 import net.kwmt27.codesearch.R;
 import net.kwmt27.codesearch.entity.EventEntity;
 import net.kwmt27.codesearch.entity.ItemType;
-
-import java.util.ArrayList;
-import java.util.List;
+import net.kwmt27.codesearch.view.BaseRecyclerAdapter;
 
 
-public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder> {
+public class EventListAdapter extends BaseRecyclerAdapter<EventListAdapter.ViewHolder, EventEntity> {
 
     private final Context mContext;
     private EventListFragment.OnLinkClickListener mListener;
 
-    private List<EventEntity> mEventEntityList = new ArrayList<>();
     private LayoutInflater mLayoutInflater;
 
-    private final static int HEADER_POSITION = 0;
-    private final static int HEADER_SIZE = 1;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView avatarImageView;
@@ -56,18 +51,6 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         mContext = context.getApplicationContext();
         mListener = listener;
     }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position == HEADER_POSITION) {
-            return ItemType.Ad.getTypeId();
-        }
-        if(mEventEntityList.get(position - HEADER_SIZE).getItemType() == ItemType.Progress){
-            return ItemType.Progress.getTypeId();
-        }
-        return ItemType.Normal.getTypeId();
-    }
-
 
     @Override
     public EventListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -113,10 +96,11 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
             return;
         }
 
-        EventEntity item = mEventEntityList.get(position - HEADER_SIZE);
+        EventEntity item = getEntityAtPosition(position - HEADER_SIZE);
         if(item.getItemType() == ItemType.Progress){
             return;
         }
+
         Glide.with(mContext).load(item.getActor().getAvatarUrl()).asBitmap().centerCrop().into(new BitmapImageViewTarget(holder.avatarImageView) {
             @Override
             protected void setResource(Bitmap resource) {
@@ -133,40 +117,5 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         holder.container.addView(item.createView(mLayoutInflater.getContext(), mListener));
     }
 
-    @Override
-    public int getItemCount() {
-        return mEventEntityList.size() > 0 ? mEventEntityList.size() + HEADER_SIZE : 0;
-    }
-
-
-    public void setEventEntityList(List<EventEntity> eventEntityList) {
-        mEventEntityList = new ArrayList<>(eventEntityList);
-    }
-
-    public void addProgressItemTypeThenNotify() {
-        mEventEntityList.add(new EventEntity(ItemType.Progress));
-        int pos = mEventEntityList.size() - 1 - 1;
-        if (pos > -1) {
-            notifyItemInserted(pos);
-        }
-    }
-
-    public void removeProgressItemTypeThenNotify() {
-        int pos = findPositionByItemType(ItemType.Progress);
-        if (pos > -1) {
-            mEventEntityList.remove(pos);
-            notifyItemRemoved(pos);
-        }
-    }
-
-
-    private int findPositionByItemType(ItemType type) {
-        for (int i = 0; i < mEventEntityList.size(); i++) {
-            if (mEventEntityList.get(i).getItemType() == type) {
-                return i;
-            }
-        }
-        return -1;
-    }
 
 }
