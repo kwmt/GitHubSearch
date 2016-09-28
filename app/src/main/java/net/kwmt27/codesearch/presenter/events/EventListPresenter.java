@@ -55,35 +55,20 @@ public class EventListPresenter implements IEventListPresenter {
             mEventListView.updateEventListView(ModelLocator.getEventModel().getEventList());
             return;
         }
-
-        if(show) {
-            mEventListView.showProgress();
-        }
-
-        ModelLocator.getEventModel().fetchEvent(page, new ApiSubscriber<List<EventEntity>>(((EventListFragment) mEventListView).getActivity()) {
-            @Override
-            public void onCompleted() {
-                mEventListView.hideProgress();
-                mEventListView.hideSwipeRefreshLayout();
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                super.onError(throwable);
-                mEventListView.hideProgress();
-                mEventListView.hideSwipeRefreshLayout();
-                mEventListView.showError();
-            }
-
-            @Override
-            public void onNext(List<EventEntity> githubRepoEntities) {
-                mEventListView.updateEventListView(githubRepoEntities);
-            }
-        });
+        fetchEventListImpl(false, page, show);
     }
 
     private void fetchEventListOnScroll(Integer page) {
-        mEventListView.showProgressOnScroll();
+        fetchEventListImpl(true, page, false);
+    }
+
+    private void fetchEventListImpl(boolean onScroll, Integer page, boolean show) {
+        if(onScroll){
+            mEventListView.showProgressOnScroll();
+        }
+        if(show) {
+            mEventListView.showProgress();
+        }
         ModelLocator.getEventModel().fetchEvent(page, new ApiSubscriber<List<EventEntity>>(((EventListFragment) mEventListView).getActivity()) {
             @Override
             public void onCompleted() {
@@ -92,20 +77,32 @@ public class EventListPresenter implements IEventListPresenter {
             @Override
             public void onError(Throwable throwable) {
                 super.onError(throwable);
-                mEventListView.hideProgressOnScroll();
-                mEventListView.showErrorOnScroll();
+                if(onScroll) {
+                    mEventListView.hideProgressOnScroll();
+                    mEventListView.showErrorOnScroll();
+                    return;
+                }
+                mEventListView.hideProgress();
+                mEventListView.hideSwipeRefreshLayout();
+                mEventListView.showError();
+
             }
 
             @Override
             public void onNext(List<EventEntity> githubRepoEntities) {
-                mEventListView.hideProgressOnScroll();
+                if(onScroll) {
+                    mEventListView.hideProgressOnScroll();
+                } else {
+                    mEventListView.hideProgress();
+                    mEventListView.hideSwipeRefreshLayout();
+                }
                 mEventListView.updateEventListView(githubRepoEntities);
             }
         });
-
     }
 
-    public interface IEventListView {
+
+        public interface IEventListView {
         void setupComponents(View view, Bundle savedInstanceState);
 
         void updateEventListView(List<EventEntity> eventList);
