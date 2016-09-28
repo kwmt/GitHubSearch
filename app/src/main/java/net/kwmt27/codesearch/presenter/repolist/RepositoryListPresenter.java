@@ -63,8 +63,6 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
         ModelLocator.getSearchRepositoryModel().fetchUserRepository(page, SortType.Pushed, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment)mMainView).getActivity()) {
             @Override
             public void onCompleted() {
-                mMainView.hideProgress();
-                mMainView.hideSwipeRefreshLayout();
             }
 
             @Override
@@ -77,6 +75,8 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
 
             @Override
             public void onNext(List<GithubRepoEntity> githubRepoEntities) {
+                mMainView.hideProgress();
+                mMainView.hideSwipeRefreshLayout();
                 mMainView.updateGitHubRepoListView(githubRepoEntities);
             }
         });
@@ -87,7 +87,6 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
         ModelLocator.getSearchRepositoryModel().fetchUserRepository(page, SortType.Pushed, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment)mMainView).getActivity()) {
             @Override
             public void onCompleted() {
-                mMainView.hideProgressOnScroll();
             }
 
             @Override
@@ -99,6 +98,7 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
 
             @Override
             public void onNext(List<GithubRepoEntity> githubRepoEntities) {
+                mMainView.hideProgressOnScroll();
                 mMainView.updateGitHubRepoListView(githubRepoEntities);
             }
         });
