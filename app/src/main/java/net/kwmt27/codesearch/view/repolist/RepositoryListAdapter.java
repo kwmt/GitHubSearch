@@ -72,7 +72,7 @@ public class RepositoryListAdapter extends BaseRecyclerAdapter<RepositoryListAda
             if (mListener != null) {
                 int position = viewHolder.getAdapterPosition();
                 Logger.d("click position:" + position);
-                GithubRepoEntity entity = getEntityAtPosition(position);
+                GithubRepoEntity entity = getEntityAtPosition(position - HEADER_SIZE);
                 mListener.onItemClick(RepositoryListAdapter.this, position, entity, itemType);
             }
 
