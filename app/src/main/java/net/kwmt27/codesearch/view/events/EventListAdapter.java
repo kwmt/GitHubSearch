@@ -142,7 +142,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
     public void setEventEntityList(List<EventEntity> eventEntityList) {
         mEventEntityList = new ArrayList<>(eventEntityList);
     }
-    private final Object lock = new Object();
+
     public void addProgressItemTypeThenNotify() {
         mEventEntityList.add(new EventEntity(ItemType.Progress));
         int pos = mEventEntityList.size() - 1 - 1;
