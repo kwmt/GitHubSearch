@@ -54,7 +54,21 @@ public class SearchCodeResultListPresenter implements ISearchResultListPresenter
 
 
     private void searchCode(String keyword, String repositoryFullName, Integer page) {
-        mSearchResultListView.showProgress();
+        searchCodeImpl(false, keyword, repositoryFullName, page);
+    }
+
+    private void searchCodeOnScroll(Integer page) {
+        searchCodeImpl(true, null, null, page);
+    }
+
+    private void searchCodeImpl(boolean onScroll, String keyword, String repositoryFullName, Integer page){
+        if(onScroll){
+            mSearchResultListView.showProgressOnScroll();
+            keyword = ModelLocator.getSearchCodeModel().getKeyword();
+            repositoryFullName = ModelLocator.getSearchCodeModel().getRepositoryFullName();
+        } else {
+            mSearchResultListView.showProgress();
+        }
         ModelLocator.getSearchCodeModel().searchCode(keyword, repositoryFullName, page, new ApiSubscriber<List<ItemEntity>>(((SearchCodeResultListFragment) mSearchResultListView).getActivity().getApplicationContext()) {
             @Override
             public void onCompleted() {
@@ -65,39 +79,22 @@ public class SearchCodeResultListPresenter implements ISearchResultListPresenter
             public void onError(Throwable e) {
                 super.onError(e);
                 Logger.e("onError is called. " + e);
+                if(onScroll){
+                    mSearchResultListView.hideProgressOnScroll();
+                    mSearchResultListView.showErrorOnScroll();
+                    return;
+                }
                 mSearchResultListView.hideProgress();
                 mSearchResultListView.showError();
             }
 
             @Override
             public void onNext(List<ItemEntity> itemEntityList) {
-                mSearchResultListView.hideProgress();
-                mSearchResultListView.updateSearchResultListView(itemEntityList);
-            }
-        });
-    }
-
-    private void searchCodeOnScroll(Integer page) {
-        mSearchResultListView.showProgressOnScroll();
-        String keyword = ModelLocator.getSearchCodeModel().getKeyword();
-        String repo = ModelLocator.getSearchCodeModel().getRepositoryFullName();
-        ModelLocator.getSearchCodeModel().searchCode(keyword, repo, page, new ApiSubscriber<List<ItemEntity>>(((SearchCodeResultListFragment) mSearchResultListView).getActivity().getApplicationContext()) {
-            @Override
-            public void onCompleted() {
-                Logger.d("onCompleted is called.");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-                Logger.e("onError is called. " + e);
-                mSearchResultListView.hideProgressOnScroll();
-                mSearchResultListView.showErrorOnScroll();
-            }
-
-            @Override
-            public void onNext(List<ItemEntity> itemEntityList) {
-                mSearchResultListView.hideProgressOnScroll();
+                if(onScroll){
+                    mSearchResultListView.hideProgressOnScroll();
+                }else {
+                    mSearchResultListView.hideProgress();
+                }
                 mSearchResultListView.updateSearchResultListView(itemEntityList);
             }
         });
