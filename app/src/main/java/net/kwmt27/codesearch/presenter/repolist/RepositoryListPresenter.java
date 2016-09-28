@@ -56,10 +56,21 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
             mRepositoryListView.updateGitHubRepoListView(ModelLocator.getSearchRepositoryModel().getGitHubRepoEntityList());
             return;
         }
+        fetchRepositoryListImpl(false, page, show);
+    }
 
-        if(show) {
+    private void fetchRepositoryListOnScroll(Integer page) {
+        fetchRepositoryListImpl(true, page, false);
+    }
+
+    private void fetchRepositoryListImpl(boolean onScroll, Integer page, boolean show) {
+        if (onScroll) {
+            mRepositoryListView.showProgressOnScroll();
+        }
+        if (show) {
             mRepositoryListView.showProgress();
         }
+
         ModelLocator.getSearchRepositoryModel().fetchUserRepository(page, SortType.Pushed, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment) mRepositoryListView).getActivity()) {
             @Override
             public void onCompleted() {
@@ -68,6 +79,11 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
             @Override
             public void onError(Throwable throwable) {
                 super.onError(throwable);
+                if (onScroll) {
+                    mRepositoryListView.hideProgressOnScroll();
+                    mRepositoryListView.showErrorOnScroll();
+                    return;
+                }
                 mRepositoryListView.hideProgress();
                 mRepositoryListView.hideSwipeRefreshLayout();
                 mRepositoryListView.showError();
@@ -75,34 +91,15 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
 
             @Override
             public void onNext(List<GithubRepoEntity> githubRepoEntities) {
-                mRepositoryListView.hideProgress();
-                mRepositoryListView.hideSwipeRefreshLayout();
+                if (onScroll) {
+                    mRepositoryListView.hideProgressOnScroll();
+                } else {
+                    mRepositoryListView.hideProgress();
+                    mRepositoryListView.hideSwipeRefreshLayout();
+                }
                 mRepositoryListView.updateGitHubRepoListView(githubRepoEntities);
             }
         });
-    }
-
-    private void fetchRepositoryListOnScroll(Integer page) {
-        mRepositoryListView.showProgressOnScroll();
-        ModelLocator.getSearchRepositoryModel().fetchUserRepository(page, SortType.Pushed, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment) mRepositoryListView).getActivity()) {
-            @Override
-            public void onCompleted() {
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                super.onError(throwable);
-                mRepositoryListView.hideProgressOnScroll();
-                mRepositoryListView.showErrorOnScroll();
-            }
-
-            @Override
-            public void onNext(List<GithubRepoEntity> githubRepoEntities) {
-                mRepositoryListView.hideProgressOnScroll();
-                mRepositoryListView.updateGitHubRepoListView(githubRepoEntities);
-            }
-        });
-
     }
 
     public interface IRepositoryListView {
