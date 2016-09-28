@@ -13,16 +13,16 @@ import java.util.List;
 
 public class RepositoryListPresenter implements IRepositoryListPresenter {
 
-    private IRepositoryListView mMainView;
+    private IRepositoryListView mRepositoryListView;
 
-    public RepositoryListPresenter(IRepositoryListView mainView) {
-        mMainView = mainView;
+    public RepositoryListPresenter(IRepositoryListView repositoryListView) {
+        mRepositoryListView = repositoryListView;
     }
 
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        mMainView.setupComponents(view, savedInstanceState);
+        mRepositoryListView.setupComponents(view, savedInstanceState);
         fetchRepositoryList(null, true);
     }
 
@@ -53,14 +53,14 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
 
     private void fetchRepositoryList(Integer page, boolean show) {
         if(ModelLocator.getSearchRepositoryModel().hasGitHubRepoEntityList()){
-            mMainView.updateGitHubRepoListView(ModelLocator.getSearchRepositoryModel().getGitHubRepoEntityList());
+            mRepositoryListView.updateGitHubRepoListView(ModelLocator.getSearchRepositoryModel().getGitHubRepoEntityList());
             return;
         }
 
         if(show) {
-            mMainView.showProgress();
+            mRepositoryListView.showProgress();
         }
-        ModelLocator.getSearchRepositoryModel().fetchUserRepository(page, SortType.Pushed, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment)mMainView).getActivity()) {
+        ModelLocator.getSearchRepositoryModel().fetchUserRepository(page, SortType.Pushed, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment) mRepositoryListView).getActivity()) {
             @Override
             public void onCompleted() {
             }
@@ -68,23 +68,23 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
             @Override
             public void onError(Throwable throwable) {
                 super.onError(throwable);
-                mMainView.hideProgress();
-                mMainView.hideSwipeRefreshLayout();
-                mMainView.showError();
+                mRepositoryListView.hideProgress();
+                mRepositoryListView.hideSwipeRefreshLayout();
+                mRepositoryListView.showError();
             }
 
             @Override
             public void onNext(List<GithubRepoEntity> githubRepoEntities) {
-                mMainView.hideProgress();
-                mMainView.hideSwipeRefreshLayout();
-                mMainView.updateGitHubRepoListView(githubRepoEntities);
+                mRepositoryListView.hideProgress();
+                mRepositoryListView.hideSwipeRefreshLayout();
+                mRepositoryListView.updateGitHubRepoListView(githubRepoEntities);
             }
         });
     }
 
     private void fetchRepositoryListOnScroll(Integer page) {
-        mMainView.showProgressOnScroll();
-        ModelLocator.getSearchRepositoryModel().fetchUserRepository(page, SortType.Pushed, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment)mMainView).getActivity()) {
+        mRepositoryListView.showProgressOnScroll();
+        ModelLocator.getSearchRepositoryModel().fetchUserRepository(page, SortType.Pushed, new ApiSubscriber<List<GithubRepoEntity>>(((RepositoryListFragment) mRepositoryListView).getActivity()) {
             @Override
             public void onCompleted() {
             }
@@ -92,14 +92,14 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
             @Override
             public void onError(Throwable throwable) {
                 super.onError(throwable);
-                mMainView.hideProgressOnScroll();
-                mMainView.showErrorOnScroll();
+                mRepositoryListView.hideProgressOnScroll();
+                mRepositoryListView.showErrorOnScroll();
             }
 
             @Override
             public void onNext(List<GithubRepoEntity> githubRepoEntities) {
-                mMainView.hideProgressOnScroll();
-                mMainView.updateGitHubRepoListView(githubRepoEntities);
+                mRepositoryListView.hideProgressOnScroll();
+                mRepositoryListView.updateGitHubRepoListView(githubRepoEntities);
             }
         });
 
