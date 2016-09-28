@@ -123,8 +123,8 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
     }
 
     @Override
-    public void onEditorActionSearch(String keyword, GithubRepoEntity entity) {
-        mPresenter.onEditorActionSearch(keyword, entity);
+    public void onEditorActionSearch(String keyword) {
+        mPresenter.onEditorActionSearch(keyword, null, null);
     }
 
     @Override

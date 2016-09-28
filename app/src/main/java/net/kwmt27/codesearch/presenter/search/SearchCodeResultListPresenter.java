@@ -1,6 +1,7 @@
 package net.kwmt27.codesearch.presenter.search;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import net.kwmt27.codesearch.ModelLocator;
@@ -41,9 +42,9 @@ public class SearchCodeResultListPresenter implements ISearchResultListPresenter
     }
 
     @Override
-    public void onEditorActionSearch(String keyword, GithubRepoEntity entity) {
+    public void onEditorActionSearch(String keyword, String repositoryFullName, GithubRepoEntity entity) {
         ModelLocator.getSearchCodeModel().clear();
-        searchCode(keyword, entity, null);
+        searchCode(keyword, repositoryFullName, null);
     }
 
     @Override
@@ -52,10 +53,9 @@ public class SearchCodeResultListPresenter implements ISearchResultListPresenter
     }
 
 
-    private void searchCode(String keyword, GithubRepoEntity entity, Integer page) {
+    private void searchCode(String keyword, String repositoryFullName, Integer page) {
         mSearchResultListView.showProgress();
-        String repo = entity.getFullName();
-        ModelLocator.getSearchCodeModel().searchCode(keyword, repo, page, new ApiSubscriber<List<ItemEntity>>(((SearchCodeResultListFragment) mSearchResultListView).getActivity().getApplicationContext()) {
+        ModelLocator.getSearchCodeModel().searchCode(keyword, repositoryFullName, page, new ApiSubscriber<List<ItemEntity>>(((SearchCodeResultListFragment) mSearchResultListView).getActivity().getApplicationContext()) {
             @Override
             public void onCompleted() {
                 Logger.d("onCompleted is called.");
@@ -80,7 +80,7 @@ public class SearchCodeResultListPresenter implements ISearchResultListPresenter
     private void searchCodeOnScroll(Integer page) {
         mSearchResultListView.showProgressOnScroll();
         String keyword = ModelLocator.getSearchCodeModel().getKeyword();
-        String repo = ModelLocator.getSearchCodeModel().getRepository();
+        String repo = ModelLocator.getSearchCodeModel().getRepositoryFullName();
         ModelLocator.getSearchCodeModel().searchCode(keyword, repo, page, new ApiSubscriber<List<ItemEntity>>(((SearchCodeResultListFragment) mSearchResultListView).getActivity().getApplicationContext()) {
             @Override
             public void onCompleted() {
@@ -109,7 +109,7 @@ public class SearchCodeResultListPresenter implements ISearchResultListPresenter
 
         void updateSearchResultListView(List<ItemEntity> itemEntityList);
 
-        void onEditorActionSearch(String keyword, GithubRepoEntity entity);
+        void onEditorActionSearch(String keyword, String repositoryFullName, @Nullable GithubRepoEntity entity);
 
         void showProgress();
 

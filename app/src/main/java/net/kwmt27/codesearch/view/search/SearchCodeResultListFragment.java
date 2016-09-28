@@ -126,8 +126,8 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
     }
 
     @Override
-    public void onEditorActionSearch(String keyword, GithubRepoEntity entity) {
-        mPresenter.onEditorActionSearch(keyword, entity);
+    public void onEditorActionSearch(String keyword, String repositoryFullName, GithubRepoEntity entity) {
+        mPresenter.onEditorActionSearch(keyword, repositoryFullName, null);
     }
 
     @Override

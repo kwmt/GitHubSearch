@@ -41,7 +41,7 @@ public class SearchRepositoryResultListPresenter implements ISearchResultListPre
     }
 
     @Override
-    public void onEditorActionSearch(String keyword, GithubRepoEntity entity) {
+    public void onEditorActionSearch(String keyword, String repositoryFullName, GithubRepoEntity entity) {
         ModelLocator.getSearchRepositoryModel().clear();
         searchRepository(keyword, null);
     }
@@ -93,7 +93,7 @@ public class SearchRepositoryResultListPresenter implements ISearchResultListPre
 
         void updateSearchResultListView(List<GithubRepoEntity> entities);
 
-        void onEditorActionSearch(String keyword, GithubRepoEntity entity);
+        void onEditorActionSearch(String keyword);
 
         void showProgress();
 

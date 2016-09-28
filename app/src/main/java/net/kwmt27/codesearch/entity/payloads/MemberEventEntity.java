@@ -23,7 +23,7 @@ public class MemberEventEntity {
         return mUser;
     }
 
-//    public UserEntity getRepository() {
+//    public UserEntity getRepositoryFullName() {
 //        return mRepository;
 //    }
 //

@@ -125,15 +125,13 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
                 Serializable serializableRepo = getIntent().getSerializableExtra(ISearchPresenter.REPO_ENTITY_KEY);
                 if(serializableRepo != null) {
                     GithubRepoEntity repo = (GithubRepoEntity) serializableRepo;
-                    if (canSearchCode) {
-                        AnalyticsManager.getInstance(SearchActivity.this).sendSearch(AnalyticsManager.Param.Screen.SEARCH_CODE_RESULT_LIST, keyword);
-                        SearchCodeResultListFragment fragment = (SearchCodeResultListFragment) manager.findFragmentByTag(SearchCodeResultListFragment.TAG);
-                        fragment.onEditorActionSearch(keyword, repo);
-                    } else {
-                        AnalyticsManager.getInstance(SearchActivity.this).sendSearch(AnalyticsManager.Param.Screen.SEARCH_REPOSITORY_RESULT_LIST, keyword);
-                        SearchRepositoryResultListFragment fragment = (SearchRepositoryResultListFragment) manager.findFragmentByTag(SearchRepositoryResultListFragment.TAG);
-                        fragment.onEditorActionSearch(keyword, repo);
-                    }
+                    AnalyticsManager.getInstance(SearchActivity.this).sendSearch(AnalyticsManager.Param.Screen.SEARCH_CODE_RESULT_LIST, keyword);
+                    SearchCodeResultListFragment fragment = (SearchCodeResultListFragment) manager.findFragmentByTag(SearchCodeResultListFragment.TAG);
+                    fragment.onEditorActionSearch(keyword, repo.getFullName(), repo);
+                } else {
+                    AnalyticsManager.getInstance(SearchActivity.this).sendSearch(AnalyticsManager.Param.Screen.SEARCH_REPOSITORY_RESULT_LIST, keyword);
+                    SearchRepositoryResultListFragment fragment = (SearchRepositoryResultListFragment) manager.findFragmentByTag(SearchRepositoryResultListFragment.TAG);
+                    fragment.onEditorActionSearch(keyword);
                 }
             }
             return handled;
