@@ -87,7 +87,6 @@ public class EventListPresenter implements IEventListPresenter {
         ModelLocator.getEventModel().fetchEvent(page, new ApiSubscriber<List<EventEntity>>(((EventListFragment) mEventListView).getActivity()) {
             @Override
             public void onCompleted() {
-                mEventListView.hideProgressOnScroll();
             }
 
             @Override
@@ -99,6 +98,7 @@ public class EventListPresenter implements IEventListPresenter {
 
             @Override
             public void onNext(List<EventEntity> githubRepoEntities) {
+                mEventListView.hideProgressOnScroll();
                 mEventListView.updateEventListView(githubRepoEntities);
             }
         });

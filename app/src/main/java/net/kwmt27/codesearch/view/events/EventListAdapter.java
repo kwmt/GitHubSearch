@@ -33,6 +33,9 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
     private List<EventEntity> mEventEntityList = new ArrayList<>();
     private LayoutInflater mLayoutInflater;
 
+    private final static int HEADER_POSITION = 0;
+    private final static int HEADER_SIZE = 1;
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView avatarImageView;
         TextView displayLoginTextView;
@@ -56,18 +59,13 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
 
     @Override
     public int getItemViewType(int position) {
-        ItemType itemType = mEventEntityList.get(position).getItemType();
-        if (itemType == null) {
-            return ItemType.Normal.getTypeId();
+        if (position == HEADER_POSITION) {
+            return ItemType.Ad.getTypeId();
         }
-        switch (itemType) {
-            case Progress:
-                return ItemType.Progress.getTypeId();
-            case Ad:
-                return ItemType.Ad.getTypeId();
-            default:
-                return ItemType.Normal.getTypeId();
+        if(mEventEntityList.get(position - HEADER_SIZE).getItemType() == ItemType.Progress){
+            return ItemType.Progress.getTypeId();
         }
+        return ItemType.Normal.getTypeId();
     }
 
 
@@ -111,37 +109,43 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         if (getItemCount() <= 0) {
             return;
         }
-        EventEntity item = mEventEntityList.get(position);
-        if (item.getItemType() == null) {
-            Glide.with(mContext).load(item.getActor().getAvatarUrl()).asBitmap().centerCrop().into(new BitmapImageViewTarget(holder.avatarImageView) {
-                @Override
-                protected void setResource(Bitmap resource) {
-                    RoundedBitmapDrawable circularBitmapDrawable =
-                            RoundedBitmapDrawableFactory.create(mContext.getResources(), resource);
-                    circularBitmapDrawable.setCircular(true);
-                    holder.avatarImageView.setImageDrawable(circularBitmapDrawable);
-                }
-            });
-            holder.displayLoginTextView.setText(item.getActor().getDisplayLogin());
-            holder.dateTextView.setText(item.getFormattedCreatedAt());
-
-            holder.container.removeAllViews();
-            holder.container.addView(item.createView(mLayoutInflater.getContext(), mListener));
+        if(position == HEADER_POSITION){
+            return;
         }
+
+        EventEntity item = mEventEntityList.get(position - HEADER_SIZE);
+        if(item.getItemType() == ItemType.Progress){
+            return;
+        }
+        Glide.with(mContext).load(item.getActor().getAvatarUrl()).asBitmap().centerCrop().into(new BitmapImageViewTarget(holder.avatarImageView) {
+            @Override
+            protected void setResource(Bitmap resource) {
+                RoundedBitmapDrawable circularBitmapDrawable =
+                        RoundedBitmapDrawableFactory.create(mContext.getResources(), resource);
+                circularBitmapDrawable.setCircular(true);
+                holder.avatarImageView.setImageDrawable(circularBitmapDrawable);
+            }
+        });
+
+        holder.dateTextView.setText(item.getFormattedCreatedAt());
+        holder.displayLoginTextView.setText(item.getActor().getDisplayLogin());
+        holder.container.removeAllViews();
+        holder.container.addView(item.createView(mLayoutInflater.getContext(), mListener));
     }
 
     @Override
     public int getItemCount() {
-        return mEventEntityList.size();
+        return mEventEntityList.size() > 0 ? mEventEntityList.size() + HEADER_SIZE : 0;
     }
 
 
     public void setEventEntityList(List<EventEntity> eventEntityList) {
-        mEventEntityList = eventEntityList;
+        mEventEntityList = new ArrayList<>(eventEntityList);
     }
-
+    private final Object lock = new Object();
     public void addProgressItemTypeThenNotify() {
-        int pos = addItemType(ItemType.Progress);
+        mEventEntityList.add(new EventEntity(ItemType.Progress));
+        int pos = mEventEntityList.size() - 1 - 1;
         if (pos > -1) {
             notifyItemInserted(pos);
         }
@@ -155,29 +159,6 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         }
     }
 
-    public void addAdItemTypeThenNotify() {
-        int pos = addItemTypeAtBeginningPosition(ItemType.Ad);
-        if (pos > -1) {
-            notifyItemInserted(pos);
-        }
-    }
-
-//    public void removeAdItemTypeIfNeeded() {
-//        int pos = findPositionByItemType(ItemType.Ad);
-//        if (pos > -1) {
-//            mEventEntityList.remove(pos);
-//            notifyItemRemoved(pos);
-//        }
-//    }
-
-    private int addItemType(ItemType type) {
-        mEventEntityList.add(new EventEntity(type));
-        return mEventEntityList.size() - 1;
-    }
-    private int addItemTypeAtBeginningPosition(ItemType type) {
-        mEventEntityList.add(0, new EventEntity(type));
-        return mEventEntityList.size() - 1;
-    }
 
     private int findPositionByItemType(ItemType type) {
         for (int i = 0; i < mEventEntityList.size(); i++) {

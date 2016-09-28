@@ -50,8 +50,6 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
     private View mErrorLayout;
     private View mProgressLayout;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private boolean mIsAddedAd;
-    private boolean mOnRefreshing;
 
     public static EventListFragment newInstance(boolean isAddedAd) {
         EventListFragment fragment = new EventListFragment();
@@ -95,8 +93,6 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
 
     @Override
     public void setupComponents(View view, Bundle savedInstanceState) {
-        // bottom navigationを切り替えるたびにFragmentがnewされるのでmIsAddedAdが初期化(false)され、広告が追加され増え続けるための対策
-        mIsAddedAd = getArguments().getBoolean(MainFragment.IS_ADDED_AD);
 
         mProgressLayout = view.findViewById(R.id.progress_layout);
         mErrorLayout = view.findViewById(R.id.error_layout);
@@ -123,7 +119,6 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
-            mOnRefreshing = true;
             mPresenter.onRefresh();
         });
     }
@@ -155,12 +150,6 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
         rxRecyclerViewScrollSubscribe();
         mEventListAdapter.setEventEntityList(entityList);
         mEventListAdapter.notifyDataSetChanged();
-
-        if(!mIsAddedAd || mOnRefreshing) {
-            mEventListAdapter.addAdItemTypeThenNotify();
-            mIsAddedAd = true;
-        }
-        mOnRefreshing = false;
     }
 
     @Override
