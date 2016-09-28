@@ -61,11 +61,6 @@ public class SearchRepositoryResultListPresenter implements ISearchResultListPre
             @Override
             public void onCompleted() {
                 Logger.d("onCompleted is called.");
-                if(page == null) {
-                    mSearchResultListView.hideProgress();
-                } else {
-                    mSearchResultListView.hideProgressOnScroll();
-                }
             }
 
             @Override
@@ -83,6 +78,11 @@ public class SearchRepositoryResultListPresenter implements ISearchResultListPre
 
             @Override
             public void onNext(List<GithubRepoEntity> entities) {
+                if(page == null) {
+                    mSearchResultListView.hideProgress();
+                } else {
+                    mSearchResultListView.hideProgressOnScroll();
+                }
                 mSearchResultListView.updateSearchResultListView(entities);
             }
         });

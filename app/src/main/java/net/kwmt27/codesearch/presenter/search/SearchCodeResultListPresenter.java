@@ -59,7 +59,6 @@ public class SearchCodeResultListPresenter implements ISearchResultListPresenter
             @Override
             public void onCompleted() {
                 Logger.d("onCompleted is called.");
-                mSearchResultListView.hideProgress();
             }
 
             @Override
@@ -72,6 +71,7 @@ public class SearchCodeResultListPresenter implements ISearchResultListPresenter
 
             @Override
             public void onNext(List<ItemEntity> itemEntityList) {
+                mSearchResultListView.hideProgress();
                 mSearchResultListView.updateSearchResultListView(itemEntityList);
             }
         });
@@ -85,7 +85,6 @@ public class SearchCodeResultListPresenter implements ISearchResultListPresenter
             @Override
             public void onCompleted() {
                 Logger.d("onCompleted is called.");
-                mSearchResultListView.hideProgressOnScroll();
             }
 
             @Override
@@ -98,6 +97,7 @@ public class SearchCodeResultListPresenter implements ISearchResultListPresenter
 
             @Override
             public void onNext(List<ItemEntity> itemEntityList) {
+                mSearchResultListView.hideProgressOnScroll();
                 mSearchResultListView.updateSearchResultListView(itemEntityList);
             }
         });
