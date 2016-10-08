@@ -97,7 +97,7 @@ final RETROFIT_VERSION = '2.1.0'
 // https://github.com/google/dagger/releases
 final DAGGER_VERSION = '2.7'
 // https://developers.google.com/android/guides/releases
-final GOOGLE_PLAY_SERVICES_VERSION = '9.6.1'
+final GOOGLE_PLAY_SERVICES_VERSION = '9.4.0'
 final LEAKCANARY_VERSION = '1.4-beta2'
 
 dependencies {
