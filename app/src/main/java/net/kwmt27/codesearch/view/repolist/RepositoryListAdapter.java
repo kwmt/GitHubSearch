@@ -20,7 +20,6 @@ import net.kwmt27.codesearch.view.parts.OnItemClickListener;
 
 public class RepositoryListAdapter extends BaseRecyclerAdapter<RepositoryListAdapter.ViewHolder, GithubRepoEntity> {
 
-    private final LayoutInflater mLayoutInflater;
     private OnItemClickListener<RepositoryListAdapter, GithubRepoEntity> mListener;
 
 
@@ -42,27 +41,28 @@ public class RepositoryListAdapter extends BaseRecyclerAdapter<RepositoryListAda
     }
 
     public RepositoryListAdapter(Context context, OnItemClickListener<RepositoryListAdapter, GithubRepoEntity> listener) {
-        mLayoutInflater = LayoutInflater.from(context);
+
         mListener = listener;
     }
 
 
     @Override
     public RepositoryListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view;
         final ItemType itemType = ItemType.valueOf(viewType);
         switch (itemType) {
             case Progress:
-                view = mLayoutInflater.inflate(R.layout.recyclerview_progress_layout, parent, false);
+                view = layoutInflater.inflate(R.layout.recyclerview_progress_layout, parent, false);
                 break;
             case Ad:
-                view = mLayoutInflater.inflate(R.layout.recyclerview_ad_layout, parent, false);
+                view = layoutInflater.inflate(R.layout.recyclerview_ad_layout, parent, false);
                 AdView adView = (AdView) view.findViewById(R.id.adView);
                 AdRequest adRequest = new AdRequest.Builder().build();
                 adView.loadAd(adRequest);
                 break;
             default:
-                view = mLayoutInflater.inflate(R.layout.recyclerview_repo_list_item, parent, false);
+                view = layoutInflater.inflate(R.layout.recyclerview_repo_list_item, parent, false);
                 break;
         }
 
