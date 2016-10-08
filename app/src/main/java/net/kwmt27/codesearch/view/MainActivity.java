@@ -22,6 +22,7 @@ public class MainActivity extends BaseActivity {
     private boolean isAddedAdOfEvent = false;
     private boolean isAddedAdOfRepository = false;
 
+    private final static int INITIAL_TAB_RESID = R.id.tab_timeline;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class MainActivity extends BaseActivity {
         }
 
         bottomBar.setVisibility(View.VISIBLE);
-        bottomBar.selectTabWithId(R.id.tab_repository);
+        bottomBar.selectTabWithId(INITIAL_TAB_RESID);
         mSignedIn = true;
 
         bottomBar.setOnTabSelectListener(tabId -> {

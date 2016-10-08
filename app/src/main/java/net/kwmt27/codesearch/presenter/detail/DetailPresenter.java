@@ -44,6 +44,12 @@ public class DetailPresenter implements IDetailPresenter {
             CharSequence extraText = extras.getCharSequence(Intent.EXTRA_TEXT);
             if (!TextUtils.isEmpty(extraText)) {
                 String url = (String) extraText;
+                Logger.d("url:" + url);
+                if(Uri.parse(url).getHost() == null){
+                    mDetailView.showError(App.getInstance().getString(R.string.select_share_from_right_menu));
+                    mDetailView.finish();
+                    return;
+                }
                 if(!Uri.parse(url).getHost().equals("github.com")) {
                     mDetailView.showError(App.getInstance().getString(R.string.failed_not_from_github_page));
                     mDetailView.finish();

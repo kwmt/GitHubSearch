@@ -12,4 +12,5 @@
     <string name="failed_display">表示に失敗しました。</string>
     <string name="search_app">CodeSearchで検索</string>
     <string name="failed_not_from_github_page">GitHubページから共有してください。</string>
+    <string name="select_share_from_right_menu">右上のメニューから共有を選択して下さい。</string>
 </resources>
