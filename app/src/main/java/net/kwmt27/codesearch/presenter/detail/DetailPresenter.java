@@ -34,6 +34,9 @@ public class DetailPresenter implements IDetailPresenter {
         Serializable serializableRepoEntity = intent.getSerializableExtra(REPO_ENTITY_KEY);
         if(serializableRepoEntity != null) {
             mGithubRepoEntity = (GithubRepoEntity)serializableRepoEntity;
+        } else {
+            // 検索メニューを非表示にする
+            mDetailView.hideSearchMenu();
         }
 
         if (TextUtils.equals(intent.getAction(), Intent.ACTION_SEND)) {
@@ -89,6 +92,8 @@ public class DetailPresenter implements IDetailPresenter {
         void showError(String message);
 
         void finish();
+
+        void hideSearchMenu();
     }
 
 }

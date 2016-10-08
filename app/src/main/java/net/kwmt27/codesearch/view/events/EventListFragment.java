@@ -35,7 +35,12 @@ import rx.Subscription;
 public class EventListFragment extends Fragment implements EventListPresenter.IEventListView, MainFragment {
 
     public interface OnLinkClickListener {
-
+        /**
+         *
+         * @param title
+         * @param url
+         * @param githubRepoEntity nullならレポジトリ検索できないので、検索メニューを非表示にする
+         */
         void onLinkClick(String title, String url, GithubRepoEntity githubRepoEntity);
     }
 

@@ -18,6 +18,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
 import net.kwmt27.codesearch.R;
+import net.kwmt27.codesearch.entity.ActorEntity;
 import net.kwmt27.codesearch.entity.EventEntity;
 import net.kwmt27.codesearch.entity.ItemType;
 import net.kwmt27.codesearch.view.BaseRecyclerAdapter;
@@ -108,6 +109,13 @@ public class EventListAdapter extends BaseRecyclerAdapter<EventListAdapter.ViewH
                         RoundedBitmapDrawableFactory.create(mContext.getResources(), resource);
                 circularBitmapDrawable.setCircular(true);
                 holder.avatarImageView.setImageDrawable(circularBitmapDrawable);
+                holder.avatarImageView.setOnClickListener(view1 -> {
+                    if (mListener != null) {
+                        ActorEntity actorWithHtmlUrl = new ActorEntity(item.getActor().getLogin());
+                        mListener.onLinkClick(actorWithHtmlUrl.getDisplayLogin(), actorWithHtmlUrl.getHtmlUrl(), null);
+                    }
+
+                });
             }
         });
 
