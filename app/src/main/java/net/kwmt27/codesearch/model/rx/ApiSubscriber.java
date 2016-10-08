@@ -18,7 +18,7 @@ import rx.Subscriber;
 public abstract class ApiSubscriber<T> extends Subscriber<T> {
     private Context mContext;
     public ApiSubscriber(Context context) {
-        mContext = context;
+        mContext = context.getApplicationContext();
     }
 
     @Override

@@ -113,4 +113,15 @@ public class Logger {
         StackTraceElement[] trace = stack.getStackTrace();
         return trace[2].getClassName() + "." + trace[2].getMethodName() + ":" + trace[2].getLineNumber();
     }
+
+    public static void methodOnly() {
+        if(DEBUG) {
+            d(getMethodName());
+        }
+    }
+    private static String getMethodName() {
+        Throwable stack = new Throwable().fillInStackTrace();
+        StackTraceElement[] trace = stack.getStackTrace();
+        return trace[2].getClassName() + "." + trace[2].getMethodName() + " is called.";
+    }
 }

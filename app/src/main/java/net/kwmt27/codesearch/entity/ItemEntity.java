@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemEntity implements Serializable {
+public class ItemEntity extends BaseEntity implements Serializable {
     @SerializedName("name")
     private String mName;
     @SerializedName("path")
@@ -18,10 +18,7 @@ public class ItemEntity implements Serializable {
     @SerializedName("text_matches")
     private List<TextMatchEntity> mTextMatchEntityList = new ArrayList<>();
 
-    private ItemType mItemType;
-
-    public ItemEntity(ItemType itemType) {
-        mItemType = itemType;
+    public ItemEntity() {
     }
 
     public String getName() {
@@ -42,9 +39,5 @@ public class ItemEntity implements Serializable {
 
     public List<TextMatchEntity> getTextMatchEntityList() {
         return mTextMatchEntityList;
-    }
-
-    public ItemType getItemType() {
-        return mItemType;
     }
 }

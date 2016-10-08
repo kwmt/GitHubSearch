@@ -20,6 +20,7 @@ import net.kwmt27.codesearch.entity.MatchEntity;
 import net.kwmt27.codesearch.entity.TextMatchEntity;
 import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.util.RoundedBackgroundSpan;
+import net.kwmt27.codesearch.view.BaseRecyclerAdapter;
 import net.kwmt27.codesearch.view.parts.DividerItemDecoration;
 import net.kwmt27.codesearch.view.parts.OnItemClickListener;
 
@@ -27,13 +28,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SearchCodeResultListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class SearchCodeResultListAdapter extends BaseRecyclerAdapter<RecyclerView.ViewHolder, ItemEntity> {
 
     private final LayoutInflater mLayoutInflater;
     private final Context mContext;
     private OnItemClickListener<SearchCodeResultListAdapter, ItemEntity> mListener;
 
-    private List<ItemEntity> mSearchResultList = new ArrayList<>();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ChildSearchCodeResultListAdapter mChildAdapter;
@@ -77,21 +77,6 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<RecyclerVi
         mListener = listener;
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        ItemType itemType = mSearchResultList.get(position).getItemType();
-        if (itemType == null) {
-            return ItemType.Normal.getTypeId();
-        }
-        switch (itemType) {
-            case Progress:
-                return ItemType.Progress.getTypeId();
-            case Ad:
-                return ItemType.Ad.getTypeId();
-            default:
-                return ItemType.Normal.getTypeId();
-        }
-    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -114,7 +99,7 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<RecyclerVi
                     if (mListener != null) {
                         int position = viewHolder.getAdapterPosition();
                         Logger.d("click position:" + position);
-                        ItemEntity entity = mSearchResultList.get(position);
+                        ItemEntity entity = getEntityAtPosition(position - HEADER_SIZE);
                         mListener.onItemClick(SearchCodeResultListAdapter.this, position, entity, itemType);
                     }
                 });
@@ -127,80 +112,24 @@ public class SearchCodeResultListAdapter extends RecyclerView.Adapter<RecyclerVi
         if (getItemCount() <= 0) {
             return;
         }
-        final ItemEntity item = mSearchResultList.get(position);
+        if(position == HEADER_POSITION){
+            return;
+        }
+        final ItemEntity item = getEntityAtPosition(position - HEADER_SIZE);
+        if(item.getItemType() == ItemType.Progress){
+            return;
+        }
 
         if(!(holder instanceof ViewHolder)) {
             return;
         }
         ViewHolder viewHolder = (ViewHolder)holder;
-
-        if (item.getItemType() == null) {
-            viewHolder.nameTextView.setText(item.getName());
-            viewHolder.pathTextView.setText(item.getPath());
-            viewHolder.mChildAdapter.setSearchResultList(item.getTextMatchEntityList());
-            viewHolder.textMatchRecyclerView.setAdapter(viewHolder.mChildAdapter);
-        }
+        viewHolder.nameTextView.setText(item.getName());
+        viewHolder.pathTextView.setText(item.getPath());
+        viewHolder.mChildAdapter.setSearchResultList(item.getTextMatchEntityList());
+        viewHolder.textMatchRecyclerView.setAdapter(viewHolder.mChildAdapter);
     }
 
-    @Override
-    public int getItemCount() {
-        return mSearchResultList.size();
-    }
-
-
-    public void setSearchResultList(List<ItemEntity> searchResultList) {
-        mSearchResultList = searchResultList;
-    }
-
-    public void addProgressItemTypeThenNotify() {
-        int pos = addItemType(ItemType.Progress);
-        if (pos > -1) {
-            notifyItemInserted(pos);
-        }
-    }
-
-    public void removeProgressItemTypeThenNotify() {
-        int pos = findPositionByItemType(ItemType.Progress);
-        if (pos > -1) {
-            mSearchResultList.remove(pos);
-            notifyItemRemoved(pos);
-        }
-    }
-
-    public void addAdItemTypeThenNotify() {
-        int pos = addItemTypeAtBeginningPosition(ItemType.Ad);
-        if (pos > -1) {
-            notifyItemInserted(pos);
-        }
-    }
-
-    public void removeAdItemTypeThenNotify() {
-        int pos = findPositionByItemType(ItemType.Ad);
-        if (pos > -1) {
-            mSearchResultList.remove(pos);
-            notifyItemRemoved(pos);
-        }
-    }
-
-    private int addItemTypeAtBeginningPosition(ItemType type) {
-        mSearchResultList.add(0, new ItemEntity(type));
-        return mSearchResultList.size() - 1;
-    }
-
-
-    private int addItemType(ItemType type) {
-        mSearchResultList.add(new ItemEntity(type));
-        return mSearchResultList.size() - 1;
-    }
-
-    private int findPositionByItemType(ItemType type) {
-        for (int i = 0; i < mSearchResultList.size(); i++) {
-            if (mSearchResultList.get(i).getItemType() == type) {
-                return i;
-            }
-        }
-        return -1;
-    }
 
     /**
      * TextMatches

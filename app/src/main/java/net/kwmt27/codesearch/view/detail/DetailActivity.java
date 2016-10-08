@@ -21,6 +21,7 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
 
 
     private boolean mIsFailure;
+    private boolean mHideSearchMenu;
 
     public static void startActivity(Activity activity, String title, String url,  GithubRepoEntity repo) {
         Intent intent = new Intent(activity.getApplicationContext(), DetailActivity.class);
@@ -50,8 +51,16 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_detail, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        if(mHideSearchMenu) {
+            searchItem.setVisible(false);
+            mHideSearchMenu = true;
+        }
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -113,6 +122,12 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
     @Override
     public void showError(String message) {
         ToastUtil.show(this, message);
+    }
+
+    @Override
+    public void hideSearchMenu() {
+        mHideSearchMenu = true;
+        invalidateOptionsMenu();
     }
 
 }

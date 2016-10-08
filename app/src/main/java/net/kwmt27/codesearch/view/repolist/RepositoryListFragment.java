@@ -2,6 +2,7 @@ package net.kwmt27.codesearch.view.repolist;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import net.kwmt27.codesearch.presenter.repolist.IRepositoryListPresenter;
 import net.kwmt27.codesearch.presenter.repolist.RepositoryListPresenter;
 import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.util.ToastUtil;
+import net.kwmt27.codesearch.view.MainFragment;
 import net.kwmt27.codesearch.view.detail.DetailActivity;
 import net.kwmt27.codesearch.view.parts.DividerItemDecoration;
 
@@ -30,21 +32,26 @@ import rx.Subscription;
 /**
  * レポジトリ一覧
  */
-public class RepositoryListFragment extends Fragment implements RepositoryListPresenter.IRepositoryListView {
+public class RepositoryListFragment extends Fragment implements RepositoryListPresenter.IRepositoryListView, MainFragment {
 
+    public static final String TAG = RepositoryListFragment.class.getSimpleName();
     private IRepositoryListPresenter mPresenter;
     private RepositoryListAdapter mRepositoryListAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private Subscription mSubscription;
     private boolean mIsCalled = false;
-    private boolean mAddedAd = false;
 
     private View mErrorLayout;
     private View mProgressLayout;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
-    public static RepositoryListFragment newInstance() {
-        return new RepositoryListFragment();
+    public static RepositoryListFragment newInstance(boolean isAddedAd) {
+        RepositoryListFragment fragment = new RepositoryListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(MainFragment.IS_ADDED_AD, isAddedAd);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     public RepositoryListFragment() {
@@ -102,6 +109,13 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
         mRecyclerView.setAdapter(mRepositoryListAdapter);
 
         rxRecyclerViewScrollSubscribe();
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            mPresenter.onRefresh();
+        });
+
     }
 
 
@@ -129,14 +143,8 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
     public void updateGitHubRepoListView(List<GithubRepoEntity> githubRepoEntities) {
         mIsCalled = false;
         rxRecyclerViewScrollSubscribe();
-        mRepositoryListAdapter.setGithubRepoEntityList(githubRepoEntities);
+        mRepositoryListAdapter.setEntityList(githubRepoEntities);
         mRepositoryListAdapter.notifyDataSetChanged();
-
-        if(!mAddedAd) {
-            mRepositoryListAdapter.addAdItemTypeThenNotify();
-            mAddedAd = true;
-        }
-
     }
 
     @Override
@@ -162,7 +170,7 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
     }
     @Override
     public void showProgressOnScroll() {
-        mRepositoryListAdapter.addProgressItemTypeThenNotify();
+        mRepositoryListAdapter.addProgressItemTypeThenNotify(new GithubRepoEntity());
     }
 
     @Override
@@ -175,4 +183,19 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
         ToastUtil.show(getActivity().getApplicationContext(), "データ取得に失敗しました。");
     }
 
+    @Override
+    public void hideSwipeRefreshLayout() {
+        if(mSwipeRefreshLayout.isRefreshing()){
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    @Override
+    public void moveToTop() {
+        if(mRecyclerView == null) {
+            return;
+        }
+        mRecyclerView.smoothScrollToPosition(0);
+
+    }
 }

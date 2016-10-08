@@ -1,30 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
     >
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        />
+        android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/container"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            />
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
+            />
+
+        <!--影-->
+        <View
+            android:id="@+id/shadow"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/shadow_height"
+            android:layout_below="@+id/toolbar"
+            android:background="@drawable/below_shadow"/>
+
+
+    </RelativeLayout>
+
+    <com.roughike.bottombar.BottomBar
+        android:id="@+id/bottomBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        />
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        app:bb_activeTabAlpha="1"
+        app:bb_activeTabColor="@color/colorPrimary"
+        app:bb_behavior="shy"
+        app:bb_inActiveTabAlpha="0.6"
+        app:bb_tabXmlResource="@xml/bottombar_tabs"/>
 
-    <!--影-->
-    <View
-        android:id="@+id/shadow"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/shadow_height"
-        android:layout_below="@+id/toolbar"
-        android:background="@drawable/below_shadow" />
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

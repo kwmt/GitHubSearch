@@ -21,7 +21,8 @@ public class SearchCodeModel extends BaseModel implements ISearchModel {
     private Map<String, List<String>> mHeadersMap;
 
     private String mKeyword;
-    private String mRepository;
+    /** account-name/repository-nameの形式のこと */
+    private String mRepositoryFullName;
 
     private ReusableCompositeSubscription mCompositeSubscription = new ReusableCompositeSubscription();
 
@@ -48,10 +49,10 @@ public class SearchCodeModel extends BaseModel implements ISearchModel {
 
 
 
-    public Subscription searchCode(String keyword, String repo, Integer page, final Subscriber<List<ItemEntity>> subscriber) {
+    public Subscription searchCode(String keyword, String repositoryFullName, Integer page, final Subscriber<List<ItemEntity>> subscriber) {
         mKeyword = keyword;
-        mRepository = repo;
-        keyword += "+repo:" + repo;
+        mRepositoryFullName = repositoryFullName;
+        keyword += "+repo:" + repositoryFullName;
 
         Subscription subscription = mApiClient.api.searchCode(keyword, page)
                 .subscribeOn(Schedulers.newThread())
@@ -79,9 +80,9 @@ public class SearchCodeModel extends BaseModel implements ISearchModel {
         return mKeyword;
     }
 
-    public String getRepository() {
-        if(mRepository == null) { return ""; }
-        return mRepository;
+    public String getRepositoryFullName() {
+        if(mRepositoryFullName == null) { return ""; }
+        return mRepositoryFullName;
     }
 
     @Override
