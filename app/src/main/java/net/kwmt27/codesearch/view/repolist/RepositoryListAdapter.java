@@ -14,18 +14,15 @@ import net.kwmt27.codesearch.R;
 import net.kwmt27.codesearch.entity.GithubRepoEntity;
 import net.kwmt27.codesearch.entity.ItemType;
 import net.kwmt27.codesearch.util.Logger;
+import net.kwmt27.codesearch.view.BaseRecyclerAdapter;
 import net.kwmt27.codesearch.view.parts.OnItemClickListener;
 
-import java.util.ArrayList;
-import java.util.List;
 
-
-public class RepositoryListAdapter extends RecyclerView.Adapter<RepositoryListAdapter.ViewHolder> {
+public class RepositoryListAdapter extends BaseRecyclerAdapter<RepositoryListAdapter.ViewHolder, GithubRepoEntity> {
 
     private final LayoutInflater mLayoutInflater;
     private OnItemClickListener<RepositoryListAdapter, GithubRepoEntity> mListener;
 
-    private List<GithubRepoEntity> mGithubRepoEntityList = new ArrayList<>();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView nameTextView;
@@ -47,22 +44,6 @@ public class RepositoryListAdapter extends RecyclerView.Adapter<RepositoryListAd
     public RepositoryListAdapter(Context context, OnItemClickListener<RepositoryListAdapter, GithubRepoEntity> listener) {
         mLayoutInflater = LayoutInflater.from(context);
         mListener = listener;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        ItemType itemType = mGithubRepoEntityList.get(position).getItemType();
-        if (itemType == null) {
-            return ItemType.Normal.getTypeId();
-        }
-        switch (itemType) {
-            case Progress:
-                return ItemType.Progress.getTypeId();
-            case Ad:
-                return ItemType.Ad.getTypeId();
-            default:
-                return ItemType.Normal.getTypeId();
-        }
     }
 
 
@@ -91,7 +72,7 @@ public class RepositoryListAdapter extends RecyclerView.Adapter<RepositoryListAd
             if (mListener != null) {
                 int position = viewHolder.getAdapterPosition();
                 Logger.d("click position:" + position);
-                GithubRepoEntity entity = mGithubRepoEntityList.get(position);
+                GithubRepoEntity entity = getEntityAtPosition(position - HEADER_SIZE);
                 mListener.onItemClick(RepositoryListAdapter.this, position, entity, itemType);
             }
 
@@ -104,72 +85,20 @@ public class RepositoryListAdapter extends RecyclerView.Adapter<RepositoryListAd
         if (getItemCount() <= 0) {
             return;
         }
-        GithubRepoEntity item = mGithubRepoEntityList.get(position);
-        if (item.getItemType() == null) {
-            holder.nameTextView.setText(item.getFullName());
-            holder.descriptionTextView.setText(item.getDescription());
-            holder.favoriteCountTextView.setText(item.getStargazersCount());
-            holder.languageTextView.setText(item.getLanguage());
-            holder.pushedAtTextView.setText(item.getFormattedPushedAt());
+        if(position == HEADER_POSITION){
+            return;
         }
-    }
-
-    @Override
-    public int getItemCount() {
-        return mGithubRepoEntityList.size();
-    }
-
-
-    public void setGithubRepoEntityList(List<GithubRepoEntity> githubRepoEntityList) {
-        mGithubRepoEntityList = githubRepoEntityList;
-    }
-
-    public void addProgressItemTypeThenNotify() {
-        int pos = addItemType(ItemType.Progress);
-        if (pos > -1) {
-            notifyItemInserted(pos);
+        GithubRepoEntity item = getEntityAtPosition(position - HEADER_SIZE);
+        if(item.getItemType() == ItemType.Progress){
+            return;
         }
+
+        holder.nameTextView.setText(item.getFullName());
+        holder.descriptionTextView.setText(item.getDescription());
+        holder.favoriteCountTextView.setText(item.getStargazersCount());
+        holder.languageTextView.setText(item.getLanguage());
+        holder.pushedAtTextView.setText(item.getFormattedPushedAt());
     }
 
-    public void removeProgressItemTypeThenNotify() {
-        int pos = findPositionByItemType(ItemType.Progress);
-        if (pos > -1) {
-            mGithubRepoEntityList.remove(pos);
-            notifyItemRemoved(pos);
-        }
-    }
-
-    public void addAdItemTypeThenNotify() {
-        int pos = addItemTypeAtBeginningPosition(ItemType.Ad);
-        if (pos > -1) {
-            notifyItemInserted(pos);
-        }
-    }
-
-//    public void removeAdItemTypeIfNeeded() {
-//        int pos = findPositionByItemType(ItemType.Ad);
-//        if (pos > -1) {
-//            mGithubRepoEntityList.remove(pos);
-//            notifyItemRemoved(pos);
-//        }
-//    }
-
-    private int addItemType(ItemType type) {
-        mGithubRepoEntityList.add(new GithubRepoEntity(type));
-        return mGithubRepoEntityList.size() - 1;
-    }
-    private int addItemTypeAtBeginningPosition(ItemType type) {
-        mGithubRepoEntityList.add(0, new GithubRepoEntity(type));
-        return mGithubRepoEntityList.size() - 1;
-    }
-
-    private int findPositionByItemType(ItemType type) {
-        for (int i = 0; i < mGithubRepoEntityList.size(); i++) {
-            if (mGithubRepoEntityList.get(i).getItemType() == type) {
-                return i;
-            }
-        }
-        return -1;
-    }
 
 }

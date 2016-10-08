@@ -46,7 +46,6 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
 
     private FragmentProgressCallback mCallback;
     private View mErrorLayout;
-    private boolean mAddedAd = false;
 
     public static SearchCodeResultListFragment newInstance(FragmentProgressCallback callback) {
         SearchCodeResultListFragment fragment = new SearchCodeResultListFragment();
@@ -120,21 +119,15 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
         mCallback.showNotFoundPageIfNeeded(ModelLocator.getSearchCodeModel(), itemEntityList.size() > 0);
 
         if (itemEntityList.size() > 0) {
-            mSearchCodeResultListAdapter.setSearchResultList(itemEntityList);
+            mSearchCodeResultListAdapter.setEntityList(itemEntityList);
             mSearchCodeResultListAdapter.notifyDataSetChanged();
 
-            if (!mAddedAd) {
-                mSearchCodeResultListAdapter.removeAdItemTypeThenNotify();
-                mSearchCodeResultListAdapter.addAdItemTypeThenNotify();
-                mAddedAd = true;
-            }
         }
     }
 
     @Override
-    public void onEditorActionSearch(String keyword, GithubRepoEntity entity) {
-        mAddedAd = false;
-        mPresenter.onEditorActionSearch(keyword, entity);
+    public void onEditorActionSearch(String keyword, String repositoryFullName, GithubRepoEntity entity) {
+        mPresenter.onEditorActionSearch(keyword, repositoryFullName, null);
     }
 
     @Override
@@ -163,7 +156,7 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
     }
     @Override
     public void showProgressOnScroll() {
-        mSearchCodeResultListAdapter.addProgressItemTypeThenNotify();
+        mSearchCodeResultListAdapter.addProgressItemTypeThenNotify(new ItemEntity());
     }
 
     @Override

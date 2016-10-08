@@ -29,7 +29,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
-
             android:layout_toLeftOf="@+id/date"
             android:ellipsize="end"
             android:lines="1"
@@ -46,13 +45,14 @@
             android:text="15min"
             android:textSize="10sp"/>
 
-        <TextView
-            android:id="@+id/event"
+        <FrameLayout
+            android:id="@+id/container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/display_login"
             android:layout_marginTop="8dp"
-            android:text="ああああああああああああああああああああああああああああ"/>
+            >
+        </FrameLayout>
     </RelativeLayout>
 
 

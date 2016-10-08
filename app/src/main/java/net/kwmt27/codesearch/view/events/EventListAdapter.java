@@ -5,10 +5,10 @@ import android.graphics.Bitmap;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.RecyclerView;
-import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,26 +18,25 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
 import net.kwmt27.codesearch.R;
+import net.kwmt27.codesearch.entity.ActorEntity;
 import net.kwmt27.codesearch.entity.EventEntity;
 import net.kwmt27.codesearch.entity.ItemType;
-import net.kwmt27.codesearch.view.parts.OnItemClickListener;
-
-import java.util.ArrayList;
-import java.util.List;
+import net.kwmt27.codesearch.view.BaseRecyclerAdapter;
 
 
-public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder> {
+public class EventListAdapter extends BaseRecyclerAdapter<EventListAdapter.ViewHolder, EventEntity> {
 
     private final Context mContext;
-    private OnItemClickListener<EventListAdapter, EventEntity> mListener;
+    private EventListFragment.OnLinkClickListener mListener;
 
-    private List<EventEntity> mEventEntityList = new ArrayList<>();
+    private LayoutInflater mLayoutInflater;
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView avatarImageView;
         TextView displayLoginTextView;
         TextView dateTextView;
-        TextView eventTextView;
+        FrameLayout container;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -45,49 +44,33 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
 
             displayLoginTextView = (TextView) itemView.findViewById(R.id.display_login);
             dateTextView = (TextView) itemView.findViewById(R.id.date);
-            eventTextView = (TextView) itemView.findViewById(R.id.event);
+            container = (FrameLayout) itemView.findViewById(R.id.container);
         }
     }
 
-    public EventListAdapter(Context context, OnItemClickListener<EventListAdapter, EventEntity> listener) {
+    public EventListAdapter(Context context, EventListFragment.OnLinkClickListener listener) {
         mContext = context.getApplicationContext();
         mListener = listener;
     }
 
     @Override
-    public int getItemViewType(int position) {
-        ItemType itemType = mEventEntityList.get(position).getItemType();
-        if (itemType == null) {
-            return ItemType.Normal.getTypeId();
-        }
-        switch (itemType) {
-            case Progress:
-                return ItemType.Progress.getTypeId();
-            case Ad:
-                return ItemType.Ad.getTypeId();
-            default:
-                return ItemType.Normal.getTypeId();
-        }
-    }
-
-
-    @Override
     public EventListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        mLayoutInflater = LayoutInflater.from(parent.getContext());
+
         View view;
         final ItemType itemType = ItemType.valueOf(viewType);
         switch (itemType) {
             case Progress:
-                view = inflater.inflate(R.layout.recyclerview_progress_layout, parent, false);
+                view = mLayoutInflater.inflate(R.layout.recyclerview_progress_layout, parent, false);
                 break;
             case Ad:
-                view = inflater.inflate(R.layout.recyclerview_ad_layout, parent, false);
+                view = mLayoutInflater.inflate(R.layout.recyclerview_ad_layout, parent, false);
                 AdView adView = (AdView) view.findViewById(R.id.adView);
                 AdRequest adRequest = new AdRequest.Builder().build();
                 adView.loadAd(adRequest);
                 break;
             default:
-                view = inflater.inflate(R.layout.recyclerview_event_list_item, parent, false);
+                view = mLayoutInflater.inflate(R.layout.recyclerview_event_list_item, parent, false);
                 break;
         }
 
@@ -110,87 +93,37 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         if (getItemCount() <= 0) {
             return;
         }
-        EventEntity item = mEventEntityList.get(position);
-        if (item.getItemType() == null) {
-            Glide.with(mContext).load(item.getActor().getAvatarUrl()).asBitmap().centerCrop().into(new BitmapImageViewTarget(holder.avatarImageView) {
-                @Override
-                protected void setResource(Bitmap resource) {
-                    RoundedBitmapDrawable circularBitmapDrawable =
-                            RoundedBitmapDrawableFactory.create(mContext.getResources(), resource);
-                    circularBitmapDrawable.setCircular(true);
-                    holder.avatarImageView.setImageDrawable(circularBitmapDrawable);
-                }
-            });
-            holder.displayLoginTextView.setText(item.getActor().getDisplayLogin());
-            holder.dateTextView.setText(item.getFormattedCreatedAt());
+        if(position == HEADER_POSITION){
+            return;
+        }
 
-            item.action(holder.eventTextView, new ClickableSpan() {
-                @Override
-                public void onClick(View view) {
+        EventEntity item = getEntityAtPosition(position - HEADER_SIZE);
+        if(item.getItemType() == ItemType.Progress){
+            return;
+        }
+
+        Glide.with(mContext).load(item.getActor().getAvatarUrl()).asBitmap().centerCrop().into(new BitmapImageViewTarget(holder.avatarImageView) {
+            @Override
+            protected void setResource(Bitmap resource) {
+                RoundedBitmapDrawable circularBitmapDrawable =
+                        RoundedBitmapDrawableFactory.create(mContext.getResources(), resource);
+                circularBitmapDrawable.setCircular(true);
+                holder.avatarImageView.setImageDrawable(circularBitmapDrawable);
+                holder.avatarImageView.setOnClickListener(view1 -> {
                     if (mListener != null) {
-                        mListener.onItemClick(EventListAdapter.this, position, item, ItemType.Normal);
+                        ActorEntity actorWithHtmlUrl = new ActorEntity(item.getActor().getLogin());
+                        mListener.onLinkClick(actorWithHtmlUrl.getDisplayLogin(), actorWithHtmlUrl.getHtmlUrl(), null);
                     }
-                }
-            });
-        }
-    }
 
-    @Override
-    public int getItemCount() {
-        return mEventEntityList.size();
-    }
-
-
-    public void setEventEntityList(List<EventEntity> eventEntityList) {
-        mEventEntityList = eventEntityList;
-    }
-
-    public void addProgressItemTypeThenNotify() {
-        int pos = addItemType(ItemType.Progress);
-        if (pos > -1) {
-            notifyItemInserted(pos);
-        }
-    }
-
-    public void removeProgressItemTypeThenNotify() {
-        int pos = findPositionByItemType(ItemType.Progress);
-        if (pos > -1) {
-            mEventEntityList.remove(pos);
-            notifyItemRemoved(pos);
-        }
-    }
-
-    public void addAdItemTypeThenNotify() {
-        int pos = addItemTypeAtBeginningPosition(ItemType.Ad);
-        if (pos > -1) {
-            notifyItemInserted(pos);
-        }
-    }
-
-//    public void removeAdItemTypeIfNeeded() {
-//        int pos = findPositionByItemType(ItemType.Ad);
-//        if (pos > -1) {
-//            mEventEntityList.remove(pos);
-//            notifyItemRemoved(pos);
-//        }
-//    }
-
-    private int addItemType(ItemType type) {
-        mEventEntityList.add(new EventEntity(type));
-        return mEventEntityList.size() - 1;
-    }
-    private int addItemTypeAtBeginningPosition(ItemType type) {
-        mEventEntityList.add(0, new EventEntity(type));
-        return mEventEntityList.size() - 1;
-    }
-
-    private int findPositionByItemType(ItemType type) {
-        for (int i = 0; i < mEventEntityList.size(); i++) {
-            if (mEventEntityList.get(i).getItemType() == type) {
-                return i;
+                });
             }
-        }
-        return -1;
+        });
+
+        holder.dateTextView.setText(item.getFormattedCreatedAt());
+        holder.displayLoginTextView.setText(item.getActor().getDisplayLogin());
+        holder.container.removeAllViews();
+        holder.container.addView(item.createView(mLayoutInflater.getContext(), mListener));
     }
+
 
 }

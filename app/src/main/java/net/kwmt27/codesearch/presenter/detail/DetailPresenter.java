@@ -34,6 +34,9 @@ public class DetailPresenter implements IDetailPresenter {
         Serializable serializableRepoEntity = intent.getSerializableExtra(REPO_ENTITY_KEY);
         if(serializableRepoEntity != null) {
             mGithubRepoEntity = (GithubRepoEntity)serializableRepoEntity;
+        } else {
+            // 検索メニューを非表示にする
+            mDetailView.hideSearchMenu();
         }
 
         if (TextUtils.equals(intent.getAction(), Intent.ACTION_SEND)) {
@@ -41,6 +44,12 @@ public class DetailPresenter implements IDetailPresenter {
             CharSequence extraText = extras.getCharSequence(Intent.EXTRA_TEXT);
             if (!TextUtils.isEmpty(extraText)) {
                 String url = (String) extraText;
+                Logger.d("url:" + url);
+                if(Uri.parse(url).getHost() == null){
+                    mDetailView.showError(App.getInstance().getString(R.string.select_share_from_right_menu));
+                    mDetailView.finish();
+                    return;
+                }
                 if(!Uri.parse(url).getHost().equals("github.com")) {
                     mDetailView.showError(App.getInstance().getString(R.string.failed_not_from_github_page));
                     mDetailView.finish();
@@ -89,6 +98,8 @@ public class DetailPresenter implements IDetailPresenter {
         void showError(String message);
 
         void finish();
+
+        void hideSearchMenu();
     }
 
 }

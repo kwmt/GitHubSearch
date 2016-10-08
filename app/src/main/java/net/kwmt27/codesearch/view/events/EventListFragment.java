@@ -15,6 +15,7 @@ import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 import net.kwmt27.codesearch.R;
 import net.kwmt27.codesearch.analytics.AnalyticsManager;
 import net.kwmt27.codesearch.entity.EventEntity;
+import net.kwmt27.codesearch.entity.GithubRepoEntity;
 import net.kwmt27.codesearch.presenter.events.EventListPresenter;
 import net.kwmt27.codesearch.presenter.events.IEventListPresenter;
 import net.kwmt27.codesearch.util.Logger;
@@ -33,6 +34,16 @@ import rx.Subscription;
  */
 public class EventListFragment extends Fragment implements EventListPresenter.IEventListView, MainFragment {
 
+    public interface OnLinkClickListener {
+        /**
+         *
+         * @param title
+         * @param url
+         * @param githubRepoEntity nullならレポジトリ検索できないので、検索メニューを非表示にする
+         */
+        void onLinkClick(String title, String url, GithubRepoEntity githubRepoEntity);
+    }
+
     public static final String TAG = EventListFragment.class.getSimpleName();
     private IEventListPresenter mPresenter;
     private EventListAdapter mEventListAdapter;
@@ -44,8 +55,6 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
     private View mErrorLayout;
     private View mProgressLayout;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private boolean mIsAddedAd;
-    private boolean mOnRefreshing;
 
     public static EventListFragment newInstance(boolean isAddedAd) {
         EventListFragment fragment = new EventListFragment();
@@ -89,8 +98,6 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
 
     @Override
     public void setupComponents(View view, Bundle savedInstanceState) {
-        // bottom navigationを切り替えるたびにFragmentがnewされるのでmIsAddedAdが初期化(false)され、広告が追加され増え続けるための対策
-        mIsAddedAd = getArguments().getBoolean(MainFragment.IS_ADDED_AD);
 
         mProgressLayout = view.findViewById(R.id.progress_layout);
         mErrorLayout = view.findViewById(R.id.error_layout);
@@ -100,9 +107,15 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mEventListAdapter = new EventListAdapter(getActivity().getApplicationContext(), (adapter, position, eventEntity, type) -> {
-            DetailActivity.startActivity(getActivity(), eventEntity.getRepo().getName(), eventEntity.getRepo().getHtmlUrl(), eventEntity.getRepo());
+        mEventListAdapter = new EventListAdapter(getActivity().getApplicationContext(), new OnLinkClickListener() {
+            @Override
+            public void onLinkClick(String title, String url, GithubRepoEntity githubRepoEntity) {
+                DetailActivity.startActivity(EventListFragment.this.getActivity(), title, url, githubRepoEntity);
+            }
         });
+
+
+
         mRecyclerView.setAdapter(mEventListAdapter);
 
         rxRecyclerViewScrollSubscribe();
@@ -111,7 +124,6 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
-            mOnRefreshing = true;
             mPresenter.onRefresh();
         });
     }
@@ -141,14 +153,8 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
     public void updateEventListView(List<EventEntity> entityList) {
         mIsCalled = false;
         rxRecyclerViewScrollSubscribe();
-        mEventListAdapter.setEventEntityList(entityList);
+        mEventListAdapter.setEntityList(entityList);
         mEventListAdapter.notifyDataSetChanged();
-
-        if(!mIsAddedAd || mOnRefreshing) {
-            mEventListAdapter.addAdItemTypeThenNotify();
-            mIsAddedAd = true;
-        }
-        mOnRefreshing = false;
     }
 
     @Override
@@ -174,7 +180,7 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
     }
     @Override
     public void showProgressOnScroll() {
-        mEventListAdapter.addProgressItemTypeThenNotify();
+        mEventListAdapter.addProgressItemTypeThenNotify(new EventEntity());
     }
 
     @Override

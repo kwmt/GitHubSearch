@@ -4,9 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 import net.kwmt27.codesearch.entity.UserEntity;
 
-public class MemberEntity {
-    // TODO
-    @SerializedName("action")
+public class MemberEventEntity {
+   @SerializedName("action")
     private String mAction;
     @SerializedName("member")
     private UserEntity mUser;
@@ -24,7 +23,7 @@ public class MemberEntity {
         return mUser;
     }
 
-//    public UserEntity getRepository() {
+//    public UserEntity getRepositoryFullName() {
 //        return mRepository;
 //    }
 //

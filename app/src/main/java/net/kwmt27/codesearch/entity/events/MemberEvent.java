@@ -1,34 +1,47 @@
 package net.kwmt27.codesearch.entity.events;
 
-import android.text.style.ClickableSpan;
+import android.content.Context;
+import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.flexbox.FlexboxLayout;
 import com.google.gson.annotations.SerializedName;
 
 import net.kwmt27.codesearch.entity.EventEntity;
-import net.kwmt27.codesearch.entity.payloads.MemberEntity;
-import net.kwmt27.codesearch.util.TextViewUtil;
+import net.kwmt27.codesearch.entity.payloads.MemberEventEntity;
+import net.kwmt27.codesearch.view.events.EventListFragment;
 
+/**
+ * https://developer.github.com/v3/activity/events/types/#memberevent
+ */
 public class MemberEvent extends EventEntity {
 
     @SerializedName("payload")
-    private MemberEntity mMemberEntity;
+    private MemberEventEntity mMemberEventEntity;
+
 
     @Override
-    public void action(TextView view, ClickableSpan repoClickableSpan) {
-        if(mMemberEntity == null) {
-            return;
+    public View createView(Context context, EventListFragment.OnLinkClickListener listener) {
+        if (mMemberEventEntity == null) {
+            return newTextView(context, "data empty", false, null);
         }
+        FlexboxLayout flexboxLayout = newFlexboxLayout(context);
+        TextView actionTextView = newTextView(context, mMemberEventEntity.getAction(), true, null);
+        flexboxLayout.addView(actionTextView);
 
-        String repoName = getRepo().getName();
+        TextView userTextView = newTextView(context, mMemberEventEntity.getUser().getLogin(), true,
+                newOnLinkClickClickableSpan(listener, mMemberEventEntity.getUser().getLogin(), mMemberEventEntity.getUser().getHtmlUrl(), getRepo()));
+        flexboxLayout.addView(userTextView);
 
-        // who actioned repo
-        // TODO: add link to mMemberEntity.getUser().getLogin()
-        String action = mMemberEntity.getAction() + " " + mMemberEntity.getUser().getLogin() + " to " + repoName;
+        TextView toTextView = newTextView(context, "to", true, null);
+        flexboxLayout.addView(toTextView);
 
-        view.setText(action);
-        //TextViewUtil.addLink(view, repoName, clickableSpan);
-        TextViewUtil.addLink(view, repoName, repoClickableSpan);
+        TextView repoTextView = newTextView(context, getRepo().getName(), false,
+                newOnLinkClickClickableSpan(listener, getRepo().getName(), getRepo().getHtmlUrl(), getRepo()));
+        flexboxLayout.addView(repoTextView);
+
+        return flexboxLayout;
     }
+
 
 }

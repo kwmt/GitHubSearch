@@ -1,6 +1,5 @@
 package net.kwmt27.codesearch.entity;
 
-import android.support.annotation.Nullable;
 import android.text.format.DateFormat;
 
 import com.google.gson.annotations.SerializedName;
@@ -10,7 +9,7 @@ import net.kwmt27.codesearch.BuildConfig;
 import java.io.Serializable;
 import java.util.Date;
 
-public class GithubRepoEntity implements Serializable{
+public class GithubRepoEntity extends BaseEntity implements Serializable {
     @SerializedName("id")
     private int mId;
     @SerializedName("name")
@@ -32,16 +31,27 @@ public class GithubRepoEntity implements Serializable{
     @SerializedName("stargazers_count")
     private int mStargazersCount;
 
-    private ItemType mItemType;
+    public GithubRepoEntity() {
+    }
 
     public GithubRepoEntity(ItemType type) {
-        mItemType = type;
+        super(type);
     }
 
     public GithubRepoEntity(String name, String ownerLogin) {
         mName = name;
         mOwner = new OwnerEntity(ownerLogin);
         mFullName = ownerLogin + "/" + name;
+        mHtmlUrl = BuildConfig.BASE_WEBVIEW_URL + "/" + mFullName;
+        mUrl = BuildConfig.BASE_API_URL + "/repos/" + mFullName;
+    }
+    public GithubRepoEntity(String fullName) {
+        String[] splitFullName = fullName.split("/");
+        if(splitFullName.length == 2){
+            mName = splitFullName[1];
+            mOwner = new OwnerEntity(splitFullName[0]);
+        }
+        mFullName = fullName;
         mHtmlUrl = BuildConfig.BASE_WEBVIEW_URL + "/" + mFullName;
         mUrl = BuildConfig.BASE_API_URL + "/repos/" + mFullName;
     }
@@ -100,8 +110,4 @@ public class GithubRepoEntity implements Serializable{
         return String.valueOf(mStargazersCount);
     }
 
-    @Nullable
-    public ItemType getItemType() {
-        return mItemType;
-    }
 }

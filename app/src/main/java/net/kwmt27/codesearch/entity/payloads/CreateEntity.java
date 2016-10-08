@@ -12,4 +12,20 @@ public class CreateEntity {
     private String mMasterBranch;
     @SerializedName("description")
     private String mDescription;
+
+    public String getRefType() {
+        return mRefType;
+    }
+
+    public String getRef() {
+        return mRef;
+    }
+
+    public String getMasterBranch() {
+        return mMasterBranch;
+    }
+
+    public String getDescription() {
+        return mDescription;
+    }
 }

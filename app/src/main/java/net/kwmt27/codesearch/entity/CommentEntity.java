@@ -1,4 +1,4 @@
-package net.kwmt27.codesearch.entity.payloads;
+package net.kwmt27.codesearch.entity;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -12,4 +12,19 @@ public class CommentEntity {
     @SerializedName("path")
     private String mPath;
 
+    public String getHtmlUrl() {
+        return mHtmlUrl;
+    }
+
+    public String getUrl() {
+        return mUrl;
+    }
+
+    public String getBody() {
+        return mBody;
+    }
+
+    public String getPath() {
+        return mPath;
+    }
 }

@@ -46,7 +46,6 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
     private boolean mIsCalled = false;
     private FragmentProgressCallback mCallback;
     private View mErrorLayout;
-    private boolean mAddedAd = false;
 
     public static SearchRepositoryResultListFragment newInstance(FragmentProgressCallback callback) {
         SearchRepositoryResultListFragment fragment = new SearchRepositoryResultListFragment();
@@ -117,22 +116,15 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
         rxRecyclerViewScrollSubscribe();
         mCallback.showNotFoundPageIfNeeded(ModelLocator.getSearchRepositoryModel(), entities.size() > 0);
         if (entities.size() > 0) {
-            mSearchRepositoryResultListAdapter.setSearchResultList(entities);
+            mSearchRepositoryResultListAdapter.setEntityList(entities);
             mSearchRepositoryResultListAdapter.notifyDataSetChanged();
-
-            if (!mAddedAd) {
-                mSearchRepositoryResultListAdapter.removeAdItemTypeIfNeeded();
-                mSearchRepositoryResultListAdapter.addAdItemTypeThenNotify();
-                mAddedAd = true;
-            }
         }
 
     }
 
     @Override
-    public void onEditorActionSearch(String keyword, GithubRepoEntity entity) {
-        mAddedAd = false;
-        mPresenter.onEditorActionSearch(keyword, entity);
+    public void onEditorActionSearch(String keyword) {
+        mPresenter.onEditorActionSearch(keyword, null, null);
     }
 
     @Override
@@ -159,7 +151,7 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
 
     @Override
     public void showProgressOnScroll() {
-        mSearchRepositoryResultListAdapter.addProgressItemTypeThenNotify();
+        mSearchRepositoryResultListAdapter.addProgressItemTypeThenNotify(new GithubRepoEntity());
     }
 
     @Override

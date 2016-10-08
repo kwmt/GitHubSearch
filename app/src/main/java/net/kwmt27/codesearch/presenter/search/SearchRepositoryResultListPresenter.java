@@ -41,7 +41,7 @@ public class SearchRepositoryResultListPresenter implements ISearchResultListPre
     }
 
     @Override
-    public void onEditorActionSearch(String keyword, GithubRepoEntity entity) {
+    public void onEditorActionSearch(String keyword, String repositoryFullName, GithubRepoEntity entity) {
         ModelLocator.getSearchRepositoryModel().clear();
         searchRepository(keyword, null);
     }
@@ -61,11 +61,6 @@ public class SearchRepositoryResultListPresenter implements ISearchResultListPre
             @Override
             public void onCompleted() {
                 Logger.d("onCompleted is called.");
-                if(page == null) {
-                    mSearchResultListView.hideProgress();
-                } else {
-                    mSearchResultListView.hideProgressOnScroll();
-                }
             }
 
             @Override
@@ -83,6 +78,11 @@ public class SearchRepositoryResultListPresenter implements ISearchResultListPre
 
             @Override
             public void onNext(List<GithubRepoEntity> entities) {
+                if(page == null) {
+                    mSearchResultListView.hideProgress();
+                } else {
+                    mSearchResultListView.hideProgressOnScroll();
+                }
                 mSearchResultListView.updateSearchResultListView(entities);
             }
         });
@@ -93,7 +93,7 @@ public class SearchRepositoryResultListPresenter implements ISearchResultListPre
 
         void updateSearchResultListView(List<GithubRepoEntity> entities);
 
-        void onEditorActionSearch(String keyword, GithubRepoEntity entity);
+        void onEditorActionSearch(String keyword);
 
         void showProgress();
 

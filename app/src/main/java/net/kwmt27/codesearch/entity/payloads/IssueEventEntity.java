@@ -2,18 +2,19 @@ package net.kwmt27.codesearch.entity.payloads;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PullRequestEntity {
-    // TODO
+import net.kwmt27.codesearch.entity.IssueEntity;
+
+public class IssueEventEntity {
     @SerializedName("action")
     private String mAction;
-    @SerializedName("number")
-    private int mNumber;
+    @SerializedName("issue")
+    private IssueEntity mIssueEntity;
 
     public String getAction() {
         return mAction;
     }
 
-    public int getNumber() {
-        return mNumber;
+    public IssueEntity getIssueEntity() {
+        return mIssueEntity;
     }
 }
