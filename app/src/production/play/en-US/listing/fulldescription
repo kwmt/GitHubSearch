@@ -1,1 +1,4 @@
-This repository is an Android application that you can search code in an repository. I will only write an Rxjava(RxAndroid) Sample, but I thought it's useful that create an actual Android application.
+This repository is an Android application that you can search code in an repository.
+Then if you sign in, you can your timeline or your repository list.
+
+I will only write an Rxjava(RxAndroid) Sample, but I thought it's useful that create an actual Android application.
