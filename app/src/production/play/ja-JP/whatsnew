@@ -1,3 +1,2 @@
-- bottom navigation barを追加しました
-- フォロワーのタイムライン一覧機能を追加しました
-- その他、バグ修正
+- タブをタップするとリストの一番上に移動するように変更
+https://material.google.com/components/bottom-navigation.html#bottom-navigation-behavior
