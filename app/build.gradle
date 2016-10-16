@@ -125,6 +125,7 @@ dependencies {
     compile "com.google.firebase:firebase-ads:${GOOGLE_PLAY_SERVICES_VERSION}"
     compile "com.google.firebase:firebase-crash:${GOOGLE_PLAY_SERVICES_VERSION}"
     compile "com.google.firebase:firebase-auth:${GOOGLE_PLAY_SERVICES_VERSION}"
+    compile "com.google.android.gms:play-services-analytics:${GOOGLE_PLAY_SERVICES_VERSION}"
 
     // https://github.com/JakeWharton/RxBinding
     compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0'

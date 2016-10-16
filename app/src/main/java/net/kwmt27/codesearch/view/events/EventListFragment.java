@@ -70,7 +70,7 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AnalyticsManager.getInstance(getActivity().getApplicationContext()).sendScreen(AnalyticsManager.Param.Screen.REPOSITORY_LIST);
+        AnalyticsManager.getInstance(getActivity().getApplicationContext()).sendScreen(AnalyticsManager.Param.Screen.EVENT_LIST);
         mPresenter = new EventListPresenter(this);
     }
 
@@ -110,6 +110,7 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
         mEventListAdapter = new EventListAdapter(getActivity().getApplicationContext(), new OnLinkClickListener() {
             @Override
             public void onLinkClick(String title, String url, GithubRepoEntity githubRepoEntity) {
+                AnalyticsManager.sendEvent(AnalyticsManager.Param.Screen.EVENT_LIST, AnalyticsManager.Param.Action.CLICK_LINK, url);
                 DetailActivity.startActivity(EventListFragment.this.getActivity(), title, url, githubRepoEntity);
             }
         });

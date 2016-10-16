@@ -11,6 +11,7 @@ import com.roughike.bottombar.BottomBar;
 
 import net.kwmt27.codesearch.ModelLocator;
 import net.kwmt27.codesearch.R;
+import net.kwmt27.codesearch.analytics.AnalyticsManager;
 import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.view.events.EventListFragment;
 import net.kwmt27.codesearch.view.repolist.RepositoryListFragment;
@@ -51,6 +52,7 @@ public class MainActivity extends BaseActivity {
         bottomBar.setOnTabSelectListener(tabId -> {
             switch (tabId) {
                 case R.id.tab_timeline: {
+                    AnalyticsManager.getInstance(this).sendClickButton(AnalyticsManager.Param.Screen.MAIN, AnalyticsManager.Param.Widget.TIMELINE_TAB);
                     // FIXME: findFragmentByTagがnullになるので、常にnewInstanceされる
                     Fragment fragment = getSupportFragmentManager().findFragmentByTag(EventListFragment.TAG);
                     getSupportFragmentManager().executePendingTransactions();
@@ -64,6 +66,7 @@ public class MainActivity extends BaseActivity {
                 break;
 
                 case R.id.tab_repository: {
+                    AnalyticsManager.getInstance(this).sendClickButton(AnalyticsManager.Param.Screen.MAIN, AnalyticsManager.Param.Widget.REPOSITORY_TAB);
                     Fragment fragment = getSupportFragmentManager().findFragmentByTag(RepositoryListFragment.TAG);
                     getSupportFragmentManager().executePendingTransactions();
                     if (fragment == null) {
@@ -83,9 +86,11 @@ public class MainActivity extends BaseActivity {
         bottomBar.setOnTabReselectListener(tabId -> {
             switch (tabId) {
                 case R.id.tab_timeline:
+                    AnalyticsManager.getInstance(this).sendClickButton(AnalyticsManager.Param.Screen.MAIN, AnalyticsManager.Param.Widget.TIMELINE_TAB);
                     moveToTop(EventListFragment.TAG);
                 break;
                 case R.id.tab_repository:
+                    AnalyticsManager.getInstance(this).sendClickButton(AnalyticsManager.Param.Screen.MAIN, AnalyticsManager.Param.Widget.REPOSITORY_TAB);
                     moveToTop(RepositoryListFragment.TAG);
                 break;
 //                case R.id.tab_favorites:
