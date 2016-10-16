@@ -83,14 +83,21 @@ public class MainActivity extends BaseActivity {
         bottomBar.setOnTabReselectListener(tabId -> {
             switch (tabId) {
                 case R.id.tab_timeline:
-                    Logger.d("reselect");
-                    break;
+                    moveToTop(EventListFragment.TAG);
+                break;
                 case R.id.tab_repository:
-                    break;
+                    moveToTop(RepositoryListFragment.TAG);
+                break;
 //                case R.id.tab_favorites:
 //                    break;
             }
         });
+    }
+
+    private void moveToTop(String tag) {
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
+        if(fragment == null) { return; }
+        ((MainFragment) fragment).moveToTop();
     }
 
     @Override
