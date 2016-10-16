@@ -16,9 +16,9 @@
             android:name=".view.detail.DetailActivity"
             android:configChanges="orientation|screenSize">
             <intent-filter android:label="@string/search_app">
-                <action android:name="android.intent.action.SEND" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="text/plain" />
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain"/>
             </intent-filter>
         </activity>
         <activity
@@ -35,7 +35,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.login.LoginActivity">
+        <activity
+            android:name=".view.login.LoginActivity"
+            android:configChanges="orientation|screenSize">
         </activity>
     </application>
 

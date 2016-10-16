@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.webkit.WebView;
 
 import net.kwmt27.codesearch.R;
+import net.kwmt27.codesearch.analytics.AnalyticsManager;
 import net.kwmt27.codesearch.entity.GithubRepoEntity;
 import net.kwmt27.codesearch.presenter.detail.DetailPresenter;
 import net.kwmt27.codesearch.presenter.detail.IDetailPresenter;
@@ -38,6 +39,7 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        AnalyticsManager.getInstance(this).sendScreen(AnalyticsManager.Param.Screen.DETAIL);
         mPresenter = new DetailPresenter(this);
         mPresenter.onCreate(savedInstanceState);
     }
@@ -66,11 +68,14 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                AnalyticsManager.getInstance(this).sendClickButton(AnalyticsManager.Param.Screen.DETAIL, AnalyticsManager.Param.Widget.BACK);
                 return goBackIfNeeded() || super.onOptionsItemSelected(item);
             case R.id.action_search:
+                AnalyticsManager.getInstance(this).sendClickButton(AnalyticsManager.Param.Screen.DETAIL, AnalyticsManager.Param.Widget.SEARCH_BUTTON);
                 mPresenter.onActionSearchSelected();
                 return true;
             case R.id.action_close:
+                AnalyticsManager.getInstance(this).sendClickButton(AnalyticsManager.Param.Screen.DETAIL, AnalyticsManager.Param.Widget.CLOSE);
                 finish();
                 return true;
         }
@@ -80,6 +85,7 @@ public class DetailActivity extends BaseActivity implements DetailPresenter.IDet
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            AnalyticsManager.getInstance(this).sendClickButton(AnalyticsManager.Param.Screen.DETAIL, AnalyticsManager.Param.Widget.BACK);
             return goBackIfNeeded() || super.onKeyDown(keyCode, event);
         }
         return super.onKeyDown(keyCode, event);

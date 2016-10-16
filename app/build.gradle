@@ -3,7 +3,7 @@ apply plugin: 'com.github.triplet.play'
 
 def versionMajor = 0
 def versionMinor = 1
-def versionPatch = 3
+def versionPatch = 2
 def version = "${versionMajor}.${versionMinor}.${versionPatch}"
 
 android {
@@ -14,7 +14,7 @@ android {
         applicationId "net.kwmt27.codesearch"
         minSdkVersion 21
         targetSdkVersion 24
-        versionCode versionMajor * 100 + versionMinor * 10 + versionPatch
+        versionCode 14
         versionName version
 
         jackOptions {
@@ -125,6 +125,7 @@ dependencies {
     compile "com.google.firebase:firebase-ads:${GOOGLE_PLAY_SERVICES_VERSION}"
     compile "com.google.firebase:firebase-crash:${GOOGLE_PLAY_SERVICES_VERSION}"
     compile "com.google.firebase:firebase-auth:${GOOGLE_PLAY_SERVICES_VERSION}"
+    compile "com.google.android.gms:play-services-analytics:${GOOGLE_PLAY_SERVICES_VERSION}"
 
     // https://github.com/JakeWharton/RxBinding
     compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0'

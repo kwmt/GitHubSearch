@@ -122,6 +122,7 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
                     return false;
                 }
                 String keyword = v.getText().toString();
+                AnalyticsManager.getInstance(this).sendSearch(AnalyticsManager.Param.Screen.SEARCH, keyword);
                 Serializable serializableRepo = getIntent().getSerializableExtra(ISearchPresenter.REPO_ENTITY_KEY);
                 if(serializableRepo != null) {
                     GithubRepoEntity repo = (GithubRepoEntity) serializableRepo;
