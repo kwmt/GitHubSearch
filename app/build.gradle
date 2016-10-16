@@ -14,7 +14,7 @@ android {
         applicationId "net.kwmt27.codesearch"
         minSdkVersion 21
         targetSdkVersion 24
-        versionCode versionMajor * 100 + versionMinor * 10 + versionPatch
+        versionCode 13
         versionName version
 
         jackOptions {
