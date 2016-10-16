@@ -3,7 +3,7 @@ apply plugin: 'com.github.triplet.play'
 
 def versionMajor = 0
 def versionMinor = 1
-def versionPatch = 3
+def versionPatch = 2
 def version = "${versionMajor}.${versionMinor}.${versionPatch}"
 
 android {
@@ -14,7 +14,7 @@ android {
         applicationId "net.kwmt27.codesearch"
         minSdkVersion 21
         targetSdkVersion 24
-        versionCode 13
+        versionCode 14
         versionName version
 
         jackOptions {
