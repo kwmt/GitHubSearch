@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.github.triplet.play'
+apply plugin: 'me.tatarka.retrolambda'
 
 def versionMajor = 0
 def versionMinor = 1
@@ -16,10 +17,6 @@ android {
         targetSdkVersion 24
         versionCode 15
         versionName version
-
-        jackOptions {
-            enabled true
-        }
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
