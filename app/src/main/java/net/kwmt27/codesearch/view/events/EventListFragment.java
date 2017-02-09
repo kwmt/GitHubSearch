@@ -90,6 +90,12 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mSubscription = subscribeRxRecyclerViewScroll();
+    }
+
+    @Override
     public void onStop() {
         mSubscription.unsubscribe();
         mPresenter.onStop();
@@ -114,13 +120,7 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
                 DetailActivity.startActivity(EventListFragment.this.getActivity(), title, url, githubRepoEntity);
             }
         });
-
-
-
         mRecyclerView.setAdapter(mEventListAdapter);
-
-        rxRecyclerViewScrollSubscribe();
-
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
@@ -131,8 +131,8 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
 
 
 
-    private void rxRecyclerViewScrollSubscribe() {
-        mSubscription = RxRecyclerView.scrollEvents(mRecyclerView).subscribe(event -> {
+    private Subscription subscribeRxRecyclerViewScroll() {
+        return RxRecyclerView.scrollEvents(mRecyclerView).subscribe(event -> {
                     int totalItemCount = mLayoutManager.getItemCount();
                     int lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
                     if (totalItemCount - 1 <= lastVisibleItemPosition) {
@@ -141,8 +141,6 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
                         }
                         mIsCalled = true;
                         Logger.d("onLastVisible");
-                        mSubscription.unsubscribe();
-
                         mPresenter.onScrollToBottom();
                     }
                 }
@@ -153,7 +151,6 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
     @Override
     public void updateEventListView(List<EventEntity> entityList) {
         mIsCalled = false;
-        rxRecyclerViewScrollSubscribe();
         mEventListAdapter.setEntityList(entityList);
         mEventListAdapter.notifyDataSetChanged();
     }
