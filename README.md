@@ -36,3 +36,9 @@ https://github.com/kwmt/GitHubSearch/issues
 
 Contributions to the project are welcome.
 
+## How to Release
+
+1. You change version in build.gradle.
+2. You do PR to release branch.
+3. If it is merged, apk is automatically uploaded to Google Play as Beta.
+
