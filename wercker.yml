@@ -28,9 +28,9 @@ build:
 #        code: |
 #          ./gradlew --project-cache-dir=$WERCKER_CACHE_DIR connectedCheck
     - script:
-        name: run gradle assembleDebug
+        name: run gradle assembleDevelopDebug
         code: |
-          ./gradlew assembleDebug
+          ./gradlew assembleDevelopDebug
     - script:
         name: Ready DeployGate(Install dg command)
         code: |

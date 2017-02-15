@@ -120,8 +120,6 @@ public class MainActivity extends BaseActivity {
         super.onStop();
         isAddedAdOfEvent = false;
         isAddedAdOfRepository = false;
-        ModelLocator.getEventModel().clear();
-        ModelLocator.getSearchRepositoryModel().clear();
     }
 
     private void replaceFragment(Fragment fragment, boolean showToolBar, int titleResId) {

@@ -1,25 +1,22 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.github.triplet.play'
+apply plugin: 'me.tatarka.retrolambda'
 
 def versionMajor = 0
 def versionMinor = 1
-def versionPatch = 2
+def versionPatch = 3
 def version = "${versionMajor}.${versionMinor}.${versionPatch}"
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "net.kwmt27.codesearch"
         minSdkVersion 21
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 15
         versionName version
-
-        jackOptions {
-            enabled true
-        }
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -29,7 +26,9 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
 
     signingConfigs {
 
@@ -89,15 +88,15 @@ android {
 }
 
 // https://developer.android.com/topic/libraries/support-library/revisions.html
-final SUPPORT_LIB_VERSION = '24.2.1'
-// https://github.com/square/okhttp/releases
+final SUPPORT_LIB_VERSION = '25.1.1'
+// @link https://github.com/square/okhttp
 final OKHTTP_VERSION = '3.4.1'
 // http://square.github.io/retrofit/
 final RETROFIT_VERSION = '2.1.0'
-// https://github.com/google/dagger/releases
-final DAGGER_VERSION = '2.7'
+// @link https://github.com/google/dagger
+final DAGGER_VERSION = '2.9'
 // https://developers.google.com/android/guides/releases
-final GOOGLE_PLAY_SERVICES_VERSION = '9.4.0'
+final GOOGLE_PLAY_SERVICES_VERSION = '10.0.1'
 final LEAKCANARY_VERSION = '1.4-beta2'
 
 dependencies {
@@ -107,17 +106,20 @@ dependencies {
     compile "com.android.support:recyclerview-v7:${SUPPORT_LIB_VERSION}"
     compile "com.android.support:design:${SUPPORT_LIB_VERSION}"
     compile "com.android.support:support-v4:${SUPPORT_LIB_VERSION}"
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
     compile 'com.google.android:flexbox:0.2.3'
 
-    // https://github.com/google/gson
+    // @link https://github.com/google/gson
     compile 'com.google.code.gson:gson:2.7'
     compile "com.squareup.okhttp3:okhttp:${OKHTTP_VERSION}"
     compile "com.squareup.okhttp3:logging-interceptor:${OKHTTP_VERSION}"
-    // https://github.com/ReactiveX/RxJava/releases
-    compile 'io.reactivex:rxjava:1.2.1'
-    // https://github.com/ReactiveX/RxAndroid
+    // @link https://github.com/ReactiveX/RxJava
+//    compile 'io.reactivex.rxjava2:rxjava:2.0.5'
+    compile 'io.reactivex:rxjava:1.2.6'
+    // @link https://github.com/ReactiveX/RxAndroid
+//    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'io.reactivex:rxandroid:1.2.1'
+// rxjava2にすると、app:transformClassesWithDexForDevelopDebug でエラーが出るので、ちゃんとrxjava2対応する
+
     compile "com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}"
     compile "com.squareup.retrofit2:converter-gson:${RETROFIT_VERSION}"
     compile "com.squareup.retrofit2:adapter-rxjava:${RETROFIT_VERSION}"
@@ -127,8 +129,10 @@ dependencies {
     compile "com.google.firebase:firebase-auth:${GOOGLE_PLAY_SERVICES_VERSION}"
     compile "com.google.android.gms:play-services-analytics:${GOOGLE_PLAY_SERVICES_VERSION}"
 
-    // https://github.com/JakeWharton/RxBinding
-    compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0'
+    // @link https://github.com/JakeWharton/RxBinding
+    compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:1.0.0'
+    // @link https://github.com/aNNiMON/Lightweight-Stream-API
+    compile 'com.annimon:stream:1.1.5'
 
 
     compile 'com.github.bumptech.glide:glide:3.7.0'
