@@ -8,13 +8,13 @@ def versionPatch = 2
 def version = "${versionMajor}.${versionMinor}.${versionPatch}"
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "net.kwmt27.codesearch"
         minSdkVersion 21
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 15
         versionName version
 
@@ -88,15 +88,15 @@ android {
 }
 
 // https://developer.android.com/topic/libraries/support-library/revisions.html
-final SUPPORT_LIB_VERSION = '24.2.1'
+final SUPPORT_LIB_VERSION = '25.1.1'
 // @link https://github.com/square/okhttp
 final OKHTTP_VERSION = '3.4.1'
 // http://square.github.io/retrofit/
 final RETROFIT_VERSION = '2.1.0'
 // @link https://github.com/google/dagger
-final DAGGER_VERSION = '2.7'
+final DAGGER_VERSION = '2.9'
 // https://developers.google.com/android/guides/releases
-final GOOGLE_PLAY_SERVICES_VERSION = '9.4.0'
+final GOOGLE_PLAY_SERVICES_VERSION = '10.0.1'
 final LEAKCANARY_VERSION = '1.4-beta2'
 
 dependencies {
@@ -130,7 +130,7 @@ dependencies {
     compile "com.google.android.gms:play-services-analytics:${GOOGLE_PLAY_SERVICES_VERSION}"
 
     // @link https://github.com/JakeWharton/RxBinding
-    compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0'
+    compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:1.0.0'
     // @link https://github.com/aNNiMON/Lightweight-Stream-API
     compile 'com.annimon:stream:1.1.5'
 
