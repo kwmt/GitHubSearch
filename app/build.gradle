@@ -15,7 +15,7 @@ android {
         applicationId "net.kwmt27.codesearch"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 15
+        versionCode 16
         versionName version
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
