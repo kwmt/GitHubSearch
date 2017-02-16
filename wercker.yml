@@ -12,6 +12,11 @@ build:
           echo $ANDROID_UPDATE_FILTER
 
     - script:
+        name: install git
+        code: |
+          sudo apt-get install git
+
+    - script:
         name: install golang
         code: |
           wget https://storage.googleapis.com/golang/go1.7.4.linux-amd64.tar.gz
