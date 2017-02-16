@@ -14,7 +14,7 @@ build:
     - script:
         name: install git
         code: |
-          sudo apt-get install git
+          sudo apt-get -y install git
 
     - script:
         name: install golang
