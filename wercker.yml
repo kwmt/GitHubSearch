@@ -32,6 +32,11 @@ build:
         code: |
           ./gradlew assembleDevelopDebug
     - script:
+        name: check dependencies library version
+        code: |
+          go get github.com/kwmt/libver
+          libver app/build.gradle
+    - script:
         name: Ready DeployGate(Install dg command)
         code: |
           curl -sSL https://deploygate.com/cli/install | bash
