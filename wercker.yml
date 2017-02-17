@@ -10,6 +10,27 @@ build:
           echo $ANDROID_SDK_VERSION
           echo $ANDROID_BUILD_TOOLS
           echo $ANDROID_UPDATE_FILTER
+
+    - script:
+        name: install git
+        code: |
+          sudo apt-get -y install git
+
+    - script:
+        name: install golang
+        code: |
+          wget https://storage.googleapis.com/golang/go1.7.4.linux-amd64.tar.gz
+          sudo tar -xvf go1.7.4.linux-amd64.tar.gz
+          sudo mv go /usr/local
+          export GOROOT=/usr/local/go
+          export GOPATH=$PWD
+          export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+          go version
+    - script:
+        name: check dependencies library version
+        code: |
+          go get github.com/kwmt/libver
+          libver app/build.gradle
     - script:
         name: fetch google-sercices.json file
         code: |
