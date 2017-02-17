@@ -129,9 +129,9 @@ dependencies {
     compile "com.google.firebase:firebase-auth:${GOOGLE_PLAY_SERVICES_VERSION}"
     compile "com.google.android.gms:play-services-analytics:${GOOGLE_PLAY_SERVICES_VERSION}"
 
-    // @link https://github.com/JakeWharton/RxBinding
+    // https://github.com/JakeWharton/RxBinding
     compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:1.0.0'
-    // @link https://github.com/aNNiMON/Lightweight-Stream-API
+    // https://github.com/aNNiMON/Lightweight-Stream-API
     compile 'com.annimon:stream:1.1.5'
 
 
