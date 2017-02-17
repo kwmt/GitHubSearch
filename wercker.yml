@@ -19,8 +19,8 @@ build:
     - script:
         name: install golang
         code: |
-          wget https://storage.googleapis.com/golang/go1.7.4.linux-amd64.tar.gz
-          sudo tar -xvf go1.7.4.linux-amd64.tar.gz
+          wget https://storage.googleapis.com/golang/go1.8.linux-amd64.tar.gz
+          sudo tar -xvf go1.8.linux-amd64.tar.gz
           sudo mv go /usr/local
           export GOROOT=/usr/local/go
           export GOPATH=$PWD
