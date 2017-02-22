@@ -1,6 +1,7 @@
 package net.kwmt27.codesearch.entity.events;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -45,6 +46,7 @@ public class IssueCommentEvent extends EventEntity {
         TextView titleTextView = newTextView(context, mIssueCommentEntity.getIssueEntity().getTitle(), false, null);
         titleTextView.setLines(1);
         titleTextView.setEllipsize(TextUtils.TruncateAt.END);
+        titleTextView.setTypeface(null, Typeface.BOLD);
         linearLayout.addView(titleTextView);
 
         // comment body
