@@ -11,6 +11,7 @@ import com.google.gson.annotations.SerializedName;
 import net.kwmt27.codesearch.entity.EventEntity;
 import net.kwmt27.codesearch.entity.payloads.IssueCommentEntity;
 import net.kwmt27.codesearch.util.TextViewUtil;
+import net.kwmt27.codesearch.util.ViewUtil;
 import net.kwmt27.codesearch.view.events.EventListFragment;
 
 /**
@@ -34,6 +35,8 @@ public class IssueCommentEvent extends EventEntity {
             }
         });
 
+        ViewUtil.setRippleDrawable(context, linearLayout);
+
         // action
         TextView actionTextView = newTextView(context, "issue " + " commented", true, null);
         linearLayout.addView(actionTextView);
@@ -53,4 +56,5 @@ public class IssueCommentEvent extends EventEntity {
 
         return linearLayout;
     }
+
 }
