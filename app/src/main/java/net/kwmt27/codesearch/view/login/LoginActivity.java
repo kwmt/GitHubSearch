@@ -89,6 +89,7 @@ public class LoginActivity extends Activity {
      * https://firebase.google.com/docs/auth/android/github-auth#authenticate_with_firebase
      */
     private void signIn(String token) {
+        if(token == null) { return; }
         AuthCredential credential = GithubAuthProvider.getCredential(token);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
