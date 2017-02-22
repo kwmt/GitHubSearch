@@ -68,7 +68,7 @@
             android:layout_below="@id/keyword"
             android:layout_marginTop="8dp"
             android:scrollbars="vertical"
-            android:text="に一致する結果は見つかりませんでした。"
+            android:text="@string/no_result"
             android:textColor="@android:color/black"
             />
 
