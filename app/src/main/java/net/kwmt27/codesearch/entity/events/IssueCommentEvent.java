@@ -1,14 +1,18 @@
 package net.kwmt27.codesearch.entity.events;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.flexbox.FlexboxLayout;
 import com.google.gson.annotations.SerializedName;
 
 import net.kwmt27.codesearch.entity.EventEntity;
 import net.kwmt27.codesearch.entity.payloads.IssueCommentEntity;
+import net.kwmt27.codesearch.util.TextViewUtil;
+import net.kwmt27.codesearch.util.ViewUtil;
 import net.kwmt27.codesearch.view.events.EventListFragment;
 
 /**
@@ -24,14 +28,35 @@ public class IssueCommentEvent extends EventEntity {
         if (mIssueCommentEntity == null) {
             return newTextView(context, "data empty", false, null);
         }
-        FlexboxLayout flexboxLayout = newFlexboxLayout(context);
-        TextView actionTextView = newTextView(context, mIssueCommentEntity.getAction() + " issue", true, null);
-        flexboxLayout.addView(actionTextView);
+        LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setOnClickListener(v -> {
+            if(listener != null) {
+                listener.onLinkClick(mIssueCommentEntity.getIssueEntity().getTitle(), mIssueCommentEntity.getCommentEntity().getHtmlUrl(), getRepo());
+            }
+        });
 
-        String issue = getRepo().getFullName() + "#" + mIssueCommentEntity.getIssueEntity().getNumber();
-        TextView repoTextView = newTextView(context, issue, false,
-                newOnLinkClickClickableSpan(listener, issue, mIssueCommentEntity.getCommentEntity().getHtmlUrl(), getRepo()));
-        flexboxLayout.addView(repoTextView);
-        return flexboxLayout;
+        ViewUtil.setRippleDrawable(context, linearLayout);
+
+        // action
+        TextView actionTextView = newTextView(context, "commented on issue", true, null);
+        linearLayout.addView(actionTextView);
+
+        // title
+        TextView titleTextView = newTextView(context, mIssueCommentEntity.getIssueEntity().getTitle(), false, null);
+        titleTextView.setLines(1);
+        titleTextView.setEllipsize(TextUtils.TruncateAt.END);
+        titleTextView.setTypeface(null, Typeface.BOLD);
+        linearLayout.addView(titleTextView);
+
+        // comment body
+        String body = TextViewUtil.removeNewLines(mIssueCommentEntity.getCommentEntity().getBody());
+        TextView bodyTextView = newTextView(context, body, false, null);
+        bodyTextView.setLines(1);
+        bodyTextView.setEllipsize(TextUtils.TruncateAt.END);
+        linearLayout.addView(bodyTextView);
+
+        return linearLayout;
     }
+
 }

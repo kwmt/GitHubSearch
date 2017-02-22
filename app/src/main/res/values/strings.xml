@@ -1,16 +1,18 @@
 <resources>
     <string name="app_name">CodeSearch</string>
-    <string name="search">検索</string>
+    <string name="search">Search</string>
     <string name="search_hint">Search GitHub</string>
-    <string name="clear">クリア</string>
-    <string name="offline_message">オフラインです。</string>
-    <string name="close_detail_activity">閉じる</string>
+    <string name="clear">Clear</string>
+    <string name="offline_message">Can\'t load data. Check your connection.</string>
+    <string name="close_detail_activity">Close</string>
     <string name="github_login">Sign in to GitHub</string>
-    <string name="title_repository_list">レポジトリ一覧</string>
-    <string name="title_timeline_list">タイムライン</string>
-    <string name="title_favorite_list">お気に入り</string>
-    <string name="failed_display">表示に失敗しました。</string>
-    <string name="search_app">CodeSearchで検索</string>
-    <string name="failed_not_from_github_page">GitHubページから共有してください。</string>
-    <string name="select_share_from_right_menu">右上のメニューから共有を選択して下さい。</string>
+    <string name="title_repository_list">Repositories</string>
+    <string name="title_timeline_list">Timeline</string>
+    <string name="title_favorite_list">Favorite</string>
+    <string name="failed_display">Failed to display.</string>
+    <string name="search_app">Search with CodeSearch</string>
+    <string name="failed_not_from_github_page">Please share form Github page.</string>
+    <string name="select_share_from_right_menu">Please select the share or upper right menu.</string>
+    <string name="reload">Reload</string>
+    <string name="no_result">No results matching were found.</string>
 </resources>

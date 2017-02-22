@@ -9,6 +9,12 @@ public class IssueEntity {
     private int mId;
     @SerializedName("number")
     private int mNumber;
+    @SerializedName("state")
+    private String mState;
+    @SerializedName("title")
+    private String mTitle;
+    @SerializedName("body")
+    private String mBody;
     @SerializedName("labels_url")
     private String mLabelsUrl;
     @SerializedName("comments_url")
@@ -30,6 +36,18 @@ public class IssueEntity {
 
     public int getNumber() {
         return mNumber;
+    }
+
+    public String getState() {
+        return mState;
+    }
+
+    public String getTitle() {
+        return mTitle;
+    }
+
+    public String getBody() {
+        return mBody;
     }
 
     public String getLabelsUrl() {

@@ -1,2 +1,4 @@
-- fixed bug. it disappeared data when you go detail and go back to list.
-
+- Changed: issue comment event layout
+- Changed: pull request review comment layout
+- Added: EN/JP language
+- Fixed: Crashed on sign in to Github
