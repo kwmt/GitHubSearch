@@ -94,7 +94,7 @@ final OKHTTP_VERSION = '3.6.0'
 // http://square.github.io/retrofit/
 final RETROFIT_VERSION = '2.2.0'
 // @link https://github.com/google/dagger
-final DAGGER_VERSION = '2.10-rc1'
+final DAGGER_VERSION = '2.9'
 // https://developers.google.com/android/guides/releases
 final GOOGLE_PLAY_SERVICES_VERSION = '10.0.1'
 final LEAKCANARY_VERSION = '1.4-beta2'
