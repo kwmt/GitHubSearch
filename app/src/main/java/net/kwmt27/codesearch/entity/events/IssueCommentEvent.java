@@ -39,7 +39,7 @@ public class IssueCommentEvent extends EventEntity {
         ViewUtil.setRippleDrawable(context, linearLayout);
 
         // action
-        TextView actionTextView = newTextView(context, "issue " + " commented", true, null);
+        TextView actionTextView = newTextView(context, "commented on issue", true, null);
         linearLayout.addView(actionTextView);
 
         // title
