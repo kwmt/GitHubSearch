@@ -121,7 +121,10 @@ public class EventEntity extends BaseEntity{
             textView.setPadding(0, 0, (int) (density * 8), 0);
         }
 
-        TextViewUtil.addLink(textView, name, clickableSpan);
+        if(clickableSpan!=null) {
+            TextViewUtil.addLink(textView, name, clickableSpan);
+        }
+
 
         textView.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,

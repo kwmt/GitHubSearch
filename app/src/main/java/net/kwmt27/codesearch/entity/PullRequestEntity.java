@@ -11,6 +11,8 @@ public class PullRequestEntity {
     private String mBody;
     @SerializedName("number")
     private int mNumber;
+    @SerializedName("title")
+    private String mTitle;
 
 
     public String getHtmlUrl() {
@@ -27,5 +29,9 @@ public class PullRequestEntity {
 
     public int getNumber() {
         return mNumber;
+    }
+
+    public String getTitle() {
+        return mTitle;
     }
 }

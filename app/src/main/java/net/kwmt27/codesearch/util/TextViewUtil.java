@@ -84,4 +84,10 @@ public class TextViewUtil {
 
         textView.setText(ss);
     }
+
+    /** すべての改行を取り除いたStringを返す */
+    public static String removeNewLines(String text) {
+        if(text == null) { return ""; }
+        return text.replaceAll("\\r|\\n", "");
+    }
 }

@@ -1,5 +1,6 @@
 package net.kwmt27.codesearch.view.events;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
