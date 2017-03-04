@@ -23,6 +23,11 @@ public abstract class ApiSubscriber<T> extends Subscriber<T> {
 
     @Override
     public void onError(Throwable throwable) {
+        if(throwable == null) {
+            Logger.e("NullPointerException:" + throwable);
+            ToastUtil.show(mContext, "データの取得に失敗しました。");
+            return;
+        }
 
         RetrofitException error = (RetrofitException)throwable;
         Throwable cause = error.getCause();
