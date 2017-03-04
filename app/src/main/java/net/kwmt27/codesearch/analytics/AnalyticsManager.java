@@ -59,7 +59,7 @@ public class AnalyticsManager {
 
     public static AnalyticsManager getInstance(Context context) {
         if (sAnalyticsManager == null) {
-            sAnalyticsManager = new AnalyticsManager(context);
+            sAnalyticsManager = new AnalyticsManager(context.getApplicationContext());
         }
         return sAnalyticsManager;
     }
