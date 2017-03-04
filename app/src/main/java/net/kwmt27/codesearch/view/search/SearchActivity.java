@@ -24,16 +24,18 @@ import net.kwmt27.codesearch.model.ISearchModel;
 import net.kwmt27.codesearch.presenter.search.ISearchPresenter;
 import net.kwmt27.codesearch.presenter.search.SearchPresenter;
 import net.kwmt27.codesearch.util.KeyboardUtil;
+import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.view.BaseActivity;
 
 import java.io.Serializable;
 
 public class SearchActivity extends BaseActivity implements SearchPresenter.ISearchView, FragmentProgressCallback {
-
+    private final static String SEARCH_STRING_KEY = "search_text_key";
 
     private MenuItem mActionClearMenu;
     private EditText mSearchEditText;
     private View mProgress;
+    private String mSearchString;
 
     public static void startActivity(AppCompatActivity activity, boolean canSearchCode) {
         SearchActivity.startActivity(activity, canSearchCode, null);
@@ -70,11 +72,25 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Logger.d("onSaveInstanceState is called.");
+        outState.putString(SEARCH_STRING_KEY, mSearchString);
+    }
+
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
         mActionClearMenu = menu.findItem(R.id.action_clear);
-        mActionClearMenu.setVisible(false);
+        setVisibleClearMenu();
         return true;
+    }
+
+    private void setVisibleClearMenu() {
+        if (mActionClearMenu != null && mSearchString != null) {
+            mActionClearMenu.setVisible(mSearchString.length() > 0);
+        }
     }
 
     @Override
@@ -93,8 +109,12 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
 
 
     @Override
-    public void setupComponents() {
+    public void setupComponents(Bundle savedInstanceState) {
         setUpActionBar();
+
+        if (savedInstanceState != null) {
+            mSearchString = savedInstanceState.getString(SEARCH_STRING_KEY);
+        }
 
         mSearchEditText = (EditText) findViewById(R.id.search_edit);
         mProgress = findViewById(R.id.progress_layout);
@@ -150,7 +170,8 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
 
             @Override
             public void afterTextChanged(Editable s) {
-                mActionClearMenu.setVisible(s.length() > 0);
+                mSearchString = s.toString();
+                setVisibleClearMenu();
             }
         });
 

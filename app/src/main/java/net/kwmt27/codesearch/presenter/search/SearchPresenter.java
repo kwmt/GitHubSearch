@@ -17,7 +17,7 @@ public class SearchPresenter implements ISearchPresenter {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        mSearchView.setupComponents();
+        mSearchView.setupComponents(savedInstanceState);
 
     }
 
@@ -28,7 +28,7 @@ public class SearchPresenter implements ISearchPresenter {
 
 
     public interface ISearchView {
-        void setupComponents();
+        void setupComponents(Bundle savedInstanceState);
 
         Intent getIntent();
 
