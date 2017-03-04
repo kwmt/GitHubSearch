@@ -1,6 +1,7 @@
 package net.kwmt27.codesearch.view;
 
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,7 +12,7 @@ import net.kwmt27.codesearch.view.search.SearchActivity;
 /**
  * 戻るボタンがある共通Activity
  */
-public class BaseActivity extends LifeCycleActivity {
+public class BaseActivity extends AppCompatActivity {
 
     public static final String TITLE_KEY = "title_key";
 
