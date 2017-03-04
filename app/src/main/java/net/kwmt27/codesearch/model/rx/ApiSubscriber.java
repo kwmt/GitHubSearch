@@ -2,6 +2,7 @@ package net.kwmt27.codesearch.model.rx;
 
 import android.content.Context;
 
+import net.kwmt27.codesearch.R;
 import net.kwmt27.codesearch.entity.error.ApiErrorEntity;
 import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.util.NetworkUtil;
@@ -24,8 +25,8 @@ public abstract class ApiSubscriber<T> extends Subscriber<T> {
     @Override
     public void onError(Throwable throwable) {
         if(throwable == null) {
-            Logger.e("NullPointerException:" + throwable);
-            ToastUtil.show(mContext, "データの取得に失敗しました。");
+            Logger.e("NullPointerException: throwable is null.");
+            ToastUtil.show(mContext, mContext.getString(R.string.load_failed));
             return;
         }
 
@@ -36,27 +37,27 @@ public abstract class ApiSubscriber<T> extends Subscriber<T> {
         }
         if (error.getKind() == RetrofitException.Kind.UNAUTHORIZED) {
             Logger.e("UNAUTHORIZED:" + throwable);
-            ToastUtil.show(mContext, "認証エラーです。");
+            ToastUtil.show(mContext, mContext.getString(R.string.auth_error));
             return;
         }
         if (cause instanceof UnknownHostException) {
             Logger.e("UnknownHostException:" + throwable);
-            ToastUtil.show(mContext, "ホストが見つかりません。");
+            ToastUtil.show(mContext, mContext.getString(R.string.host_not_found));
             return;
         }
         if (cause instanceof SocketTimeoutException) {
             Logger.e("SocketTimeoutException:" + throwable);
-            ToastUtil.show(mContext, "ネットワーク接続がタイムアウトしました。");
+            ToastUtil.show(mContext, mContext.getString(R.string.network_connection_timed_out));
             return;
         }
         if (cause instanceof IOException) {
             Logger.e("IOException:" + throwable);
-            ToastUtil.show(mContext, "ネットワークに接続できませんでした。");
+            ToastUtil.show(mContext, mContext.getString(R.string.could_not_connect_to_the_network));
             return;
         }
         if (cause instanceof JSONException) {
             Logger.e("JSONException:" + throwable);
-            ToastUtil.show(mContext, "データの取得に失敗しました。");
+            ToastUtil.show(mContext, mContext.getString(R.string.load_failed));
             return;
         }
         try {
