@@ -22,14 +22,13 @@ public class SearchRepositoryResultListPresenter implements ISearchResultListPre
 
 
     @Override
-    public void onStop() {
-        ModelLocator.getSearchRepositoryModel().unsubscribe();
-    }
-
-
-    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mSearchResultListView.setupComponents(view, savedInstanceState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        ModelLocator.getSearchRepositoryModel().unsubscribe();
     }
 
     @Override

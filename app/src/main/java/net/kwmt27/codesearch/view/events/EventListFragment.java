@@ -89,16 +89,10 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
         mSubscription = subscribeRxRecyclerViewScroll();
     }
 
-
-    @Override
-    public void onStop() {
-        mPresenter.onStop();
-        super.onStop();
-    }
-
     @Override
     public void onDestroyView() {
         mSubscription.unsubscribe();
+        mPresenter.onDestroyView();
         super.onDestroyView();
     }
 

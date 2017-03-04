@@ -6,6 +6,6 @@ import android.view.View;
 public interface IBaseFragmentPresenter {
     void onViewCreated(View view, Bundle savedInstanceState);
 
-    void onStop();
+    void onDestroyView();
 
 }

@@ -24,7 +24,7 @@ public class SearchCodeResultListPresenter implements ISearchResultListPresenter
 
 
     @Override
-    public void onStop() {
+    public void onDestroyView() {
         ModelLocator.getSearchCodeModel().unsubscribe();
     }
 

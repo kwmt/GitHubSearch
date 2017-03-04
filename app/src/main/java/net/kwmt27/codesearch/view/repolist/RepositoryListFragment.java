@@ -79,10 +79,10 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
     }
 
     @Override
-    public void onStop() {
+    public void onDestroyView() {
         mSubscription.unsubscribe();
-        mPresenter.onStop();
-        super.onStop();
+        mPresenter.onDestroyView();
+        super.onDestroyView();
     }
 
     @Override
