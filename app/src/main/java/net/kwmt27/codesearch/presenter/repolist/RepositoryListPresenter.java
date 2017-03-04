@@ -27,11 +27,10 @@ public class RepositoryListPresenter implements IRepositoryListPresenter {
     }
 
     @Override
-    public void onStop() {
+    public void onDestroyView() {
         ModelLocator.getSearchRepositoryModel().unsubscribe();
         //ModelLocator.getSearchRepositoryModel().clear();
     }
-
 
     @Override
     public void onClickReloadButton() {

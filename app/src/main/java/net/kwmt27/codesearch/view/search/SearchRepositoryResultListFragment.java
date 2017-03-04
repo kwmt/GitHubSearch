@@ -77,9 +77,9 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
     }
 
     @Override
-    public void onStop() {
-        mPresenter.onStop();
-        super.onStop();
+    public void onDestroyView() {
+        mPresenter.onDestroyView();
+        super.onDestroyView();
     }
 
     @Override

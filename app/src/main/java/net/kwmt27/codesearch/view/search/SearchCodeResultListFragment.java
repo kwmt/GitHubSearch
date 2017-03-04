@@ -77,10 +77,10 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
     }
 
     @Override
-    public void onStop() {
+    public void onDestroyView() {
         mSubscription.unsubscribe();
-        mPresenter.onStop();
-        super.onStop();
+        mPresenter.onDestroyView();
+        super.onDestroyView();
     }
 
     @Override
