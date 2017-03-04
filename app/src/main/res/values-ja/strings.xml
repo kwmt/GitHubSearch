@@ -15,4 +15,11 @@
     <string name="select_share_from_right_menu">右上のメニューから共有を選択して下さい。</string>
     <string name="reload">再読み込み</string>
     <string name="no_result">に一致する結果は見つかりませんでした。</string>
+
+    <!-- API error -->
+    <string name="load_failed">データの取得に失敗しました。</string>
+    <string name="auth_error">認証エラーです。</string>
+    <string name="host_not_found">ホストが見つかりません。</string>
+    <string name="network_connection_timed_out">ネットワーク接続がタイムアウトしました。</string>
+    <string name="could_not_connect_to_the_network">ネットワークに接続できませんでした。</string>
 </resources>

@@ -1,4 +1,5 @@
-- Changed: issue comment event layout
-- Changed: pull request review comment layout
-- Added: EN/JP language
-- Fixed: Crashed on sign in to Github
+- Fixed: Crashed on Search Screen
+- Fixed: Crashed when from detail back to list
+- Fixed: Don't stop progress
+- Changed: Error message for English
+

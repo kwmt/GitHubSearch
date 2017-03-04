@@ -15,4 +15,11 @@
     <string name="select_share_from_right_menu">Please select the share or upper right menu.</string>
     <string name="reload">Reload</string>
     <string name="no_result">No results matching were found.</string>
+
+    <!-- API error -->
+    <string name="load_failed">Failed to load data.</string>
+    <string name="auth_error">Authentication failed.</string>
+    <string name="host_not_found">Host not found.</string>
+    <string name="network_connection_timed_out">Network connection timed out.</string>
+    <string name="could_not_connect_to_the_network">Could not connect to the network.</string>
 </resources>

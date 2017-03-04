@@ -1,6 +1,5 @@
 package net.kwmt27.codesearch.view.events;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -87,20 +86,14 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
         super.onViewCreated(view, savedInstanceState);
 
         mPresenter.onViewCreated(view, savedInstanceState);
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         mSubscription = subscribeRxRecyclerViewScroll();
     }
 
     @Override
-    public void onStop() {
+    public void onDestroyView() {
         mSubscription.unsubscribe();
-        mPresenter.onStop();
-        super.onStop();
+        mPresenter.onDestroyView();
+        super.onDestroyView();
     }
 
     @Override

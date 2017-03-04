@@ -26,11 +26,10 @@ public class EventListPresenter implements IEventListPresenter {
     }
 
     @Override
-    public void onStop() {
+    public void onDestroyView() {
         ModelLocator.getEventModel().unsubscribe();
         // ModelLocator.getSearchRepositoryModel().clear();
     }
-
 
     @Override
     public void onClickReloadButton() {
