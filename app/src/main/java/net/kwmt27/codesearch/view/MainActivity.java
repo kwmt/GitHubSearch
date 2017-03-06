@@ -12,13 +12,17 @@ import com.roughike.bottombar.BottomBar;
 import net.kwmt27.codesearch.ModelLocator;
 import net.kwmt27.codesearch.R;
 import net.kwmt27.codesearch.analytics.AnalyticsManager;
+import net.kwmt27.codesearch.entity.GithubRepoEntity;
+import net.kwmt27.codesearch.presenter.main.IMainPresenter;
+import net.kwmt27.codesearch.presenter.main.MainPresenter;
 import net.kwmt27.codesearch.util.Logger;
+import net.kwmt27.codesearch.util.ToastUtil;
 import net.kwmt27.codesearch.view.customtabs.ChromeCustomTabs;
 import net.kwmt27.codesearch.view.events.EventListFragment;
 import net.kwmt27.codesearch.view.repolist.RepositoryListFragment;
 import net.kwmt27.codesearch.view.top.TopFragment;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements MainPresenter.IMainView {
 
     private boolean mSignedIn = false;
     private boolean isAddedAdOfEvent = false;
@@ -26,19 +30,26 @@ public class MainActivity extends BaseActivity {
 
     private final static int INITIAL_TAB_RESID = R.id.tab_timeline;
 
+    private IMainPresenter mMainPresenter;
+    private boolean mIsCustomTabsServiceSuccess = false;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setUpActionBar(false);
+        mIsCustomTabsServiceSuccess = ChromeCustomTabs.bindService(this);
 
-        switchScreen();
-        ChromeCustomTabs.bindService(this);
+        mMainPresenter = new MainPresenter(this);
+        mMainPresenter.onCreate(savedInstanceState);
+
     }
 
     @Override
     protected void onDestroy() {
-        ChromeCustomTabs.unbind(this);
+        if(mIsCustomTabsServiceSuccess) {
+            ChromeCustomTabs.unbind(this);
+        }
         super.onDestroy();
     }
 
@@ -151,6 +162,23 @@ public class MainActivity extends BaseActivity {
             ft.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
         }
         ft.replace(R.id.container, fragment, tag).commit();
+    }
+
+
+    @Override
+    public void setupComponents(String url, GithubRepoEntity githubRepoEntity) {
+        setUpActionBar(false);
+        switchScreen();
+
+        if(url != null) {
+            ChromeCustomTabs.open(this, url, githubRepoEntity, false);
+            return;
+        }
+    }
+
+    @Override
+    public void showError(String message) {
+        ToastUtil.show(this, message);
     }
 
 }

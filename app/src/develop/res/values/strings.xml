@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">[dev]CodeSearch</string>
+    <string name="search_app">[dev]Search with CodeSearch</string>
 </resources>

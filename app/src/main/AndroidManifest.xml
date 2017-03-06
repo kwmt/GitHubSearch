@@ -13,15 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CodeSearch">
         <activity
-            android:name=".view.detail.DetailActivity"
-            android:configChanges="orientation|screenSize">
-            <intent-filter android:label="@string/search_app">
-                <action android:name="android.intent.action.SEND"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="text/plain"/>
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".view.search.SearchActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/Theme.CodeSearch.Search">
@@ -34,7 +25,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
+            <intent-filter android:label="@string/search_app">
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain"/>
+            </intent-filter>        </activity>
         <activity
             android:name=".view.login.LoginActivity"
             android:configChanges="orientation|screenSize">

@@ -35,14 +35,15 @@ public class ChromeCustomTabs {
         final PendingIntent pendingIntentSearch = createSearchPendingIntent(activity, githubRepoEntity, canSearchCode, context);
         final PendingIntent pendingIntentTwitter = createTwitterPendingIntent(url, context);
 
-        final Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_search_black_24dp);
-        CustomTabsIntent tabsIntent = new CustomTabsIntent.Builder(sCustomTabsSession)
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(sCustomTabsSession)
                 .setToolbarColor(ContextCompat.getColor(context.getApplicationContext(), android.R.color.white))
                 .setShowTitle(true)
-                .setActionButton(icon, context.getString(R.string.search), pendingIntentSearch)
-                .addMenuItem("Share...", pendingIntentTwitter)
-                .build();
-        tabsIntent.launchUrl(activity, (Uri.parse(url)));
+                .addMenuItem("Share...", pendingIntentTwitter);
+        if(canSearchCode) {
+            final Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_search_black_24dp);
+            builder.setActionButton(icon, context.getString(R.string.search), pendingIntentSearch);
+        }
+        builder.build().launchUrl(activity, (Uri.parse(url)));
     }
 
     private static PendingIntent createSearchPendingIntent(Activity activity, GithubRepoEntity githubRepoEntity, boolean canSearchCode, Context context) {
@@ -61,15 +62,15 @@ public class ChromeCustomTabs {
         return PendingIntent.getActivity(context, 0, intentTwitter, 0);
     }
 
-    public static void bindService(Activity activity) {
-        if (sClient != null) return;
+    public static boolean bindService(Activity activity) {
+        if (sClient != null) return false;
 
         // 接続先はChromeのバージョンによって異なる
         // "com.android.chrome", "com.chrome.beta",
         // "com.chrome.dev",  "com.google.android.apps.chrome"
         String packageNameToBind = CustomTabsHelper.getPackageNameToUse(activity);
         if (packageNameToBind == null) {
-            return;
+            return false;
         }
 
         // ブラウザ側と接続したときの処理
@@ -94,7 +95,7 @@ public class ChromeCustomTabs {
             }
         };
 
-        CustomTabsClient.bindCustomTabsService(activity,
+        return CustomTabsClient.bindCustomTabsService(activity,
                 packageNameToBind,
                 sConnection);
     }
