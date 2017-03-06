@@ -22,7 +22,7 @@ import net.kwmt27.codesearch.presenter.search.ISearchResultListPresenter;
 import net.kwmt27.codesearch.presenter.search.SearchRepositoryResultListPresenter;
 import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.util.ToastUtil;
-import net.kwmt27.codesearch.view.detail.DetailActivity;
+import net.kwmt27.codesearch.view.customtabs.ChromeCustomTabs;
 import net.kwmt27.codesearch.view.parts.DividerItemDecoration;
 
 import java.util.List;
@@ -94,7 +94,9 @@ public class SearchRepositoryResultListFragment extends Fragment implements Sear
             if(type == ItemType.Normal) {
                 AnalyticsManager.getInstance(getActivity().getApplicationContext())
                         .sendClickItem(AnalyticsManager.Param.Screen.SEARCH_REPOSITORY_RESULT_LIST, AnalyticsManager.Param.Category.REPOSITORY, repo.getName());
-                DetailActivity.startActivity(getActivity(), repo.getName(), repo.getHtmlUrl(), repo);
+                //DetailActivity.startActivity(getActivity(), repo.getName(), repo.getHtmlUrl(), repo);
+                ChromeCustomTabs.open(SearchRepositoryResultListFragment.this.getActivity(), repo.getHtmlUrl(), repo, true);
+
             }
             if(type == ItemType.Ad) {
                 AnalyticsManager.getInstance(getActivity().getApplicationContext())

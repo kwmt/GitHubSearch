@@ -20,8 +20,8 @@ import net.kwmt27.codesearch.presenter.repolist.IRepositoryListPresenter;
 import net.kwmt27.codesearch.presenter.repolist.RepositoryListPresenter;
 import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.util.ToastUtil;
+import net.kwmt27.codesearch.view.customtabs.ChromeCustomTabs;
 import net.kwmt27.codesearch.view.MainFragment;
-import net.kwmt27.codesearch.view.detail.DetailActivity;
 import net.kwmt27.codesearch.view.parts.DividerItemDecoration;
 
 import java.util.List;
@@ -99,7 +99,8 @@ public class RepositoryListFragment extends Fragment implements RepositoryListPr
             if(type == ItemType.Normal) {
                 AnalyticsManager.getInstance(getActivity().getApplicationContext())
                         .sendClickItem(AnalyticsManager.Param.Screen.REPOSITORY_LIST, AnalyticsManager.Param.Category.REPOSITORY, repo.getName());
-                DetailActivity.startActivity(getActivity(), repo.getName(), repo.getHtmlUrl(), repo);
+                //DetailActivity.startActivity(getActivity(), repo.getName(), repo.getHtmlUrl(), repo);
+                ChromeCustomTabs.open(RepositoryListFragment.this.getActivity(), repo.getHtmlUrl(), repo, true);
             }
             if (type == ItemType.Ad) {
                 AnalyticsManager.getInstance(getActivity().getApplicationContext())

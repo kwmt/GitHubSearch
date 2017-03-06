@@ -13,6 +13,7 @@ import net.kwmt27.codesearch.ModelLocator;
 import net.kwmt27.codesearch.R;
 import net.kwmt27.codesearch.analytics.AnalyticsManager;
 import net.kwmt27.codesearch.util.Logger;
+import net.kwmt27.codesearch.view.customtabs.ChromeCustomTabs;
 import net.kwmt27.codesearch.view.events.EventListFragment;
 import net.kwmt27.codesearch.view.repolist.RepositoryListFragment;
 import net.kwmt27.codesearch.view.top.TopFragment;
@@ -32,7 +33,13 @@ public class MainActivity extends BaseActivity {
         setUpActionBar(false);
 
         switchScreen();
+        ChromeCustomTabs.bindService(this);
+    }
 
+    @Override
+    protected void onDestroy() {
+        ChromeCustomTabs.unbind(this);
+        super.onDestroy();
     }
 
     private void switchScreen() {
