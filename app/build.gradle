@@ -4,7 +4,7 @@ apply plugin: 'me.tatarka.retrolambda'
 
 def versionMajor = 0
 def versionMinor = 1
-def versionPatch = 5
+def versionPatch = 6
 def version = "${versionMajor}.${versionMinor}.${versionPatch}"
 
 android {
@@ -15,7 +15,7 @@ android {
         applicationId "net.kwmt27.codesearch"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 18
+        versionCode 19
         versionName version
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -128,6 +128,9 @@ dependencies {
     compile "com.google.firebase:firebase-crash:${GOOGLE_PLAY_SERVICES_VERSION}"
     compile "com.google.firebase:firebase-auth:${GOOGLE_PLAY_SERVICES_VERSION}"
     compile "com.google.android.gms:play-services-analytics:${GOOGLE_PLAY_SERVICES_VERSION}"
+
+    // Chrome Custom Tabs
+    compile "com.android.support:customtabs:${SUPPORT_LIB_VERSION}"
 
     // https://github.com/JakeWharton/RxBinding
     compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:1.0.0'

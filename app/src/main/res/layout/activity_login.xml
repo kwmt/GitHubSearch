@@ -5,26 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="net.kwmt27.codesearch.view.login.LoginActivity"
-    >
+>
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+    />
     <WebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+    />
 
     <include
         layout="@layout/include_error_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        />
+    />
 
     <include
         layout="@layout/include_progress_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        />
+    />
 
 </RelativeLayout>

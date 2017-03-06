@@ -125,10 +125,10 @@ public class SearchActivity extends BaseActivity implements SearchPresenter.ISea
         final FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         if (canSearchCode) {
-            mSearchEditText.setHint("Search Code in this Repository");
+            mSearchEditText.setHint(R.string.search_code_in_this_repository);
             transaction.replace(R.id.container, SearchCodeResultListFragment.newInstance(this), SearchCodeResultListFragment.TAG);
         } else {
-            mSearchEditText.setHint("Search Repository");
+            mSearchEditText.setHint(R.string.search_repositories);
             transaction.replace(R.id.container, SearchRepositoryResultListFragment.newInstance(this), SearchRepositoryResultListFragment.TAG);
         }
         transaction.commit();

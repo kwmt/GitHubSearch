@@ -20,8 +20,8 @@ import net.kwmt27.codesearch.presenter.events.EventListPresenter;
 import net.kwmt27.codesearch.presenter.events.IEventListPresenter;
 import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.util.ToastUtil;
+import net.kwmt27.codesearch.view.customtabs.ChromeCustomTabs;
 import net.kwmt27.codesearch.view.MainFragment;
-import net.kwmt27.codesearch.view.detail.DetailActivity;
 import net.kwmt27.codesearch.view.parts.DividerItemDecoration;
 
 import java.util.List;
@@ -111,7 +111,8 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
             @Override
             public void onLinkClick(String title, String url, GithubRepoEntity githubRepoEntity) {
                 AnalyticsManager.sendEvent(AnalyticsManager.Param.Screen.EVENT_LIST, AnalyticsManager.Param.Action.CLICK_LINK, url);
-                DetailActivity.startActivity(EventListFragment.this.getActivity(), title, url, githubRepoEntity);
+                //DetailActivity.startActivity(EventListFragment.this.getActivity(), title, url, githubRepoEntity);
+                ChromeCustomTabs.open(EventListFragment.this.getActivity(), url, githubRepoEntity, true);
             }
         });
         mRecyclerView.setAdapter(mEventListAdapter);
