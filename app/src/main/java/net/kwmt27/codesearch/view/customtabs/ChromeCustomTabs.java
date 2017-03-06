@@ -38,7 +38,7 @@ public class ChromeCustomTabs {
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(sCustomTabsSession)
                 .setToolbarColor(ContextCompat.getColor(context.getApplicationContext(), android.R.color.white))
                 .setShowTitle(true)
-                .addMenuItem("Share...", pendingIntentTwitter);
+                .addMenuItem(context.getString(R.string.share), pendingIntentTwitter);
         if(canSearchCode) {
             final Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_search_black_24dp);
             builder.setActionButton(icon, context.getString(R.string.search), pendingIntentSearch);
