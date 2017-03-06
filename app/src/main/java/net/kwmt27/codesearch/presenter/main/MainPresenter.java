@@ -31,9 +31,6 @@ public class MainPresenter implements IMainPresenter {
             return;
         }
 
-        // 検索メニューを非表示にする。
-        // TODO
-
         if (TextUtils.equals(intent.getAction(), Intent.ACTION_SEND)) {
             Bundle extras = intent.getExtras();
             CharSequence extraText = extras.getCharSequence(Intent.EXTRA_TEXT);
