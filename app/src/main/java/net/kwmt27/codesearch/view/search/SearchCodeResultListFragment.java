@@ -22,7 +22,7 @@ import net.kwmt27.codesearch.presenter.search.ISearchResultListPresenter;
 import net.kwmt27.codesearch.presenter.search.SearchCodeResultListPresenter;
 import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.util.ToastUtil;
-import net.kwmt27.codesearch.view.detail.DetailActivity;
+import net.kwmt27.codesearch.view.customtabs.ChromeCustomTabs;
 import net.kwmt27.codesearch.view.parts.DividerItemDecoration;
 import net.kwmt27.codesearch.view.parts.OnItemClickListener;
 
@@ -97,7 +97,9 @@ public class SearchCodeResultListFragment extends Fragment implements SearchCode
                 if(type == ItemType.Normal) {
                     AnalyticsManager.getInstance(getActivity().getApplicationContext())
                             .sendClickItem(AnalyticsManager.Param.Screen.SEARCH_CODE_RESULT_LIST, AnalyticsManager.Param.Category.CODE, item.getHtmlUrl());
-                    DetailActivity.startActivity(getActivity(), item.getName(), item.getHtmlUrl(), item.getRepository());
+                    //DetailActivity.startActivity(getActivity(), item.getName(), item.getHtmlUrl(), item.getRepository());
+                    ChromeCustomTabs.open(SearchCodeResultListFragment.this.getActivity(), item.getHtmlUrl(), item.getRepository(), true);
+
                 }
                 if(type == ItemType.Ad) {
                     AnalyticsManager.getInstance(getActivity().getApplicationContext())

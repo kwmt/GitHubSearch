@@ -1,6 +1,5 @@
 package net.kwmt27.codesearch.view.login;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.widget.Toast;
@@ -16,11 +15,12 @@ import net.kwmt27.codesearch.entity.TokenEntity;
 import net.kwmt27.codesearch.model.rx.ApiSubscriber;
 import net.kwmt27.codesearch.util.CookieUtil;
 import net.kwmt27.codesearch.util.Logger;
+import net.kwmt27.codesearch.view.BaseActivity;
 import net.kwmt27.codesearch.view.GitHubSearchWebViewClient;
 
 import rx.Subscription;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends BaseActivity {
 
     private Subscription mSubscription;
     private FirebaseAuth mAuth;
@@ -31,6 +31,8 @@ public class LoginActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        setUpActionBar();
+        setTitle(getString(R.string.github_login));
 
         mAuth = FirebaseAuth.getInstance();
 

@@ -11,10 +11,12 @@
     <string name="title_favorite_list">Favorite</string>
     <string name="failed_display">Failed to display.</string>
     <string name="search_app">Search with CodeSearch</string>
-    <string name="failed_not_from_github_page">Please share form Github page.</string>
+    <string name="failed_not_from_github_page">Please share from Github page.</string>
     <string name="select_share_from_right_menu">Please select the share or upper right menu.</string>
     <string name="reload">Reload</string>
     <string name="no_result">No results matching were found.</string>
+    <string name="search_repositories">Search Repositories</string>
+    <string name="search_code_in_this_repository">Search Code in this Repository</string>
 
     <!-- API error -->
     <string name="load_failed">Failed to load data.</string>

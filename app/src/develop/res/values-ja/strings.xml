@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">[開発]CodeSearch</string>
+    <string name="search_app">[開発]CodeSearchで検索</string>
 </resources>
