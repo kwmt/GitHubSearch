@@ -1,5 +1,3 @@
-- Fixed: Crashed on Search Screen
-- Fixed: Crashed when from detail back to list
-- Fixed: Don't stop progress
-- Changed: Error message for English
-
+- Changed: Change Detail Screen from webview to Chrome Custom Tabs
+- Added: share menu on Detail
+- Fixed: some bugs
