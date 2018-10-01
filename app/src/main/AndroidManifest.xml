@@ -12,6 +12,10 @@
         android:label="${appName}"
         android:supportsRtl="true"
         android:theme="@style/Theme.CodeSearch">
+
+        <!--https://firebase.google.com/support/guides/disable-analytics#disable_advertising_id_collection-->
+        <meta-data android:name="google_analytics_adid_collection_enabled" android:value="false" />
+
         <activity
             android:name=".view.search.SearchActivity"
             android:configChanges="orientation|screenSize"
