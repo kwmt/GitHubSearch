@@ -68,7 +68,7 @@ build:
     - script:
         name: Upload to DeployGate
         code: |
-          dg deploy app/build/outputs/apk/app-develop-debug.apk
+          dg deploy app/build/outputs/apk/develop/debug/app-develop-debug.apk
   after-steps:
     - raizyr/ultimate-slack-notify@1.0.6:
         webhook_url: $SLACK_URL
