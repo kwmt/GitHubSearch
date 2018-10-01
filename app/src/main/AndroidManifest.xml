@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="net.kwmt27.codesearch"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="net.kwmt27.codesearch">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -12,6 +12,10 @@
         android:label="${appName}"
         android:supportsRtl="true"
         android:theme="@style/Theme.CodeSearch">
+
+        <!--https://firebase.google.com/support/guides/disable-analytics#disable_advertising_id_collection-->
+        <meta-data android:name="google_analytics_adid_collection_enabled" android:value="false" />
+
         <activity
             android:name=".view.search.SearchActivity"
             android:configChanges="orientation|screenSize"
@@ -29,10 +33,12 @@
                 <action android:name="android.intent.action.SEND"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:mimeType="text/plain"/>
-            </intent-filter>        </activity>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".view.login.LoginActivity"
-            android:configChanges="orientation|screenSize">
+            android:configChanges="orientation|screenSize"
+            android:exported="false">
         </activity>
     </application>
 

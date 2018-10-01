@@ -4,12 +4,12 @@ apply plugin: 'me.tatarka.retrolambda'
 
 def versionMajor = 0
 def versionMinor = 1
-def versionPatch = 6
+def versionPatch = 7
 def version = "${versionMajor}.${versionMinor}.${versionPatch}"
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '28.0.2'
 
     defaultConfig {
         applicationId "net.kwmt27.codesearch"
@@ -65,8 +65,11 @@ android {
     def githubClientSecret = System.getenv('GITHUB_CLIENT_SECRET')
     def adMobAppId = System.getenv('ADMOB_APP_ID')
 
+    flavorDimensions "default"
+
     productFlavors {
         develop {
+            dimension "default"
             manifestPlaceholders = [appName:"@string/app_name"]
             buildConfigField "String", "BASE_API_URL", "\"https://api.github.com\""
             buildConfigField "String", "BASE_WEBVIEW_URL", "\"https://github.com\""
@@ -75,6 +78,7 @@ android {
             buildConfigField "String", "ADMOB_APP_ID", "\"${adMobAppId}\""
         }
         production {
+            dimension "default"
             manifestPlaceholders = [appName:"@string/app_name"]
             buildConfigField "String", "BASE_API_URL", "\"https://api.github.com\""
             buildConfigField "String", "BASE_WEBVIEW_URL", "\"https://github.com\""
@@ -100,63 +104,63 @@ final GOOGLE_PLAY_SERVICES_VERSION = '10.0.1'
 final LEAKCANARY_VERSION = '1.4-beta2'
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
-    compile "com.android.support:recyclerview-v7:${SUPPORT_LIB_VERSION}"
-    compile "com.android.support:design:${SUPPORT_LIB_VERSION}"
-    compile "com.android.support:support-v4:${SUPPORT_LIB_VERSION}"
-    compile 'com.google.android:flexbox:0.2.3'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    implementation "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
+    implementation "com.android.support:recyclerview-v7:${SUPPORT_LIB_VERSION}"
+    implementation "com.android.support:design:${SUPPORT_LIB_VERSION}"
+    implementation "com.android.support:support-v4:${SUPPORT_LIB_VERSION}"
+    implementation 'com.google.android:flexbox:0.2.3'
 
     // @link https://github.com/google/gson
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile "com.squareup.okhttp3:okhttp:${OKHTTP_VERSION}"
-    compile "com.squareup.okhttp3:logging-interceptor:${OKHTTP_VERSION}"
+    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation "com.squareup.okhttp3:okhttp:${OKHTTP_VERSION}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${OKHTTP_VERSION}"
     // @link https://github.com/ReactiveX/RxJava
-//    compile 'io.reactivex.rxjava2:rxjava:2.0.5'
-    compile 'io.reactivex:rxjava:1.2.6'
+//    implementation 'io.reactivex.rxjava2:rxjava:2.0.5'
+    implementation 'io.reactivex:rxjava:1.2.6'
     // @link https://github.com/ReactiveX/RxAndroid
-//    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    compile 'io.reactivex:rxandroid:1.2.1'
+//    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'io.reactivex:rxandroid:1.2.1'
 // rxjava2にすると、app:transformClassesWithDexForDevelopDebug でエラーが出るので、ちゃんとrxjava2対応する
 
-    compile "com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}"
-    compile "com.squareup.retrofit2:converter-gson:${RETROFIT_VERSION}"
-    compile "com.squareup.retrofit2:adapter-rxjava:${RETROFIT_VERSION}"
-    compile "com.google.firebase:firebase-core:${GOOGLE_PLAY_SERVICES_VERSION}"
-    compile "com.google.firebase:firebase-ads:${GOOGLE_PLAY_SERVICES_VERSION}"
-    compile "com.google.firebase:firebase-crash:${GOOGLE_PLAY_SERVICES_VERSION}"
-    compile "com.google.firebase:firebase-auth:${GOOGLE_PLAY_SERVICES_VERSION}"
-    compile "com.google.android.gms:play-services-analytics:${GOOGLE_PLAY_SERVICES_VERSION}"
+    implementation "com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}"
+    implementation "com.squareup.retrofit2:converter-gson:${RETROFIT_VERSION}"
+    implementation "com.squareup.retrofit2:adapter-rxjava:${RETROFIT_VERSION}"
+    implementation "com.google.firebase:firebase-core:${GOOGLE_PLAY_SERVICES_VERSION}"
+    implementation "com.google.firebase:firebase-ads:${GOOGLE_PLAY_SERVICES_VERSION}"
+    implementation "com.google.firebase:firebase-crash:${GOOGLE_PLAY_SERVICES_VERSION}"
+    implementation "com.google.firebase:firebase-auth:${GOOGLE_PLAY_SERVICES_VERSION}"
+    implementation "com.google.android.gms:play-services-analytics:${GOOGLE_PLAY_SERVICES_VERSION}"
 
     // Chrome Custom Tabs
-    compile "com.android.support:customtabs:${SUPPORT_LIB_VERSION}"
+    implementation "com.android.support:customtabs:${SUPPORT_LIB_VERSION}"
 
     // https://github.com/JakeWharton/RxBinding
-    compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:1.0.0'
+    implementation 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:1.0.0'
     // https://github.com/aNNiMON/Lightweight-Stream-API
-    compile 'com.annimon:stream:1.1.5'
+    implementation 'com.annimon:stream:1.1.5'
 
 
-    compile 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
 
-    compile 'com.roughike:bottom-bar:2.1.1'
+    implementation 'com.roughike:bottom-bar:2.1.1'
 
     // dagger2
-    compile "com.google.dagger:dagger:${DAGGER_VERSION}"
+    implementation "com.google.dagger:dagger:${DAGGER_VERSION}"
     annotationProcessor "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
-    provided 'org.glassfish:javax.annotation:10.0-b28'
+    compileOnly 'org.glassfish:javax.annotation:10.0-b28'
 
 
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.5'
-    androidTestCompile "com.squareup.okhttp3:mockwebserver:${OKHTTP_VERSION}"
+    androidTestImplementation 'com.android.support.test:runner:0.5'
+    androidTestImplementation 'com.android.support.test:rules:0.5'
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:${OKHTTP_VERSION}"
     // http://stackoverflow.com/a/36835268
-    androidTestCompile "com.android.support:support-annotations:${SUPPORT_LIB_VERSION}"
+    androidTestImplementation "com.android.support:support-annotations:${SUPPORT_LIB_VERSION}"
 
-    debugCompile "com.squareup.leakcanary:leakcanary-android:${LEAKCANARY_VERSION}"
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY_VERSION}"
-    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY_VERSION}"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:${LEAKCANARY_VERSION}"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY_VERSION}"
+    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${LEAKCANARY_VERSION}"
 }
 
 play {
