@@ -9,7 +9,7 @@ GitHubレポジトリ内のコード検索を可能にするAndroidアプリで�
 This repository is an Android application that you can search code in an repository.
 I will only write an Rxjava(RxAndroid) Sample, but I thought it's useful that create an actual Android application.
 
-<a href='https://play.google.com/store/apps/details?id=net.kwmt27.codesearch&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/ width="240"></a>
+<a href='https://play.google.com/store/apps/details?id=net.kwmt27.codesearch&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Google Play で手に入れよう' src='https://play.google.com/intl/en_us/badges/static/images/badges/ja_badge_web_generic.png' width="240" /></a>
 
 ## Technologies used in the project
 
