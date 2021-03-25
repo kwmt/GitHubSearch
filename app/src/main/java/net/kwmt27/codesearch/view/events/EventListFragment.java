@@ -1,10 +1,10 @@
 package net.kwmt27.codesearch.view.events;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,7 +110,7 @@ public class EventListFragment extends Fragment implements EventListPresenter.IE
         mEventListAdapter = new EventListAdapter(getActivity().getApplicationContext(), new OnLinkClickListener() {
             @Override
             public void onLinkClick(String title, String url, GithubRepoEntity githubRepoEntity) {
-                AnalyticsManager.sendEvent(AnalyticsManager.Param.Screen.EVENT_LIST, AnalyticsManager.Param.Action.CLICK_LINK, url);
+                AnalyticsManager.getInstance(getContext()).sendClickItem(AnalyticsManager.Param.Screen.EVENT_LIST, AnalyticsManager.Param.Action.CLICK_LINK, url);
                 //DetailActivity.startActivity(EventListFragment.this.getActivity(), title, url, githubRepoEntity);
                 ChromeCustomTabs.open(EventListFragment.this.getActivity(), url, githubRepoEntity, true);
             }

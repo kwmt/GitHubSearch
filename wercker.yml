@@ -1,4 +1,4 @@
-box: kwmt/dockerfile-for-building-android-app
+box: circleci/android:api-28-node
 
 build:
   steps:

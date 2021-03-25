@@ -1,6 +1,6 @@
 package net.kwmt27.codesearch.model.rx;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;

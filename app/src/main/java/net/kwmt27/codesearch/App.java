@@ -15,7 +15,7 @@ public class App extends Application {
         super.onCreate();
         LeakCanary.install(this);
         sInstance = this;
-        MobileAds.initialize(getApplicationContext(), BuildConfig.ADMOB_APP_ID);
+        MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
 
 
         sModelLocator = new ModelLocator();

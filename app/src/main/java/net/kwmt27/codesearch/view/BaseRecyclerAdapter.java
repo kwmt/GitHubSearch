@@ -1,6 +1,6 @@
 package net.kwmt27.codesearch.view;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import net.kwmt27.codesearch.entity.BaseEntity;
 import net.kwmt27.codesearch.entity.ItemType;

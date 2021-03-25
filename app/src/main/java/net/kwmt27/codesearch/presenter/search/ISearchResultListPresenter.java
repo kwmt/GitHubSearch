@@ -1,6 +1,6 @@
 package net.kwmt27.codesearch.presenter.search;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import net.kwmt27.codesearch.entity.GithubRepoEntity;
 import net.kwmt27.codesearch.presenter.IBaseFragmentPresenter;

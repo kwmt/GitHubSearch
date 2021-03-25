@@ -1,6 +1,6 @@
 package net.kwmt27.codesearch.util;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
