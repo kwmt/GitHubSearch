@@ -1,6 +1,6 @@
 package net.kwmt27.codesearch;
 
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.google.gson.Gson;

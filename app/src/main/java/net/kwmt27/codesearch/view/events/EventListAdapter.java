@@ -1,10 +1,12 @@
 package net.kwmt27.codesearch.view.events;
 
 import android.content.Context;
+
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.graphics.Bitmap;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import net.kwmt27.codesearch.R;
 import net.kwmt27.codesearch.entity.ActorEntity;
 import net.kwmt27.codesearch.entity.EventEntity;
 import net.kwmt27.codesearch.entity.ItemType;
+import net.kwmt27.codesearch.util.Logger;
 import net.kwmt27.codesearch.view.BaseRecyclerAdapter;
 
 

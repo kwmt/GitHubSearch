@@ -3,19 +3,13 @@ package net.kwmt27.codesearch.analytics;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.google.firebase.analytics.FirebaseAnalytics;
-
-import net.kwmt27.codesearch.R;
 
 public class AnalyticsManager {
 
     private static AnalyticsManager sAnalyticsManager;
 
     private FirebaseAnalytics mFirebaseAnalytics;
-    private static Tracker tracker;
 
     public static class Param {
         public static class Screen {
@@ -66,7 +60,6 @@ public class AnalyticsManager {
 
     public AnalyticsManager(Context context) {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
-        googleAnalyticsSetup(context);
     }
 
     public void sendScreen(String screenName) {
@@ -74,8 +67,6 @@ public class AnalyticsManager {
         params.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "screen");
         params.putString(FirebaseAnalytics.Param.ITEM_NAME, screenName);
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, params);
-
-        sendScreenName(screenName);
     }
 
     public void sendClickButton(String screenName, String target) {
@@ -83,8 +74,6 @@ public class AnalyticsManager {
         params.putString("click", screenName);
         params.putString(FirebaseAnalytics.Param.ITEM_NAME, target);
         mFirebaseAnalytics.logEvent("click", params);
-
-        sendEvent(FirebaseAnalytics.Param.ITEM_NAME, "click", target);
     }
 
     public void sendClickItem(String screenName, String category) {
@@ -99,9 +88,6 @@ public class AnalyticsManager {
             params.putString(FirebaseAnalytics.Param.ITEM_NAME, itemName);
         }
         mFirebaseAnalytics.logEvent("click", params);
-
-        sendEvent(category, "click");
-
     }
 
     public void sendSearch(String screenName, String keyword) {
@@ -109,47 +95,5 @@ public class AnalyticsManager {
         params.putString(FirebaseAnalytics.Param.SEARCH_TERM, keyword);
         params.putString(FirebaseAnalytics.Param.ITEM_NAME, screenName);
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH, params);
-
-        sendEvent(FirebaseAnalytics.Param.SEARCH_TERM, FirebaseAnalytics.Event.SEARCH, keyword);
     }
-
-    private void googleAnalyticsSetup(Context context) {
-        GoogleAnalytics analytics = GoogleAnalytics.getInstance(context.getApplicationContext());
-        tracker = analytics.newTracker(R.xml.tracker_config);
-    }
-
-
-    /**
-     * スクリーン名を送信
-     *
-     * @param screenName
-     */
-    public static void sendScreenName(String screenName) {
-        tracker.setScreenName(screenName);
-        tracker.send(new HitBuilders.ScreenViewBuilder().build());
-    }
-
-
-    public static void sendEvent(String category, String action) {
-        sendEvent(category, action, null);
-    }
-
-    /**
-     * イベントを送信
-     *
-     * @param category カテゴリ
-     * @param action   アクション
-     * @param label    ラベル(null可)
-     */
-    public static void sendEvent(String category, String action, String label) {
-        HitBuilders.EventBuilder builder = new HitBuilders.EventBuilder();
-        builder.setCategory(category);
-        builder.setAction(action);
-        if (label != null) {
-            builder.setLabel(label);
-        }
-        tracker.send(builder.build());
-    }
-
-
 }

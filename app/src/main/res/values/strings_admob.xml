@@ -3,4 +3,5 @@
     tools:ignore="MissingTranslation">
 
     <string name="banner_ad_unit_id">ca-app-pub-3131366896030715/5093487702</string>
+    <string name="admob_app_id">ca-app-pub-3131366896030715~3616754505</string>
 </resources>
